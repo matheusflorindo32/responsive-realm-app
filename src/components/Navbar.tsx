@@ -17,9 +17,10 @@ const Navbar = () => {
   const navLinks = [
     { href: "#inicio", label: "Início" },
     { href: "#sobre", label: "Sobre" },
-    { href: "#programacao", label: "Programação" },
-    { href: "#palestrantes", label: "Palestrantes" },
-    { href: "#inscricao", label: "Inscrição" },
+    { href: "#projetos", label: "Projetos" },
+    { href: "#experiencia", label: "Experiência" },
+    { href: "#faq", label: "FAQ" },
+    { href: "#contato", label: "Contato" },
   ];
 
   const handleNavClick = (href: string) => {
@@ -51,11 +52,11 @@ const Navbar = () => {
           >
             <img
               src={logo}
-              alt="TechNexus Logo"
+              alt="Tropa Científica Logo"
               className="w-10 h-10 group-hover:animate-pulse-glow transition-all duration-300"
             />
-            <span className="font-display text-xl font-bold text-primary neon-text hidden sm:block">
-              TECHNEXUS
+            <span className="font-display text-lg font-bold text-primary neon-text hidden sm:block">
+              TROPA CIENTÍFICA
             </span>
           </a>
 

@@ -1,8 +1,15 @@
-import { Github, Linkedin, Twitter, Instagram, Mail, MapPin } from "lucide-react";
+import { Github, Linkedin, Mail, Instagram } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  const handleNavClick = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <footer className="bg-card border-t border-border">
@@ -11,43 +18,49 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="TechNexus" className="w-10 h-10" />
+              <img src={logo} alt="Tropa Científica" className="w-10 h-10" />
               <span className="font-display text-xl font-bold text-primary">
-                TECHNEXUS
+                TROPA CIENTÍFICA
               </span>
             </div>
             <p className="font-body text-sm text-muted-foreground mb-6">
-              O maior hackathon de inovação do Brasil. Conectando mentes
-              brilhantes para criar o futuro da tecnologia.
+              Portfólio de projetos em tecnologia e ciência. 
+              Transformando ideias em soluções inovadoras.
             </p>
             <div className="flex gap-3">
               <a
-                href="#"
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="#"
-                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="mailto:contato@tropacientifica.com"
+                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -59,18 +72,19 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3">
               {[
-                { href: "#sobre", label: "Sobre o Evento" },
-                { href: "#programacao", label: "Programação" },
-                { href: "#palestrantes", label: "Palestrantes" },
-                { href: "#inscricao", label: "Inscrição" },
+                { href: "#sobre", label: "Sobre Mim" },
+                { href: "#projetos", label: "Projetos" },
+                { href: "#experiencia", label: "Experiência" },
+                { href: "#faq", label: "FAQ" },
+                { href: "#contato", label: "Contato" },
               ].map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
+                  <button
+                    onClick={() => handleNavClick(link.href)}
                     className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -85,19 +99,11 @@ const Footer = () => {
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
                 <a
-                  href="mailto:contato@technexus.com.br"
+                  href="mailto:contato@tropacientifica.com"
                   className="font-body text-sm hover:text-primary transition-colors"
                 >
-                  contato@technexus.com.br
+                  contato@tropacientifica.com
                 </a>
-              </li>
-              <li className="flex items-start gap-3 text-muted-foreground">
-                <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="font-body text-sm">
-                  Centro de Convenções
-                  <br />
-                  Av. Paulista, 1000 - São Paulo, SP
-                </span>
               </li>
             </ul>
           </div>
@@ -106,7 +112,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="pt-8 border-t border-border text-center">
           <p className="font-body text-sm text-muted-foreground">
-            © {currentYear} TechNexus Hackathon. Todos os direitos reservados.
+            © {currentYear} Tropa Científica. Todos os direitos reservados.
           </p>
         </div>
       </div>
