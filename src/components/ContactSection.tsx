@@ -5,28 +5,23 @@ import { Send, CheckCircle } from "lucide-react";
 interface FormData {
   name: string;
   email: string;
-  phone: string;
-  experience: string;
+  subject: string;
   message: string;
-  terms: boolean;
 }
 
 interface FormErrors {
   name?: string;
   email?: string;
-  phone?: string;
-  experience?: string;
-  terms?: string;
+  subject?: string;
+  message?: string;
 }
 
-const RegistrationForm = () => {
+const ContactSection = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    phone: "",
-    experience: "",
+    subject: "",
     message: "",
-    terms: false,
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -36,14 +31,12 @@ const RegistrationForm = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Name validation
     if (!formData.name.trim()) {
       newErrors.name = "Nome é obrigatório";
     } else if (formData.name.trim().length < 3) {
       newErrors.name = "Nome deve ter pelo menos 3 caracteres";
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
       newErrors.email = "E-mail é obrigatório";
@@ -51,19 +44,14 @@ const RegistrationForm = () => {
       newErrors.email = "E-mail inválido";
     }
 
-    // Phone validation
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Telefone é obrigatório";
+    if (!formData.subject) {
+      newErrors.subject = "Selecione um assunto";
     }
 
-    // Experience validation
-    if (!formData.experience) {
-      newErrors.experience = "Selecione seu nível de experiência";
-    }
-
-    // Terms validation
-    if (!formData.terms) {
-      newErrors.terms = "Você deve aceitar os termos";
+    if (!formData.message.trim()) {
+      newErrors.message = "Mensagem é obrigatória";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Mensagem deve ter pelo menos 10 caracteres";
     }
 
     setErrors(newErrors);
@@ -77,14 +65,11 @@ const RegistrationForm = () => {
       setSubmittedName(formData.name.split(" ")[0]);
       setIsSubmitted(true);
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
-        phone: "",
-        experience: "",
+        subject: "",
         message: "",
-        terms: false,
       });
     }
   };
@@ -92,15 +77,13 @@ const RegistrationForm = () => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
 
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
@@ -111,24 +94,24 @@ const RegistrationForm = () => {
 
   if (isSubmitted) {
     return (
-      <section id="inscricao" className="py-20 md:py-32 bg-secondary/30 relative">
+      <section id="contato" className="py-20 md:py-32 relative">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             <div className="glass-card rounded-2xl p-12 neon-border">
               <CheckCircle className="w-20 h-20 text-primary mx-auto mb-6" />
               <h3 className="font-display text-2xl font-bold text-foreground mb-4">
-                Inscrição Realizada!
+                Mensagem Enviada!
               </h3>
               <p className="font-body text-muted-foreground mb-6">
                 Obrigado, <span className="text-primary font-semibold">{submittedName}</span>!
-                Sua inscrição foi enviada com sucesso. Entraremos em contato em breve
-                com mais informações sobre o evento.
+                Sua mensagem foi recebida. Responderei o mais breve possível.
               </p>
               <Button
                 variant="outline"
                 onClick={() => setIsSubmitted(false)}
               >
-                Fazer Nova Inscrição
+                Enviar Nova Mensagem
               </Button>
             </div>
           </div>
@@ -138,16 +121,17 @@ const RegistrationForm = () => {
   }
 
   return (
-    <section id="inscricao" className="py-20 md:py-32 bg-secondary/30 relative">
+    <section id="contato" className="py-20 md:py-32 relative">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="text-foreground">FAÇA SUA</span>{" "}
-            <span className="text-primary neon-text">INSCRIÇÃO</span>
+            <span className="text-foreground">ENTRE EM</span>{" "}
+            <span className="text-primary neon-text">CONTATO</span>
           </h2>
           <p className="font-body text-muted-foreground max-w-2xl mx-auto">
-            Garanta sua vaga no TechNexus Hackathon 2025. As vagas são limitadas!
+            Tem um projeto em mente? Vamos conversar!
           </p>
         </div>
 
@@ -175,7 +159,7 @@ const RegistrationForm = () => {
                   className={`w-full px-4 py-3 rounded-lg bg-muted border ${
                     errors.name ? "border-destructive" : "border-border"
                   } text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all`}
-                  placeholder="Seu nome completo"
+                  placeholder="Seu nome"
                 />
                 {errors.name && (
                   <p className="mt-1 text-sm text-destructive font-body">
@@ -210,106 +194,58 @@ const RegistrationForm = () => {
                 )}
               </div>
 
-              {/* Phone */}
+              {/* Subject */}
               <div>
                 <label
-                  htmlFor="phone"
+                  htmlFor="subject"
                   className="block font-body text-sm font-medium text-foreground mb-2"
                 >
-                  Telefone *
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg bg-muted border ${
-                    errors.phone ? "border-destructive" : "border-border"
-                  } text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all`}
-                  placeholder="(11) 99999-9999"
-                />
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-destructive font-body">
-                    {errors.phone}
-                  </p>
-                )}
-              </div>
-
-              {/* Experience Level - Select */}
-              <div className="md:col-span-2">
-                <label
-                  htmlFor="experience"
-                  className="block font-body text-sm font-medium text-foreground mb-2"
-                >
-                  Nível de Experiência *
+                  Assunto *
                 </label>
                 <select
-                  id="experience"
-                  name="experience"
-                  value={formData.experience}
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 rounded-lg bg-muted border ${
-                    errors.experience ? "border-destructive" : "border-border"
+                    errors.subject ? "border-destructive" : "border-border"
                   } text-foreground font-body focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all`}
                 >
-                  <option value="">Selecione seu nível</option>
-                  <option value="iniciante">Iniciante (menos de 1 ano)</option>
-                  <option value="intermediario">Intermediário (1-3 anos)</option>
-                  <option value="avancado">Avançado (3-5 anos)</option>
-                  <option value="expert">Expert (+5 anos)</option>
+                  <option value="">Selecione</option>
+                  <option value="projeto">Proposta de Projeto</option>
+                  <option value="parceria">Parceria</option>
+                  <option value="consultoria">Consultoria</option>
+                  <option value="outro">Outro</option>
                 </select>
-                {errors.experience && (
+                {errors.subject && (
                   <p className="mt-1 text-sm text-destructive font-body">
-                    {errors.experience}
+                    {errors.subject}
                   </p>
                 )}
               </div>
 
-              {/* Message - Textarea */}
+              {/* Message */}
               <div className="md:col-span-2">
                 <label
                   htmlFor="message"
                   className="block font-body text-sm font-medium text-foreground mb-2"
                 >
-                  Por que você quer participar?
+                  Mensagem *
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
-                  placeholder="Conte-nos um pouco sobre você e suas motivações..."
+                  rows={5}
+                  className={`w-full px-4 py-3 rounded-lg bg-muted border ${
+                    errors.message ? "border-destructive" : "border-border"
+                  } text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none`}
+                  placeholder="Conte-me sobre seu projeto ou ideia..."
                 />
-              </div>
-
-              {/* Terms Checkbox */}
-              <div className="md:col-span-2">
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="terms"
-                    checked={formData.terms}
-                    onChange={handleInputChange}
-                    className="mt-1 w-5 h-5 rounded border-border bg-muted text-primary focus:ring-primary/50"
-                  />
-                  <span className="font-body text-sm text-muted-foreground">
-                    Li e aceito os{" "}
-                    <a href="#" className="text-primary hover:underline">
-                      Termos de Participação
-                    </a>{" "}
-                    e a{" "}
-                    <a href="#" className="text-primary hover:underline">
-                      Política de Privacidade
-                    </a>
-                    . *
-                  </span>
-                </label>
-                {errors.terms && (
+                {errors.message && (
                   <p className="mt-1 text-sm text-destructive font-body">
-                    {errors.terms}
+                    {errors.message}
                   </p>
                 )}
               </div>
@@ -318,7 +254,7 @@ const RegistrationForm = () => {
             {/* Submit Button */}
             <Button type="submit" variant="hero" size="lg" className="w-full">
               <Send className="w-5 h-5" />
-              Enviar Inscrição
+              Enviar Mensagem
             </Button>
           </form>
         </div>
@@ -327,4 +263,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default ContactSection;

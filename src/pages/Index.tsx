@@ -2,9 +2,10 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
-import ScheduleSection from "@/components/ScheduleSection";
-import SpeakersSection from "@/components/SpeakersSection";
-import RegistrationForm from "@/components/RegistrationForm";
+import ProjectsSection from "@/components/ProjectsSection";
+import ExperienceSection from "@/components/ExperienceSection";
+import FAQSection from "@/components/FAQSection";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 
@@ -12,15 +13,15 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>TechNexus Hackathon 2025 | O Maior Evento de Inovação do Brasil</title>
+        <title>Tropa Científica | Portfólio de Tecnologia e Ciência</title>
         <meta
           name="description"
-          content="Participe do TechNexus Hackathon 2025 - 48 horas de inovação, networking e tecnologia de ponta. Inscreva-se agora e transforme suas ideias em realidade."
+          content="Portfólio de projetos em tecnologia e ciência. Desenvolvedor especializado em React, TypeScript, Python e Machine Learning."
         />
-        <meta property="og:title" content="TechNexus Hackathon 2025" />
+        <meta property="og:title" content="Tropa Científica - Portfólio" />
         <meta
           property="og:description"
-          content="O maior evento de inovação e tecnologia do Brasil. 48 horas para criar, inovar e transformar ideias em realidade."
+          content="Portfólio de projetos em tecnologia e ciência. Transformando ideias em soluções inovadoras."
         />
       </Helmet>
 
@@ -29,9 +30,10 @@ const Index = () => {
         <main>
           <HeroSection />
           <AboutSection />
-          <ScheduleSection />
-          <SpeakersSection />
-          <RegistrationForm />
+          <ProjectsSection />
+          <ExperienceSection />
+          <FAQSection />
+          <ContactSection />
         </main>
         <Footer />
         <BackToTop />
