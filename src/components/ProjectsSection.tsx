@@ -12,7 +12,7 @@ const projects = [
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Gemini AI"],
     features: ["898 inscrições processadas", "Certificados digitais com QR Code", "Check-in por QR Code", "Chatbot IA integrado", "60+ políticas RLS", "30 Edge Functions"],
     icon: "graduation",
-    demo: "#",
+    demo: "https://conacips2025.com",
   },
   {
     id: 2,
