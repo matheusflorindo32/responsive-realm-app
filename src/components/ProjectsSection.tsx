@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -38,6 +38,17 @@ const projects = [
   },
   {
     id: 4,
+    title: "Alfa-Con Auth",
+    category: "Sistema B2B / SaaS",
+    description: "Plataforma UNIBE com proposta comercial premium, autenticação e geração de orçamentos personalizados.",
+    fullDescription: "Sistema completo de gestão comercial com 15+ funcionalidades já entregues (valor ~R$ 80-120k). Inclui geração de propostas comerciais premium com exportação automática para PDF, 10 evoluções recomendadas com valores detalhados, 3 pacotes de serviços disponíveis, autenticação segura, painel de personalização de dados de contato e interface moderna com visual edits em tempo real.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
+    features: ["Proposta comercial PDF", "15+ funcionalidades premium", "Autenticação segura", "Pacotes personalizados", "Painel de edição", "Geração automática PDF"],
+    icon: "building",
+    demo: "https://alfa-con-auth.lovable.app",
+  },
+  {
+    id: 5,
     title: "Landing Page Músico",
     category: "Landing Page",
     description: "Landing page profissional para músico com galeria de vídeos, agenda de shows e integração WhatsApp.",
@@ -48,7 +59,7 @@ const projects = [
     demo: "https://musician-spotlight-pro.lovable.app",
   },
   {
-    id: 5,
+    id: 6,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -59,7 +70,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 6,
+    id: 7,
     title: "Incrível Mundo DK",
     category: "E-commerce",
     description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
@@ -80,6 +91,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     wheat: <Wheat className="w-5 h-5" />,
     pen: <PenTool className="w-5 h-5" />,
     music: <Music className="w-5 h-5" />,
+    building: <Building2 className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
