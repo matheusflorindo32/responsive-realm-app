@@ -41,7 +41,7 @@ const projects = [
     title: "Concursos",
     category: "Sistema B2B / SaaS",
     description: "Plataforma com proposta comercial premium, autenticação e geração de orçamentos personalizados.",
-    fullDescription: "Sistema completo de gestão comercial com 15+ funcionalidades já entregues (valor ~R$ 80-120k). Inclui geração de propostas comerciais premium com exportação automática para PDF, 10 evoluções recomendadas com valores detalhados, 3 pacotes de serviços disponíveis, autenticação segura, painel de personalização de dados de contato e interface moderna com visual edits em tempo real.",
+    fullDescription: "Sistema completo de gestão comercial com 15+ funcionalidades premium. Inclui geração de propostas comerciais com exportação automática para PDF, evoluções recomendadas detalhadas, pacotes de serviços disponíveis, autenticação segura, painel de personalização de dados de contato e interface moderna com visual edits em tempo real.",
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
     features: ["Proposta comercial PDF", "15+ funcionalidades premium", "Autenticação segura", "Pacotes personalizados", "Painel de edição", "Geração automática PDF"],
     icon: "building",
