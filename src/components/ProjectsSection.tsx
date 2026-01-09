@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Brain, Smartphone, BarChart3, Gamepad2, Heart, Car } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Brain, Smartphone, BarChart3, Gamepad2, Heart, Car, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
   {
     id: 1,
+    title: "CONACIPS - UFES",
+    category: "Sistema SaaS",
+    description: "Sistema completo de gestão de eventos acadêmicos para o Centro de Educação Física da Universidade Federal do Espírito Santo.",
+    fullDescription: "Plataforma all-in-one para o Congresso Científico do Centro de Educação Física da UFES, com 898 inscrições processadas, 73 submissões científicas e 294 inscrições em oficinas. Inclui inscrições online, submissão de trabalhos acadêmicos, gestão de oficinas com controle de vagas, check-in digital por QR Code, emissão de 22 tipos de certificados digitais com validação online, chatbot IA com Google Gemini, painel administrativo completo, galeria de fotos e sistema de anais.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Gemini AI"],
+    features: ["898 inscrições processadas", "Certificados digitais com QR Code", "Check-in por QR Code", "Chatbot IA integrado", "60+ políticas RLS", "30 Edge Functions"],
+    icon: "graduation",
+    demo: "#",
+  },
+  {
+    id: 2,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -15,7 +26,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 2,
+    id: 3,
     title: "Nome do Projeto E-commerce",
     category: "E-commerce",
     description: "Breve descrição do projeto de loja virtual com catálogo de produtos e sistema de vendas.",
@@ -27,7 +38,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 3,
+    id: 4,
     title: "Nome do Projeto com IA",
     category: "Inteligência Artificial",
     description: "Breve descrição do projeto utilizando machine learning ou inteligência artificial.",
@@ -38,7 +49,7 @@ const projects = [
     github: "#",
   },
   {
-    id: 4,
+    id: 5,
     title: "Nome do Projeto Mobile",
     category: "Aplicativo Mobile",
     description: "Breve descrição do aplicativo mobile desenvolvido para iOS/Android.",
@@ -50,7 +61,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 5,
+    id: 6,
     title: "Nome do Projeto Dashboard",
     category: "Data Analytics",
     description: "Breve descrição do dashboard de análise de dados e visualizações.",
@@ -61,7 +72,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 6,
+    id: 7,
     title: "Nome do Projeto Game",
     category: "Games",
     description: "Breve descrição do jogo desenvolvido com suas mecânicas principais.",
@@ -73,7 +84,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 7,
+    id: 8,
     title: "Nome do Projeto Social",
     category: "Impacto Social",
     description: "Breve descrição do projeto com foco em impacto social ou ONG.",
@@ -88,6 +99,7 @@ const projects = [
 
 const IconComponent = ({ icon }: { icon: string }) => {
   const icons: Record<string, React.ReactNode> = {
+    graduation: <GraduationCap className="w-5 h-5" />,
     car: <Car className="w-5 h-5" />,
     cart: <ShoppingCart className="w-5 h-5" />,
     brain: <Brain className="w-5 h-5" />,
