@@ -23,7 +23,7 @@ const projects = [
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "IoT Integration"],
     features: ["Integração com balança digital", "Rastreabilidade por lotes", "Manifesto digital QR Code", "Modelo SaaS flexível", "Multi-usuário com permissões", "Relatórios exportáveis"],
     icon: "wheat",
-    demo: "",
+    demo: "https://rdeus-coffee-stream.lovable.app",
   },
   {
     id: 3,
