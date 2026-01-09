@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -27,6 +27,17 @@ const projects = [
   },
   {
     id: 3,
+    title: "Redação Elite Pro",
+    category: "EdTech / IA",
+    description: "Plataforma de correção de redações com Inteligência Artificial para preparatórios de concursos públicos.",
+    fullDescription: "Sistema completo de correção automatizada utilizando IA, com feedback detalhado em segundos seguindo padrões de 5 bancas (CESPE, FGV, FCC, IBFC, Quadrix). Inclui gamificação com XP, níveis, conquistas e ranking semanal, flashcards para estudo, análise de temas prováveis, dashboard de gestão com métricas por unidade e relatórios completos. Modelo SaaS flexível com planos individuais e organizacionais.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "OpenAI"],
+    features: ["Correção IA em segundos", "5 bancas suportadas", "Gamificação completa", "Flashcards integrados", "Dashboard organizacional", "Modelo SaaS B2B/B2C"],
+    icon: "pen",
+    demo: "https://reda-wizard.lovable.app",
+  },
+  {
+    id: 4,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -37,7 +48,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 4,
+    id: 5,
     title: "Incrível Mundo DK",
     category: "E-commerce",
     description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
@@ -56,6 +67,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     cart: <ShoppingCart className="w-5 h-5" />,
     coffee: <Coffee className="w-5 h-5" />,
     wheat: <Wheat className="w-5 h-5" />,
+    pen: <PenTool className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
