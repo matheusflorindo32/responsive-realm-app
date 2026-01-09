@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell, Shield } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell, Shield, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -24,6 +24,17 @@ const projects = [
     features: ["7 páginas completas", "Hero Slider dinâmico", "Sistema de filtros", "Layout acadêmico", "Animações Framer Motion", "Mobile-first"],
     icon: "shield",
     demo: "https://frontline-lab-hub.lovable.app",
+  },
+  {
+    id: 3,
+    title: "APEX OPS LAB",
+    category: "Sistema Multilíngue / Fitness Tático",
+    description: "Sistema digital de preparação operacional de elite para candidatos a cursos de forças especiais.",
+    fullDescription: "Plataforma completa de preparação tática posicionada como referência internacional para cursos operacionais. Suporte a 3 idiomas (PT/EN/FR), 7+ seções institucionais e 50+ componentes. Fase 1 concluída com website premium multilíngue. Fases futuras incluem e-commerce com Stripe/PIX, área do aluno com login seguro, dashboard personalizado, certificados digitais, biblioteca de PDFs premium com download protegido e integração Shopify para produtos físicos.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "i18n", "Framer Motion"],
+    features: ["3 idiomas (PT/EN/FR)", "50+ componentes", "Hero carrossel 5 imagens", "Design tático premium", "Responsividade total", "SEO otimizado"],
+    icon: "target",
+    demo: "https://apex-ops-lab.lovable.app",
   },
   {
     id: 3,
@@ -127,6 +138,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     health: <Heart className="w-5 h-5" />,
     fitness: <Dumbbell className="w-5 h-5" />,
     shield: <Shield className="w-5 h-5" />,
+    target: <Target className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
