@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -16,6 +16,17 @@ const projects = [
   },
   {
     id: 2,
+    title: "CEPAS - Frontline Lab Hub",
+    category: "Site Institucional / Pesquisa",
+    description: "Site institucional premium para centro de pesquisa científica voltado à segurança pública.",
+    fullDescription: "Plataforma institucional completa para o Centro de Pesquisa Aplicada à Segurança Pública (CEPAS), voltado a policiais, bombeiros e profissionais de emergência. Inclui 7 páginas: Home com Hero Slider, Sobre com missão/visão/valores, Pesquisas com cards e filtros, Equipe com perfis, Serviços (Consultoria, Relatórios, Treinamento), Publicações acadêmicas e Contato. Design editorial com Framer Motion, SEO otimizado, acessibilidade e 100% responsivo.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Shadcn/UI"],
+    features: ["7 páginas completas", "Hero Slider dinâmico", "Sistema de filtros", "Layout acadêmico", "Animações Framer Motion", "Mobile-first"],
+    icon: "shield",
+    demo: "https://frontline-lab-hub.lovable.app",
+  },
+  {
+    id: 3,
     title: "Redação Elite Pro",
     category: "EdTech / IA",
     description: "Plataforma de correção de redações com Inteligência Artificial para preparatórios de concursos públicos.",
@@ -26,7 +37,7 @@ const projects = [
     demo: "https://reda-wizard.lovable.app",
   },
   {
-    id: 3,
+    id: 4,
     title: "R. De Deus Café",
     category: "Sistema B2B / Agronegócio",
     description: "Sistema de gestão de armazém para café com integração IoT, rastreabilidade por lotes e manifesto digital.",
@@ -37,7 +48,7 @@ const projects = [
     demo: "https://rdeus-coffee-stream.lovable.app",
   },
   {
-    id: 4,
+    id: 5,
     title: "Incrível Mundo DK",
     category: "E-commerce",
     description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
@@ -48,7 +59,7 @@ const projects = [
     demo: "https://emotive-craft-pages.lovable.app",
   },
   {
-    id: 5,
+    id: 6,
     title: "Concursos",
     category: "Sistema B2B / SaaS",
     description: "Plataforma com proposta comercial premium, autenticação e geração de orçamentos personalizados.",
@@ -59,7 +70,7 @@ const projects = [
     demo: "https://alfa-con-auth.lovable.app",
   },
   {
-    id: 6,
+    id: 7,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -70,7 +81,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 7,
+    id: 8,
     title: "Dra. Roberta Rica",
     category: "Site Institucional / Saúde",
     description: "Site profissional para nutricionista com 9 páginas, landing pages de serviços e design moderno responsivo.",
@@ -81,7 +92,7 @@ const projects = [
     demo: "https://roberta-saude-leve.lovable.app",
   },
   {
-    id: 8,
+    id: 9,
     title: "TAF Masterclass",
     category: "Landing Page / Fitness",
     description: "Landing page profissional para Personal Trainer focada em captação de leads e conversão de clientes.",
@@ -92,7 +103,7 @@ const projects = [
     demo: "https://taf-masterclass.lovable.app",
   },
   {
-    id: 9,
+    id: 10,
     title: "Landing Page Músico",
     category: "Landing Page",
     description: "Landing page profissional para músico com galeria de vídeos, agenda de shows e integração WhatsApp.",
@@ -103,7 +114,6 @@ const projects = [
     demo: "https://musician-spotlight-pro.lovable.app",
   },
 ];
-
 const IconComponent = ({ icon }: { icon: string }) => {
   const icons: Record<string, React.ReactNode> = {
     graduation: <GraduationCap className="w-5 h-5" />,
@@ -116,6 +126,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     building: <Building2 className="w-5 h-5" />,
     health: <Heart className="w-5 h-5" />,
     fitness: <Dumbbell className="w-5 h-5" />,
+    shield: <Shield className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
