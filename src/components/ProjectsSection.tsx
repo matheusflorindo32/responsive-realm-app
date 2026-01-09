@@ -45,7 +45,7 @@ const projects = [
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
     features: ["Cálculo de frete CEP", "Cupons de desconto", "Geração de PDF", "Emails automáticos", "Painel admin", "WhatsApp flutuante"],
     icon: "coffee",
-    demo: "",
+    demo: "https://emotive-craft-pages.lovable.app",
   },
 ];
 
