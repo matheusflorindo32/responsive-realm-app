@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -38,6 +38,17 @@ const projects = [
   },
   {
     id: 4,
+    title: "Landing Page Músico",
+    category: "Landing Page",
+    description: "Landing page profissional para músico com galeria de vídeos, agenda de shows e integração WhatsApp.",
+    fullDescription: "Página institucional completa para artistas musicais, incluindo hero com foto e CTA, galeria de performances e gravações, cards de serviços, discografia, depoimentos de clientes, agenda de eventos e formulário de contato. Design 100% responsivo, animações profissionais, otimização SEO e integração com redes sociais e Press Kit.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    features: ["Design responsivo", "Galeria de vídeos", "Agenda de shows", "Formulário funcional", "WhatsApp flutuante", "Press Kit download"],
+    icon: "music",
+    demo: "https://musician-spotlight-pro.lovable.app",
+  },
+  {
+    id: 5,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -48,7 +59,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 5,
+    id: 6,
     title: "Incrível Mundo DK",
     category: "E-commerce",
     description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
@@ -68,6 +79,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     coffee: <Coffee className="w-5 h-5" />,
     wheat: <Wheat className="w-5 h-5" />,
     pen: <PenTool className="w-5 h-5" />,
+    music: <Music className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
