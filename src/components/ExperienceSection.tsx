@@ -10,10 +10,10 @@ const experiences = [
   },
   {
     type: "education",
-    title: "Bacharelado em Ciência da Computação",
-    organization: "Universidade Federal",
-    period: "2020 - 2024",
-    description: "Formação sólida em algoritmos, estruturas de dados, engenharia de software e pesquisa científica.",
+    title: "Análise e Desenvolvimento de Sistemas",
+    organization: "Instituto Federal do Espírito Santo (IFES)",
+    period: "Em andamento",
+    description: "Formação tecnológica em desenvolvimento de software, algoritmos, estruturas de dados e engenharia de software.",
   },
   {
     type: "work",
