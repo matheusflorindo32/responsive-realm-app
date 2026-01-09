@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Brain, Smartphone, BarChart3, Gamepad2, Heart, Car, GraduationCap } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -27,72 +27,13 @@ const projects = [
   },
   {
     id: 3,
-    title: "Nome do Projeto E-commerce",
+    title: "Incrível Mundo DK",
     category: "E-commerce",
-    description: "Breve descrição do projeto de loja virtual com catálogo de produtos e sistema de vendas.",
-    fullDescription: "Descrição completa do projeto incluindo todas as funcionalidades desenvolvidas: landing page, catálogo com filtros, cálculo de frete, cupons de desconto, formulário de orçamento, geração de PDF, emails automáticos, painel admin, WhatsApp flutuante.",
-    technologies: ["React", "Node.js", "PostgreSQL", "Tailwind CSS"],
-    features: ["Catálogo de produtos", "Sistema de carrinho", "Gateway de pagamento", "Painel admin"],
-    icon: "cart",
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 4,
-    title: "Nome do Projeto com IA",
-    category: "Inteligência Artificial",
-    description: "Breve descrição do projeto utilizando machine learning ou inteligência artificial.",
-    fullDescription: "Descrição completa explicando os algoritmos utilizados, datasets, métricas de performance e aplicações práticas do modelo desenvolvido.",
-    technologies: ["Python", "TensorFlow", "Scikit-learn", "FastAPI"],
-    features: ["Modelo de classificação", "API REST", "Dashboard de métricas", "Processamento de dados"],
-    icon: "brain",
-    github: "#",
-  },
-  {
-    id: 5,
-    title: "Nome do Projeto Mobile",
-    category: "Aplicativo Mobile",
-    description: "Breve descrição do aplicativo mobile desenvolvido para iOS/Android.",
-    fullDescription: "Descrição completa do aplicativo, suas funcionalidades principais, experiência do usuário e integrações com serviços externos.",
-    technologies: ["React Native", "TypeScript", "Firebase", "Expo"],
-    features: ["Autenticação de usuários", "Notificações push", "Armazenamento offline", "Sync em tempo real"],
-    icon: "mobile",
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 6,
-    title: "Nome do Projeto Dashboard",
-    category: "Data Analytics",
-    description: "Breve descrição do dashboard de análise de dados e visualizações.",
-    fullDescription: "Descrição completa do sistema de analytics, fontes de dados utilizadas, tipos de visualizações e insights gerados para o negócio.",
-    technologies: ["React", "D3.js", "Python", "SQL"],
-    features: ["Gráficos interativos", "Relatórios automáticos", "Filtros dinâmicos", "Exportação de dados"],
-    icon: "chart",
-    demo: "#",
-  },
-  {
-    id: 7,
-    title: "Nome do Projeto Game",
-    category: "Games",
-    description: "Breve descrição do jogo desenvolvido com suas mecânicas principais.",
-    fullDescription: "Descrição completa do jogo, engine utilizada, mecânicas de gameplay, design de níveis e aspectos técnicos da implementação.",
-    technologies: ["Unity", "C#", "Blender", "Photoshop"],
-    features: ["Sistema de física", "IA de inimigos", "Sistema de save/load", "Efeitos visuais"],
-    icon: "game",
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 8,
-    title: "Nome do Projeto Social",
-    category: "Impacto Social",
-    description: "Breve descrição do projeto com foco em impacto social ou ONG.",
-    fullDescription: "Descrição completa do projeto, causa apoiada, funcionalidades desenvolvidas e impacto gerado na comunidade ou organização beneficiada.",
-    technologies: ["Next.js", "Supabase", "Stripe", "Vercel"],
-    features: ["Sistema de doações", "Portal de voluntários", "Blog de notícias", "Área administrativa"],
-    icon: "heart",
-    github: "#",
+    description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
+    fullDescription: "Site profissional completo para venda de canecas personalizadas. Inclui landing page com design moderno e animações, catálogo de produtos com filtros, página de detalhes com galeria de fotos, cálculo de frete por CEP (PAC/SEDEX), sistema de cupons de desconto, formulário de orçamento com upload, geração automática de PDF, emails transacionais automáticos, painel administrativo seguro com CRUD de produtos e cupons, botão WhatsApp flutuante e design responsivo mobile-first.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
+    features: ["Cálculo de frete CEP", "Cupons de desconto", "Geração de PDF", "Emails automáticos", "Painel admin", "WhatsApp flutuante"],
+    icon: "coffee",
     demo: "#",
   },
 ];
@@ -102,11 +43,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     graduation: <GraduationCap className="w-5 h-5" />,
     car: <Car className="w-5 h-5" />,
     cart: <ShoppingCart className="w-5 h-5" />,
-    brain: <Brain className="w-5 h-5" />,
-    mobile: <Smartphone className="w-5 h-5" />,
-    chart: <BarChart3 className="w-5 h-5" />,
-    game: <Gamepad2 className="w-5 h-5" />,
-    heart: <Heart className="w-5 h-5" />,
+    coffee: <Coffee className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
@@ -197,16 +134,7 @@ const ProjectsSection = () => {
                 {/* Actions */}
                 <div className="flex items-center justify-between pt-4 border-t border-border">
                   <div className="flex gap-2">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                      aria-label="Ver no GitHub"
-                    >
-                      <Github className="w-4 h-4" />
-                    </a>
-                    {project.demo && (
+                    {project.demo && project.demo !== "#" && (
                       <a
                         href={project.demo}
                         target="_blank"
