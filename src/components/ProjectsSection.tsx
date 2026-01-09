@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -16,6 +16,17 @@ const projects = [
   },
   {
     id: 2,
+    title: "R. De Deus Café",
+    category: "Sistema B2B / Agronegócio",
+    description: "Sistema de gestão de armazém para café com integração IoT, rastreabilidade por lotes e manifesto digital.",
+    fullDescription: "Plataforma SaaS completa para gestão de armazéns de café, desenvolvida para otimizar operações de recebimento, armazenamento e expedição. Integração direta com balanças digitais para pesagem automática, sistema de rastreabilidade por lotes com histórico completo, manifesto digital com QR Code para validação de cargas, relatórios exportáveis (PDF/Excel), controle de permissões multi-usuário com níveis de acesso, dashboard em tempo real e sincronização offline-first.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "IoT Integration"],
+    features: ["Integração com balança digital", "Rastreabilidade por lotes", "Manifesto digital QR Code", "Modelo SaaS flexível", "Multi-usuário com permissões", "Relatórios exportáveis"],
+    icon: "wheat",
+    demo: "",
+  },
+  {
+    id: 3,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -26,7 +37,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 3,
+    id: 4,
     title: "Incrível Mundo DK",
     category: "E-commerce",
     description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
@@ -34,7 +45,7 @@ const projects = [
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
     features: ["Cálculo de frete CEP", "Cupons de desconto", "Geração de PDF", "Emails automáticos", "Painel admin", "WhatsApp flutuante"],
     icon: "coffee",
-    demo: "#",
+    demo: "",
   },
 ];
 
@@ -44,6 +55,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     car: <Car className="w-5 h-5" />,
     cart: <ShoppingCart className="w-5 h-5" />,
     coffee: <Coffee className="w-5 h-5" />,
+    wheat: <Wheat className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
