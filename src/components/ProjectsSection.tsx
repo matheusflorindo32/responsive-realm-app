@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2 } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -49,6 +49,17 @@ const projects = [
   },
   {
     id: 5,
+    title: "Dra. Roberta Rica",
+    category: "Site Institucional / Saúde",
+    description: "Site profissional para nutricionista com 9 páginas, landing pages de serviços e design moderno responsivo.",
+    fullDescription: "Plataforma institucional completa para profissional de saúde com 9 páginas desenvolvidas: Home, Sobre, Contato, Programa Online, Consultoria, Mentoria, Cursos, Materiais e página 404 personalizada. Inclui 10+ componentes reutilizáveis como header responsivo, hero sections, cards de serviços, FAQ accordion, depoimentos, formulários de contato e botão WhatsApp flutuante. Design moderno com animações profissionais e 100% responsivo.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "React Hook Form"],
+    features: ["9 páginas completas", "10+ componentes UI", "Landing pages de serviços", "FAQ accordion", "Formulários validados", "WhatsApp flutuante"],
+    icon: "health",
+    demo: "https://roberta-saude-leve.lovable.app",
+  },
+  {
+    id: 6,
     title: "Landing Page Músico",
     category: "Landing Page",
     description: "Landing page profissional para músico com galeria de vídeos, agenda de shows e integração WhatsApp.",
@@ -59,7 +70,7 @@ const projects = [
     demo: "https://musician-spotlight-pro.lovable.app",
   },
   {
-    id: 6,
+    id: 7,
     title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
     description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
@@ -70,7 +81,7 @@ const projects = [
     demo: "https://www.viapneusbr.com",
   },
   {
-    id: 7,
+    id: 8,
     title: "Incrível Mundo DK",
     category: "E-commerce",
     description: "E-commerce de canecas personalizadas com catálogo, orçamentos e geração automática de PDF.",
@@ -92,6 +103,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     pen: <PenTool className="w-5 h-5" />,
     music: <Music className="w-5 h-5" />,
     building: <Building2 className="w-5 h-5" />,
+    health: <Heart className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
