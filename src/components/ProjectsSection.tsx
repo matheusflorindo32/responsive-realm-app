@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Brain, Smartphone, BarChart3, Gamepad2, Heart } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Brain, Smartphone, BarChart3, Gamepad2, Heart, Car } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
   {
     id: 1,
+    title: "Plataforma de Catálogo Automotivo",
+    category: "Catálogo/Marketplace",
+    description: "Plataforma digital para comercialização de produtos automotivos com catálogo público e sistema administrativo.",
+    fullDescription: "Desenvolvimento de plataforma de alta performance com landing page institucional, hero slider dinâmico, catálogo completo com filtros e busca, ordenação múltipla, paginação otimizada, integração WhatsApp Business, painel administrativo com upload de imagens e controle de visibilidade, banco de dados em nuvem com políticas de segurança RLS.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
+    features: ["Landing page institucional", "Catálogo com filtros e busca", "Painel administrativo", "WhatsApp Business", "Upload de imagens", "Segurança RLS"],
+    icon: "car",
+    demo: "#",
+  },
+  {
+    id: 2,
     title: "Nome do Projeto E-commerce",
     category: "E-commerce",
     description: "Breve descrição do projeto de loja virtual com catálogo de produtos e sistema de vendas.",
@@ -16,7 +27,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 2,
+    id: 3,
     title: "Nome do Projeto com IA",
     category: "Inteligência Artificial",
     description: "Breve descrição do projeto utilizando machine learning ou inteligência artificial.",
@@ -27,7 +38,7 @@ const projects = [
     github: "#",
   },
   {
-    id: 3,
+    id: 4,
     title: "Nome do Projeto Mobile",
     category: "Aplicativo Mobile",
     description: "Breve descrição do aplicativo mobile desenvolvido para iOS/Android.",
@@ -39,7 +50,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 4,
+    id: 5,
     title: "Nome do Projeto Dashboard",
     category: "Data Analytics",
     description: "Breve descrição do dashboard de análise de dados e visualizações.",
@@ -50,7 +61,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 5,
+    id: 6,
     title: "Nome do Projeto Game",
     category: "Games",
     description: "Breve descrição do jogo desenvolvido com suas mecânicas principais.",
@@ -62,7 +73,7 @@ const projects = [
     demo: "#",
   },
   {
-    id: 6,
+    id: 7,
     title: "Nome do Projeto Social",
     category: "Impacto Social",
     description: "Breve descrição do projeto com foco em impacto social ou ONG.",
@@ -77,6 +88,7 @@ const projects = [
 
 const IconComponent = ({ icon }: { icon: string }) => {
   const icons: Record<string, React.ReactNode> = {
+    car: <Car className="w-5 h-5" />,
     cart: <ShoppingCart className="w-5 h-5" />,
     brain: <Brain className="w-5 h-5" />,
     mobile: <Smartphone className="w-5 h-5" />,
