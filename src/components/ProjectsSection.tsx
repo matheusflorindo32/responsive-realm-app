@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -82,6 +82,17 @@ const projects = [
   },
   {
     id: 8,
+    title: "TAF Masterclass",
+    category: "Landing Page / Fitness",
+    description: "Landing page profissional para Personal Trainer focada em captação de leads e conversão de clientes.",
+    fullDescription: "Landing page de alta conversão para serviços de Personal Trainer, 100% responsiva e otimizada para mobile. Inclui Hero Section com CTA persuasivo, seção de dor (pain points), autoridade e credenciais, metodologia diferenciada, prova social com depoimentos reais, seção de garantia, CTA final com escassez e vagas limitadas, botão flutuante de ação sempre visível e rodapé completo com informações de contato.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "React Hook Form", "Zod"],
+    features: ["Hero persuasivo", "Seção de autoridade", "Prova social", "CTA flutuante", "Mobile-first", "SEO otimizado"],
+    icon: "fitness",
+    demo: "https://taf-masterclass.lovable.app",
+  },
+  {
+    id: 9,
     title: "Landing Page Músico",
     category: "Landing Page",
     description: "Landing page profissional para músico com galeria de vídeos, agenda de shows e integração WhatsApp.",
@@ -104,6 +115,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     music: <Music className="w-5 h-5" />,
     building: <Building2 className="w-5 h-5" />,
     health: <Heart className="w-5 h-5" />,
+    fitness: <Dumbbell className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
