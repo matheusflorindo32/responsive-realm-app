@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 const projects = [
   {
     id: 1,
-    title: "Plataforma de Catálogo Automotivo",
+    title: "Via Pneus BR",
     category: "Catálogo/Marketplace",
-    description: "Plataforma digital para comercialização de produtos automotivos com catálogo público e sistema administrativo.",
-    fullDescription: "Desenvolvimento de plataforma de alta performance com landing page institucional, hero slider dinâmico, catálogo completo com filtros e busca, ordenação múltipla, paginação otimizada, integração WhatsApp Business, painel administrativo com upload de imagens e controle de visibilidade, banco de dados em nuvem com políticas de segurança RLS.",
+    description: "Plataforma de venda de pneus com catálogo completo, hero slider dinâmico e integração WhatsApp.",
+    fullDescription: "Desenvolvimento de plataforma de alta performance com landing page institucional, hero slider dinâmico, catálogo completo com filtros e busca por aro/medida, ordenação múltipla, paginação otimizada, seção de promoções, integração WhatsApp Business para orçamentos, painel administrativo com upload de imagens e controle de visibilidade, banco de dados em nuvem com políticas de segurança RLS.",
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
-    features: ["Landing page institucional", "Catálogo com filtros e busca", "Painel administrativo", "WhatsApp Business", "Upload de imagens", "Segurança RLS"],
+    features: ["Hero slider dinâmico", "Catálogo com filtros", "Painel administrativo", "WhatsApp Business", "Seção de promoções", "Segurança RLS"],
     icon: "car",
-    demo: "#",
+    demo: "https://www.viapneusbr.com",
   },
   {
     id: 2,
