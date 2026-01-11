@@ -58,7 +58,7 @@ const HeroSection = () => {
             <Github className="w-5 h-5" />
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/matheus-florindo-de-deus-b953b017a/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 rounded-xl bg-muted/50 border border-border flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
