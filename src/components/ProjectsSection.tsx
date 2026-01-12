@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell, Shield, Target } from "lucide-react";
+import { ExternalLink, Github, ChevronDown, ChevronUp, ShoppingCart, Car, GraduationCap, Coffee, Wheat, PenTool, Music, Building2, Heart, Dumbbell, Shield, Target, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -35,6 +35,17 @@ const projects = [
     features: ["3 idiomas (PT/EN/FR)", "50+ componentes", "Hero carrossel 5 imagens", "Design tático premium", "Responsividade total", "SEO otimizado"],
     icon: "target",
     demo: "https://apex-ops-lab.lovable.app",
+  },
+  {
+    id: 11,
+    title: "Letícia Coelho",
+    category: "Site Editorial / Moda",
+    description: "Site editorial de moda de luxo com design sofisticado, lookbook interativo e estética atemporal.",
+    fullDescription: "Plataforma editorial premium para marca de moda de alto padrão. Inclui hero fullscreen com carrossel de imagens, seção de manifesto com tipografia elegante, curadoria de coleções (Essenciais, Alfaiataria, Acessórios), lookbook interativo com hover effects, newsletter, integração WhatsApp para atendimento exclusivo e footer minimalista. Design focado em elegância atemporal com paleta sofisticada, animações suaves e experiência imersiva de marca.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Shadcn/UI"],
+    features: ["Hero fullscreen carrossel", "Lookbook interativo", "Design editorial luxury", "Tipografia premium", "Animações elegantes", "Mobile-first"],
+    icon: "gem",
+    demo: "https://editorial-luxe-weave.lovable.app",
   },
   {
     id: 3,
@@ -139,6 +150,7 @@ const IconComponent = ({ icon }: { icon: string }) => {
     fitness: <Dumbbell className="w-5 h-5" />,
     shield: <Shield className="w-5 h-5" />,
     target: <Target className="w-5 h-5" />,
+    gem: <Gem className="w-5 h-5" />,
   };
   return <>{icons[icon] || <ShoppingCart className="w-5 h-5" />}</>;
 };
