@@ -10,7 +10,7 @@ export default function ExperiencePage() {
       <SEOHead
         title="Experiência — Matheus Florindo"
         description="Trajetória profissional entre PMES, UFES/CEFD, IFES, pesquisa científica e atuação em tecnologia."
-        path="/experiencia"
+        path="/matheus/experiencia"
       />
       <section className="container-wide pt-14 pb-10">
         <SectionHeader

@@ -6,12 +6,12 @@ import { Menu, X } from "lucide-react";
 
 const nav = [
   { to: "/", label: "Início" },
-  { to: "/sobre", label: "Sobre" },
-  { to: "/publicacoes", label: "Publicações" },
-  { to: "/formacao", label: "Formação" },
-  { to: "/projetos", label: "Projetos" },
-  { to: "/experiencia", label: "Experiência" },
-  { to: "/contato", label: "Contato" },
+  { to: "/matheus/sobre", label: "Sobre" },
+  { to: "/matheus/publicacoes", label: "Publicações" },
+  { to: "/matheus/formacao", label: "Formação" },
+  { to: "/matheus/projetos", label: "Projetos" },
+  { to: "/matheus/experiencia", label: "Experiência" },
+  { to: "/matheus/contato", label: "Contato" },
 ];
 
 export function Navbar() {

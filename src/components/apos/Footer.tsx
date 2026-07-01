@@ -27,11 +27,11 @@ export function Footer() {
         <div>
           <div className="eyebrow mb-3">Navegação</div>
           <ul className="space-y-2 text-sm">
-            <li><Link className="text-muted-foreground hover:text-primary" to="/sobre">Sobre</Link></li>
-            <li><Link className="text-muted-foreground hover:text-primary" to="/publicacoes">Publicações</Link></li>
-            <li><Link className="text-muted-foreground hover:text-primary" to="/formacao">Formação</Link></li>
-            <li><Link className="text-muted-foreground hover:text-primary" to="/projetos">Projetos</Link></li>
-            <li><Link className="text-muted-foreground hover:text-primary" to="/experiencia">Experiência</Link></li>
+            <li><Link className="text-muted-foreground hover:text-primary" to="/matheus/sobre">Sobre</Link></li>
+            <li><Link className="text-muted-foreground hover:text-primary" to="/matheus/publicacoes">Publicações</Link></li>
+            <li><Link className="text-muted-foreground hover:text-primary" to="/matheus/formacao">Formação</Link></li>
+            <li><Link className="text-muted-foreground hover:text-primary" to="/matheus/projetos">Projetos</Link></li>
+            <li><Link className="text-muted-foreground hover:text-primary" to="/matheus/experiencia">Experiência</Link></li>
           </ul>
         </div>
 
@@ -56,7 +56,7 @@ export function Footer() {
         <div>
           <div className="eyebrow mb-3">Contato</div>
           <ul className="space-y-2 text-sm">
-            <li><Link className="text-muted-foreground hover:text-primary" to="/contato">Formulário</Link></li>
+            <li><Link className="text-muted-foreground hover:text-primary" to="/matheus/contato">Formulário</Link></li>
             <li className="mono text-xs text-muted-foreground">{CLIENT_CONFIG.publicEmail}</li>
             <li className="text-xs text-muted-foreground">{profile.cityState}</li>
           </ul>

@@ -41,7 +41,7 @@ export default function Education() {
       <SEOHead
         title="Formação — Matheus Florindo"
         description="Formação acadêmica, especializações, cursos complementares e certificações operacionais e técnicas."
-        path="/formacao"
+        path="/matheus/formacao"
       />
       <section className="container-wide pt-14 pb-10">
         <SectionHeader

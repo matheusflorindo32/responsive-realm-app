@@ -14,7 +14,7 @@ export default function About() {
       <SEOHead
         title="Sobre — Matheus Florindo"
         description="Pesquisador, policial militar e desenvolvedor. Atuação interdisciplinar em ciência, segurança pública, saúde operacional, IA e performance humana."
-        path="/sobre"
+        path="/matheus/sobre"
       />
       <section className="container-wide pt-14 pb-10">
         <SectionHeader
