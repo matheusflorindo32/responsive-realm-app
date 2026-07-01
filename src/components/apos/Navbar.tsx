@@ -70,6 +70,13 @@ export function Navbar() {
               )}
             </NavLink>
           ))}
+          <Link
+            to="/"
+            className="ml-2 inline-flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
+          >
+            <ArrowLeft size={12} />
+            Tropa Científica
+          </Link>
         </nav>
 
         <button
