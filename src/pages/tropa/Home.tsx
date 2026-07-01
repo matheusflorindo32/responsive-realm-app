@@ -10,6 +10,7 @@ import {
   Play,
   ArrowUpRight,
 } from "lucide-react";
+import { TropaLogo3D } from "@/components/tropa/TropaLogo3D";
 
 const pillars = [
   {
@@ -48,40 +49,46 @@ export default function TropaHome() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
-        <div className="container-wide py-24 md:py-36 relative">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full neon-border text-[11px] mono uppercase tracking-[0.25em] text-primary mb-8">
-              <Sparkles size={12} />
-              Divulgação científica · 2026
+        <div className="container-wide py-20 md:py-28 relative">
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full neon-border text-[11px] mono uppercase tracking-[0.25em] text-primary mb-8">
+                <Sparkles size={12} />
+                Divulgação científica · 2026
+              </div>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95] neon-text">
+                Tropa
+                <br />
+                Científica
+              </h1>
+              <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                Onde ciência, inteligência artificial e segurança pública se encontram.
+                Conteúdos, pesquisas e experimentos para quem constrói o futuro com base em evidência.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link
+                  to="/conteudos"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-semibold uppercase tracking-[0.15em] text-sm hover:brightness-110 transition"
+                >
+                  <Play size={16} />
+                  Explorar conteúdos
+                </Link>
+                <Link
+                  to="/projetos-tropa"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-md neon-border text-primary font-semibold uppercase tracking-[0.15em] text-sm hover:bg-primary/10 transition"
+                >
+                  Ver projetos
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95] neon-text">
-              Tropa
-              <br />
-              Científica
-            </h1>
-            <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              Onde ciência, inteligência artificial e segurança pública se encontram.
-              Conteúdos, pesquisas e experimentos para quem constrói o futuro com base em evidência.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/conteudos"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-semibold uppercase tracking-[0.15em] text-sm hover:brightness-110 transition"
-              >
-                <Play size={16} />
-                Explorar conteúdos
-              </Link>
-              <Link
-                to="/projetos-tropa"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-md neon-border text-primary font-semibold uppercase tracking-[0.15em] text-sm hover:bg-primary/10 transition"
-              >
-                Ver projetos
-                <ArrowRight size={16} />
-              </Link>
+            <div className="lg:col-span-5">
+              <TropaLogo3D />
             </div>
           </div>
         </div>
       </section>
+
 
       {/* MANIFESTO */}
       <section className="container-wide py-20">
