@@ -21,6 +21,8 @@ import TropaConteudos from "./pages/tropa/Conteudos";
 import TropaProjetos from "./pages/tropa/Projetos";
 
 import NotFound from "./pages/NotFound";
+import AdminAuth from "./pages/admin/AdminAuth";
+import AdminSync from "./pages/admin/AdminSync";
 
 const queryClient = new QueryClient();
 
