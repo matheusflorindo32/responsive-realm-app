@@ -1,97 +1,81 @@
 ## Objetivo
 
-Substituir a home atual da Tropa Científica (`/`, tema dark neon) por uma landing page **premium light**, com todas as seções pedidas, parallax de scroll no emblema 3D, microinterações Framer Motion e visual de laboratório de inovação. Escopo: apenas rota `/` da Tropa. `/matheus/*` (APOS) segue intocado.
+Transformar o hero atual da Tropa Científica (imagem estática com float) em uma **pinned hero section** com scrollytelling: a cena fica travada na viewport por ~2.5x a altura da tela, e o progresso do scroll controla a coreografia da logo, do fundo, das partículas e dos cards flutuantes. Escopo: apenas `src/components/tropa/sections/Hero.tsx` (e um par de subcomponentes novos). Nenhuma outra seção da home muda.
 
-## Direção visual
-
-- **Paleta light**, escopada em `.theme-tropa` (sobrescreve os tokens dark atuais):
-  - `background` `#FAFBFC`, `card` `#FFFFFF`, `muted` `#F1F5F9`, `border` `#E2E8F0`.
-  - `foreground` `#0B1220`, `muted-foreground` `#475569`.
-  - `primary` azul científico `#2563EB`, `primary-glow` `#60A5FA`, `accent` prata `#94A3B8`.
-  - Tokens de gradient/shadow novos em `index.css`: `--gradient-hero` (radial azul→prata→branco), `--shadow-elevated` (sombra suave em duas camadas), `--shadow-glass`.
-- **Tipografia**:
-  - Manter `Orbitron` **apenas** no wordmark "TROPA CIENTÍFICA" e em eyebrows/mono labels.
-  - Trocar headings principais para `Space Grotesk` (institucional + tech) e corpo em `Inter`. Instalar via `@fontsource/space-grotesk`.
-- **Surface treatment**: glassmorphism leve (`bg-white/70 backdrop-blur-xl` + `border border-border/60` + `shadow-elevated`). Grid pattern muito sutil no hero e CTA final via SVG inline. Hairlines em vez de bordas grossas.
-- **Referências 21st.dev** (extrair linguagem, não copiar código): shadway/*sleek-hero-with-orb*, shadway/*hero-section-with-smooth-bg-shader*, kokonutui bento features, magicui/aceternity feature grids, motion-primitives scroll reveals.
-
-## Estrutura de rotas e arquivos
-
-Rota `/` renderiza um novo `TropaHome` composto por seções pequenas.
+## Arquitetura da seção
 
 ```
-src/components/tropa/
-  Navbar.tsx                (reescrito — light glass, sticky com backdrop-blur)
-  Footer.tsx                (reescrito — light, colunas + social)
-  Layout.tsx                (mantém .theme-tropa)
-  TropaLogo3D.tsx           (adaptado ao tema light + parallax por scroll)
-  sections/
-    Hero.tsx
-    WhatIs.tsx              ("O que é a Tropa Científica")
-    Areas.tsx               ("Áreas de atuação" — bento 8 cards)
-    Contents.tsx            ("Conteúdos" — grid formatos)
-    WhyFollow.tsx           ("Por que acompanhar" — feature grid)
-    TechStack.tsx           ("Tecnologias e temas" — badges animadas)
-    Authority.tsx           ("Autoridade" — split com foto placeholder + texto)
-    FinalCTA.tsx            ("Ciência não precisa ficar distante da prática")
-
-src/pages/tropa/Home.tsx    (compõe as seções acima + Helmet SEO)
-src/data/tropa-content.ts   (arrays estáticos: áreas, conteúdos, tecs, benefícios)
+<section ref className="relative h-[320vh]">   ← "trilho" de scroll (3.2x viewport)
+  <div className="sticky top-0 h-screen overflow-hidden">   ← palco pinado
+    ├── Layer 0: grid SVG (parallax lento, y = -10%..+10%)
+    ├── Layer 1: gradient blobs (scale + opacity com scroll)
+    ├── Layer 2: partículas canvas 2D (translate y + fade)
+    ├── Layer 3: linhas/anéis orbitais SVG (rotate + stroke-dashoffset)
+    ├── Layer 4: logo emblema (translateX/Y + scale + rotateY/X + blur pulse)
+    ├── Layer 5: cards flutuantes IA/Dados/Segurança/Drones/Pesquisa (fade + translate radial)
+    └── Layer 6: bloco de texto (eyebrow → H1 → subtítulo → CTAs, em etapas)
+  </div>
+</section>
 ```
 
-## Hero e efeito 3D com scroll
+Um único `useScroll({ target, offset: ["start start", "end end"] })` alimenta todos os `useTransform`. Timeline por progresso `p ∈ [0,1]`:
 
-- Layout split: coluna esquerda com eyebrow ("Divulgação Científica · 2026"), H1 grande em Space Grotesk, subtítulo, 3 CTAs (`Conhecer a Tropa Científica` primary, `Ver Conteúdos` outline, `Entrar em Contato` ghost).
-- Coluna direita: `TropaLogo3D` adaptado ao fundo claro (globo de pontos em azul `#2563EB` com opacidade menor, logo billboardada, halo suave em vez de neon).
-- **Parallax de scroll**:
-  - Container do 3D usa `useScroll` + `useTransform` (framer-motion) para aplicar `y`, `rotate` e `scale` sutis ao wrapper `motion.div` conforme `scrollYProgress` do hero — sem tocar no loop do Canvas.
-  - Fallback: em `matchMedia('(max-width: 768px)')` ou `prefers-reduced-motion`, renderizar imagem estática PNG do emblema (`src/assets/tropa-icon.png` já existente) sem Canvas.
-- Grid pattern radial no fundo do hero via SVG + máscara radial.
+- **0.00 – 0.15** — Estado inicial: logo grande à direita, título principal visível, fundo limpo.
+- **0.15 – 0.35** — Logo rotaciona `rotateY: 0→18°`, `rotateX: 0→-6°`, `scale: 1→1.08`. Grid ganha profundidade (`y: 0→-40px`, `opacity: 0.4→0.7`). Partículas fazem fade-in.
+- **0.35 – 0.55** — Cinco cards flutuantes (IA, Ciência de Dados, Segurança Pública, Drones, Pesquisa Aplicada) entram em stagger radial ao redor da logo (`opacity 0→1`, `translate` do centro para posições distribuídas em elipse).
+- **0.55 – 0.80** — Logo desloca `x: 0→-8%` (centraliza), `scale: 1.08→0.92`. Textos secundários (subtítulo curto + 3 métricas) fazem slide-up. Halo pulsa (`opacity 0.35↔0.6` via loop independente).
+- **0.80 – 1.00** — Cena estabiliza: cards param, logo volta a `rotateY: 0`, CTAs entram e a seção libera o scroll natural para `WhatIs`.
 
-## Sections — detalhamento
+## Componentes e utilidades novas
 
-1. **WhatIs**: 2 colunas (texto institucional + card destaque com 3 métricas "áreas · formatos · alcance").
-2. **Areas**: bento assimétrico de 8 cards (IA, Ciência de Dados, Segurança Pública, Drones, Educação, Pesquisa Aplicada, Dev Web, Automação). Cada card: ícone Lucide, título, 1 linha, hover-lift + gradient hairline no topo.
-3. **Contents**: grid 3×3 de formatos (Vídeos, Infográficos, Análises, Artigos, Projetos, Estudos, YouTube, Instagram, LinkedIn) — cards mais compactos.
-4. **WhyFollow**: 6 benefícios em grid 3×2 com ícones e microcopy.
-5. **TechStack**: linha de badges animadas (fade-in em sequência via `staggerChildren`).
-6. **Authority**: split 5/7. Esquerda: mock de retrato/emblema. Direita: texto sugerido + link "Sobre o fundador → /matheus".
-7. **FinalCTA**: card full-width com gradient sutil, 2 botões, âncora "Falar com a Tropa Científica" → `/contato` (rota nova redireciona para email `mailto:` por enquanto).
+1. **`Hero.tsx`** reescrito:
+   - Wrapper `section` com altura `h-[320vh]` desktop / `h-[220vh]` tablet / `h-auto` mobile.
+   - Palco interno `sticky top-0 h-screen`.
+   - `useScroll` no wrapper, `useTransform` para cada layer.
+   - `useReducedMotion` → desativa pin (altura vira `min-h-screen`, transforms viram estáticos).
 
-## Motion & microinterações
+2. **`HeroParticles.tsx`** (novo, lazy):
+   - Canvas 2D leve (~80 partículas desktop, 30 mobile) com drift lento.
+   - Recebe `progress: MotionValue<number>` e ajusta densidade/opacidade via `useMotionValueEvent`.
+   - Sem three.js — mantém performance.
 
-- `framer-motion` já está instalada (verificar em `package.json`); se não, `bun add framer-motion`.
-- Padrões reutilizados:
-  - `motion.div` com `whileInView={{ opacity: 1, y: 0 }}` + `viewport={{ once: true, margin: "-80px" }}` para revelar seções.
-  - `staggerChildren` em containers de grid (Areas, Contents, TechStack).
-  - Botões shadcn com nova variant `variant="hero"` (adicionar em `button.tsx`) — gradient azul + shadow-elevated + hover translate-y sutil.
-  - Hover lift `-translate-y-1 shadow-elevated` nos cards, com transição `duration-300`.
+3. **`HeroGrid.tsx`** (novo):
+   - Fundo SVG com pattern de grid + máscara radial + linhas diagonais sutis.
+   - Recebe `y` e `opacity` como MotionValues.
 
-## Performance & acessibilidade
+4. **`HeroOrbits.tsx`** (novo):
+   - SVG com 3 anéis elípticos + nodes, animados por `rotate` MotionValue.
+   - Substitui a necessidade de Canvas 3D no hero e é 10x mais leve.
 
-- Lazy-load do Canvas 3D com `React.lazy` + `Suspense` (fallback = imagem estática).
-- `prefers-reduced-motion` reduz o parallax do hero e desativa float do logo.
-- Imagens com `loading="lazy"` e dimensões explícitas.
-- Semântica: `<header>`, `<main>`, `<section aria-labelledby>`, `<footer>`. H1 único no hero, H2 por seção.
-- Contraste AA em todos os textos sobre light.
-- Meta title/description dedicados em `<Helmet>`; JSON-LD `Organization` no Hero.
+5. **`HeroFloatingCards.tsx`** (novo):
+   - Array de 5 cards `{ label, icon, angle }` posicionados em coordenadas polares.
+   - Cada card recebe `opacity` e `translate` derivados do progresso global com offsets escalonados (`stagger` por index).
+   - Glassmorphism: `bg-white/70 backdrop-blur-md border border-border/60 shadow-elevated`.
 
-## Navbar e Footer
-
-- **Navbar** light: fundo `bg-white/80 backdrop-blur-xl`, hairline inferior, wordmark Orbitron em `text-foreground`, links `Início / Áreas / Conteúdos / Manifesto / Sobre o fundador →`. Sticky top-0, encolhe ao rolar (altura via `useScroll`).
-- **Footer** light: 4 colunas — marca + descrição, Links, Conteúdos, Contato. Ícones sociais (YouTube, Instagram, LinkedIn, GitHub) em Lucide. Linha inferior `© 2026 Tropa Científica`.
+6. **Logo**: continua sendo `<img src={iconUrl} />` (já validado pelo usuário), mas envolta em `motion.div` com `style={{ x, y, scale, rotateX, rotateY, filter }}`. `transformPerspective: 1200` no wrapper para dar profundidade real ao `rotateY`.
 
 ## Detalhes técnicos
 
-- Todos os tokens novos vivem em `src/index.css` dentro de `.theme-tropa { ... }` — não vazam para `/matheus`.
-- Nenhuma cor hardcoded nos componentes; sempre via classes semânticas (`bg-card`, `text-primary`, etc.). Novo `button` variant `hero` é definido em `src/components/ui/button.tsx` com `cva`.
-- Rotas atuais mantidas: `/`, `/sobre-a-tropa`, `/conteudos`, `/projetos-tropa` continuam funcionando; apenas `/` recebe a nova composição. As outras 3 páginas herdam a nova paleta light automaticamente (nada quebra visualmente porque hoje são placeholders finos).
-- APOS `/matheus/*` permanece 100% intacto (tokens escopados via `.theme-apos` no `AposLayout`).
-- Dependências novas: `@fontsource/space-grotesk` (import em `src/main.tsx`, fontFamily em `tailwind.config.ts`). Framer Motion apenas se ainda não presente.
+- **Framer Motion** já instalado — sem novas deps. GSAP **não** será usado (Framer cobre todo o requisito com menos peso).
+- Todos os `useTransform` usam `clamp: true` e curvas suaves (`[0, 0.15, 0.35, 0.55, 0.8, 1]` como keyframes de entrada, com valores correspondentes) — evita saltos.
+- `will-change: transform, opacity` nas camadas animadas.
+- Cores continuam via tokens `.theme-tropa`: `--primary #2563EB`, `--primary-glow #60A5FA`, fundo `#FAFBFC`. Zero hex hardcoded nos componentes.
+- Halo pulsante: `motion.div` com `animate={{ opacity: [0.35, 0.6, 0.35] }}` em loop, **independente** do scroll, para dar vida mesmo parado.
+- Cards flutuantes usam ícones Lucide (`Brain`, `Database`, `Shield`, `Plane`, `Microscope`) e labels curtos.
 
-## Fora de escopo (fase 2)
+## Mobile & acessibilidade
 
-- CMS/YouTube API para conteúdos reais (usa dados estáticos agora).
-- Formulário de contato funcional (por ora `mailto:` ou link para `/matheus/contato`).
-- i18n PT/EN.
-- Refazer as páginas `/sobre-a-tropa`, `/conteudos`, `/projetos-tropa` — herdam a nova paleta, mas conteúdo aprofundado fica para outra rodada.
+- **< 768px**: sem pin. Section vira `min-h-screen`, layout single-column, logo estática com float sutil (comportamento atual), cards flutuantes viram grid 2x2 abaixo. Sem canvas de partículas.
+- **`prefers-reduced-motion`**: pin desativado, transforms fixos no estado final da etapa 0, cards aparecem por `whileInView` clássico.
+- `HeroParticles` importado via `React.lazy` + `Suspense fallback={null}`.
+- Semântica preservada: `<section aria-labelledby="hero-title">`, H1 único, textos fora de camadas puramente decorativas.
+
+## Fora de escopo
+
+- Alterações em outras seções (WhatIs, Areas, etc.) — permanecem como estão.
+- Reintrodução do Canvas 3D (`TropaLogo3D`) — foi descartado por peso; a sensação de "câmera 3D" vem do `rotateY/rotateX` com perspective + parallax em camadas.
+- Rotas fora de `/`.
+
+## Critério de aceitação
+
+Ao rolar a `/`, o usuário vê o hero **travar** por cerca de 2–3 alturas de tela; durante esse trecho a logo gira/escala, o grid e as partículas se movem em velocidades diferentes, os 5 cards temáticos entram em torno da logo em stagger, e só então a página libera para `WhatIs`. Em mobile, a experiência degrada para uma versão estática elegante sem travar o scroll.
