@@ -61,6 +61,10 @@ const App = () => (
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
 
+            {/* Admin sync panel */}
+            <Route path="/admin" element={<AdminAuth />} />
+            <Route path="/admin/sync" element={<AdminSync />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
