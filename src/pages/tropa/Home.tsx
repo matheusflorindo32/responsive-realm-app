@@ -1,12 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { Hero } from "@/components/tropa/sections/Hero";
-import { WhatIs } from "@/components/tropa/sections/WhatIs";
-import { Areas } from "@/components/tropa/sections/Areas";
-import { Contents } from "@/components/tropa/sections/Contents";
-import { WhyFollow } from "@/components/tropa/sections/WhyFollow";
-import { TechStack } from "@/components/tropa/sections/TechStack";
-import { Authority } from "@/components/tropa/sections/Authority";
-import { FinalCTA } from "@/components/tropa/sections/FinalCTA";
+import { CinematicJourney } from "@/components/tropa/cinematic/CinematicJourney";
+import { EditorialHome } from "@/components/tropa/cinematic/EditorialHome";
 
 export default function TropaHome() {
   return (
@@ -35,14 +29,8 @@ export default function TropaHome() {
         })}</script>
       </Helmet>
 
-      <Hero />
-      <WhatIs />
-      <Areas />
-      <Contents />
-      <WhyFollow />
-      <TechStack />
-      <Authority />
-      <FinalCTA />
+      <CinematicJourney />
+      <EditorialHome />
     </>
   );
 }
