@@ -31,7 +31,7 @@ export function Navbar() {
       )}
     >
       <div className="container-wide flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2.5 group">
+        <Link to="/matheus" className="flex items-center gap-2.5 group">
           <span className="grid place-items-center h-8 w-8 rounded-sm bg-primary text-primary-foreground font-display font-semibold text-sm">
             MF
           </span>
