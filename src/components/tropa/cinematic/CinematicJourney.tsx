@@ -83,6 +83,7 @@ export function CinematicJourney() {
         const exit = (sel: string, at: number) =>
           tl.to(sel, { autoAlpha: 0, y: -80, scale: 1.06, filter: "blur(8px)", duration: 4, ease: "power1.in" }, at);
 
+        /* câmera + camadas de parallax (timeline inteira) */
         tl.fromTo(".cj-cam", { scale: 1.06 }, { scale: 1, duration: 8, ease: "power1.out" }, 0)
           .to(".cj-cam", { xPercent: -2.5, duration: 12, ease: "power1.inOut" }, 12)
           .to(".cj-cam", { xPercent: 1.5, duration: 12, ease: "power1.inOut" }, 30)
@@ -94,6 +95,7 @@ export function CinematicJourney() {
           .to(".cj-railfill", { scaleY: 1, duration: 60 }, 0)
           .to(".cj-cue", { autoAlpha: 0, duration: 2 }, 2);
 
+        /* índice de cenas */
         const inAt = [0, 8, 17, 31, 42, 51];
         const outAt = [7, 16, 30, 41, 50];
         IDX.forEach((_, i) => {
@@ -101,16 +103,20 @@ export function CinematicJourney() {
           if (i < 5) tl.to(`.cj-idx[data-i="${i}"]`, { opacity: 0.35, duration: 1.5 }, outAt[i]);
         });
 
+        /* cena 01 — entrada */
         tl.fromTo(".cj-emblem", { yPercent: 4, scale: 1.05 }, { yPercent: -4, scale: 0.97, duration: 10, ease: "power1.inOut" }, 0)
           .to(".cj-orbit", { rotation: 70, duration: 60, svgOrigin: "100 100" }, 0);
         exit(".cj-s1", 7);
 
+        /* o mundo escurece */
         tl.to(".cj-dark", { autoAlpha: 1, duration: 5 }, 7);
 
+        /* cena 02 — transição de mundo */
         enter(".cj-s2", 8);
         tl.fromTo(".cj-line", { y: 64, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 3, stagger: 1.6, ease: "power2.out" }, 9.5);
         exit(".cj-s2", 16);
 
+        /* cena 03 — painéis em profundidade */
         enter(".cj-s3", 17);
         tl.fromTo(
           ".cj-panel",
@@ -122,6 +128,7 @@ export function CinematicJourney() {
           .to(".cj-panel-b", { y: 14, duration: 5, ease: "power1.inOut" }, 25);
         exit(".cj-s3", 30);
 
+        /* cena 04 — ambiente tecnológico */
         enter(".cj-s4", 31);
         tl.to(".cj-radar", { rotation: 140, svgOrigin: "60 60", duration: 12 }, 31)
           .fromTo(".cj-meter", { scaleX: 0.15, transformOrigin: "left center" }, { scaleX: 1, duration: 6, stagger: 0.5, ease: "power1.inOut" }, 32)
@@ -129,89 +136,102 @@ export function CinematicJourney() {
           .to(".cj-chip", { y: -10, duration: 6, stagger: 0.4, ease: "power1.inOut" }, 36);
         exit(".cj-s4", 41);
 
+        /* o mundo clareia */
         tl.to(".cj-dark", { autoAlpha: 0, duration: 5 }, 41);
 
+        /* cena 05 — autoridade */
         enter(".cj-s5", 42);
         exit(".cj-s5", 50);
 
+        /* cena 06 — destino: a câmera estabiliza */
         tl.fromTo(".cj-s6", { autoAlpha: 0, y: 70, scale: 1.05 }, { autoAlpha: 1, y: 0, scale: 1.02, duration: 4, ease: "power1.out" }, 51)
           .to(".cj-s6", { scale: 1, duration: 8, ease: "power2.out" }, 55);
 
+        /* poeira em profundidade */
         gsap.utils.toArray<HTMLElement>(".cj-dot").forEach((d, i) => {
           tl.to(d, { y: -(20 + (i % 5) * 14), duration: 60 }, 0);
         });
 
-        /* ATMOSFERA CINEMATOGRÁFICA */
+        /* ============================================================
+           ATMOSFERA CINEMATOGRÁFICA — caminhos de movimento por cena
+           ============================================================ */
 
+        /* cena 01 — varredura + telemetria */
         tl.fromTo(".atm-datacol", { autoAlpha: 0, y: 30 }, { autoAlpha: 0.55, y: -20, duration: 8, ease: "none" }, 0.5)
           .fromTo(".atm-scan", { y: 0, autoAlpha: 0 }, { autoAlpha: 0.7, y: () => window.innerHeight * 0.9, duration: 7, ease: "power1.inOut" }, 1)
           .to(".atm-scan", { autoAlpha: 0, duration: 1.5 }, 8);
 
-        tl.fromTo(".cj-s2 .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5, stagger: 0.4, ease: "none" }, 9)
-          .fromTo(".atm-circuit", { autoAlpha: 0 }, { autoAlpha: 0.55, duration: 3 }, 9)
-          .fromTo(".atm-paper-1", { xPercent: 140, yPercent: -6, autoAlpha: 0, scale: 0.9 }, { xPercent: -10, yPercent: 2, autoAlpha: 0.5, scale: 1, duration: 5, ease: "none" }, 9)
-          .to(".atm-paper-1", { xPercent: -160, autoAlpha: 0, duration: 4.5, ease: "none" }, 14.5)
-          .fromTo(".atm-paper-2", { xPercent: 90, yPercent: 20, autoAlpha: 0 }, { xPercent: -180, yPercent: 6, autoAlpha: 0.3, duration: 10, ease: "none" }, 8.8)
-          .fromTo(".atm-neural", { autoAlpha: 0, scale: 0.92, y: 30 }, { autoAlpha: 0.5, scale: 1, y: 0, duration: 4 }, 10)
+        /* cena 02 — pesquisa & IA: cartões de vidro cruzam em profundidade, espectro sobe, rede infere */
+        tl.fromTo(".atm-bars", { autoAlpha: 0 }, { autoAlpha: 0.7, duration: 2 }, 9)
+          .fromTo(".atm-bar", { scaleY: 0.12, transformOrigin: "bottom center" }, { scaleY: 1, duration: 2.6, stagger: 0.14, ease: "power1.out" }, 9.2)
+          .fromTo(".atm-paper-1", { xPercent: 120, yPercent: -6, autoAlpha: 0, scale: 0.92 }, { xPercent: -8, yPercent: 2, autoAlpha: 0.75, scale: 1, duration: 5, ease: "none" }, 9)
+          .to(".atm-paper-1", { xPercent: -140, autoAlpha: 0, duration: 4.5, ease: "none" }, 14.5)
+          .fromTo(".atm-paper-2", { xPercent: 80, yPercent: 22, autoAlpha: 0 }, { xPercent: -160, yPercent: 8, autoAlpha: 0.45, duration: 10, ease: "none" }, 8.8)
+          .fromTo(".atm-neural", { autoAlpha: 0, scale: 0.92, y: 30 }, { autoAlpha: 0.6, scale: 1, y: 0, duration: 4 }, 10)
           .fromTo(".atm-flow", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 9, ease: "none" }, 9.5)
           .to(".atm-neural", { autoAlpha: 0, y: -40, duration: 3.5 }, 16.5);
 
-        tl.fromTo(".atm-map", { autoAlpha: 0, yPercent: 8 }, { autoAlpha: 0.32, yPercent: 0, duration: 3.5 }, 17.5)
+        /* cena 03 — operacional: mapa tático, rota de missão, holograma de drone cruzando + tracking */
+        tl.fromTo(".atm-map", { autoAlpha: 0, yPercent: 8 }, { autoAlpha: 0.3, yPercent: 0, duration: 3.5 }, 17.5)
           .fromTo(".atm-mission", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 12, ease: "none" }, 18)
           .fromTo(".atm-wp", { autoAlpha: 0, scale: 0.4, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 1.2, stagger: 1.6 }, 18.5)
           .to(".atm-map", { yPercent: -6, duration: 10, ease: "none" }, 21)
           .to(".atm-map", { autoAlpha: 0, duration: 3 }, 30.5);
 
-        tl.set(".atm-drone", { xPercent: 260, yPercent: -70, scale: 0.45, autoAlpha: 0 }, 17.8)
+        tl.set(".atm-drone", { xPercent: 240, yPercent: -70, scale: 0.45, autoAlpha: 0 }, 17.8)
           .to(
             ".atm-drone",
             {
               keyframes: [
-                { xPercent: 70, yPercent: -20, scale: 0.85, autoAlpha: 0.8, duration: 4, ease: "power1.out" },
-                { xPercent: -60, yPercent: 10, scale: 1.1, autoAlpha: 0.8, duration: 4, ease: "none" },
-                { xPercent: -260, yPercent: 55, scale: 1.4, autoAlpha: 0, duration: 4, ease: "power1.in" },
+                { xPercent: 65, yPercent: -18, scale: 0.85, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
+                { xPercent: -55, yPercent: 12, scale: 1.12, autoAlpha: 0.9, duration: 4, ease: "none" },
+                { xPercent: -240, yPercent: 55, scale: 1.4, autoAlpha: 0, duration: 4, ease: "power1.in" },
               ],
             },
             18,
           )
-          .to(".atm-rotor", { scaleX: 0.35, duration: 0.35, repeat: 33, yoyo: true, ease: "none" }, 18);
+          .to(".atm-rotor", { scale: 1.18, opacity: 0.5, duration: 0.4, repeat: 28, yoyo: true, ease: "none" }, 18);
 
-        tl.set(".atm-track", { xPercent: 300, yPercent: -80, autoAlpha: 0 }, 18.2)
+        tl.set(".atm-track", { xPercent: 280, yPercent: -80, autoAlpha: 0 }, 18.2)
           .to(
             ".atm-track",
             {
               keyframes: [
-                { xPercent: 95, yPercent: -30, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
-                { xPercent: -35, yPercent: 5, autoAlpha: 0.9, duration: 4, ease: "none" },
-                { xPercent: -230, yPercent: 50, autoAlpha: 0, duration: 3.6, ease: "power1.in" },
+                { xPercent: 90, yPercent: -28, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
+                { xPercent: -32, yPercent: 6, autoAlpha: 0.9, duration: 4, ease: "none" },
+                { xPercent: -215, yPercent: 50, autoAlpha: 0, duration: 3.6, ease: "power1.in" },
               ],
             },
             18.45,
           );
 
-        tl.fromTo(".atm-rappel", { autoAlpha: 0, yPercent: -46 }, { autoAlpha: 0.5, yPercent: -30, duration: 3, ease: "power1.out" }, 31.5)
+        /* cena 04 — campo & treinamento: descida em sombra acompanha o scroll, equipe fora de foco cruza */
+        tl.fromTo(".atm-rappel", { autoAlpha: 0, yPercent: -46 }, { autoAlpha: 0.6, yPercent: -30, duration: 3, ease: "power1.out" }, 31.5)
           .to(".atm-rappel", { yPercent: 26, duration: 9, ease: "none" }, 34)
           .to(".atm-rappel", { autoAlpha: 0, duration: 2.5 }, 41.5)
           .to(".atm-rappel-fig", { x: 7, duration: 2.6, repeat: 3, yoyo: true, ease: "sine.inOut" }, 32)
-          .fromTo(".atm-team", { xPercent: -35, autoAlpha: 0 }, { xPercent: 20, autoAlpha: 0.2, duration: 10.5, ease: "none" }, 31.5)
+          .fromTo(".atm-alt", { y: 70, autoAlpha: 0 }, { y: -70, autoAlpha: 0.7, duration: 10, ease: "none" }, 31.8)
+          .to(".atm-alt", { autoAlpha: 0, duration: 2 }, 41.5)
+          .fromTo(".atm-team", { xPercent: -35, autoAlpha: 0 }, { xPercent: 22, autoAlpha: 0.35, duration: 10.5, ease: "none" }, 31.5)
           .to(".atm-team", { autoAlpha: 0, duration: 2.5 }, 41.5);
 
-        tl.fromTo(".atm-medic", { xPercent: -14, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.55, duration: 3.5, ease: "power1.out" }, 43)
+        /* cena 05 — medicina operacional: painel de treino desliza e o esquema se desenha */
+        tl.fromTo(".atm-medic", { xPercent: -12, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.6, duration: 3.5, ease: "power1.out" }, 43)
           .fromTo(".atm-medic .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 6, stagger: 0.3, ease: "none" }, 43.2)
           .to(".atm-medic", { y: -24, duration: 6, ease: "none" }, 47)
           .to(".atm-medic", { autoAlpha: 0, duration: 2.5 }, 50.5);
 
+        /* cena 06 — futuro: massa industrial atravessa e some atrás do vidro fosco, HUD estabiliza */
         tl.set(".atm-robot", { xPercent: -380, autoAlpha: 0 }, 51.6)
-          .to(".atm-robot", { xPercent: -60, autoAlpha: 0.55, duration: 4, ease: "none" }, 52)
-          .to(".atm-robot", { xPercent: 205, duration: 4, ease: "power1.in" }, 56.2)
-          .to(".atm-robot", { autoAlpha: 0.12, filter: "blur(2px)", duration: 2.5 }, 57.5)
-          .to(".atm-robot", { y: -5, duration: 0.7, repeat: 10, yoyo: true, ease: "sine.inOut" }, 52)
-          .to(".atm-leg-a", { rotation: 9, duration: 0.7, repeat: 10, yoyo: true, ease: "sine.inOut" }, 52)
-          .to(".atm-leg-b", { rotation: -9, duration: 0.7, repeat: 10, yoyo: true, ease: "sine.inOut" }, 52)
-          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.45, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
+          .to(".atm-robot", { xPercent: -60, autoAlpha: 0.8, duration: 4, ease: "none" }, 52)
+          .to(".atm-robot", { xPercent: 200, duration: 4, ease: "power1.in" }, 56.2)
+          .to(".atm-robot", { autoAlpha: 0.15, filter: "blur(3px)", duration: 2.5 }, 57.5)
+          .to(".atm-robot", { y: -6, duration: 0.9, repeat: 8, yoyo: true, ease: "sine.inOut" }, 52)
+          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.6, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
           .fromTo(".atm-ar-panel", { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 2.5, stagger: 0.8 }, 53)
           .fromTo(".atm-glass", { autoAlpha: 0 }, { autoAlpha: 1, duration: 3 }, 53);
       } else {
+        /* versão leve (mobile/tablet): revelações discretas, sem pin */
         gsap.utils.toArray<HTMLElement>(".cj-scene").forEach((s) => {
           const els = s.querySelectorAll(".cj-rev");
           if (els.length)
@@ -312,7 +332,7 @@ export function CinematicJourney() {
         )}
 
         <div className={cinematic ? "cj-cam relative z-10 h-full" : "cj-cam relative z-10"}>
-          {/* CENA 01 */}
+          {/* ============ CENA 01 — ENTRADA ============ */}
           <article className={scene(1, cinematic ? "" : "min-h-[86vh]")} aria-labelledby="cj-title">
             {!cinematic && <div aria-hidden className="absolute inset-0 t-grid-bg pointer-events-none" />}
             <AtmoEntry cinematic={cinematic} />
@@ -364,7 +384,7 @@ export function CinematicJourney() {
             )}
           </article>
 
-          {/* CENA 02 */}
+          {/* ============ CENA 02 — TRANSIÇÃO DE MUNDO (PESQUISA & IA) ============ */}
           <article className={scene(2, cinematic ? "" : darkBg)}>
             <AtmoResearch cinematic={cinematic} />
             <div className="container-wide relative z-10">
@@ -392,7 +412,7 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* CENA 03 */}
+          {/* ============ CENA 03 — PAINÉIS EM PROFUNDIDADE (OPERACIONAL) ============ */}
           <article className={scene(3, cinematic ? "" : darkBg)}>
             <AtmoOps cinematic={cinematic} />
             <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -439,7 +459,7 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* CENA 04 */}
+          {/* ============ CENA 04 — AMBIENTE TECNOLÓGICO (CAMPO & TREINAMENTO) ============ */}
           <article className={scene(4, cinematic ? "" : darkBg)}>
             <AtmoField cinematic={cinematic} />
             <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 items-center">
@@ -508,7 +528,7 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* CENA 05 */}
+          {/* ============ CENA 05 — AUTORIDADE (MEDICINA OPERACIONAL) ============ */}
           <article className={scene(5)}>
             <AtmoMedic cinematic={cinematic} />
             <div className="container-wide relative z-10">
@@ -547,7 +567,7 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* CENA 06 */}
+          {/* ============ CENA 06 — DESTINO (FUTURO · AR & AUTOMAÇÃO) ============ */}
           <article className={scene(6)}>
             <AtmoFuture cinematic={cinematic} />
             <div className="container-wide relative z-10 text-center">
