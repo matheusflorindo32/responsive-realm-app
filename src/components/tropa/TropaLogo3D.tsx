@@ -2,58 +2,44 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { Float, Sphere } from "@react-three/drei";
 import { Suspense, useRef } from "react";
 import { TextureLoader, type Mesh, type Group, DoubleSide, SRGBColorSpace } from "three";
-import logoAsset from "@/assets/tropa-logo.png.asset.json";
+import iconUrl from "@/assets/tropa-icon.png";
 
 function GlobeShell() {
   const ref = useRef<Mesh>(null);
   useFrame((_, delta) => {
     if (ref.current) {
-      ref.current.rotation.y += delta * 0.15;
-      ref.current.rotation.x += delta * 0.04;
+      ref.current.rotation.y -= delta * 0.15;
+      ref.current.rotation.x -= delta * 0.03;
     }
   });
   return (
-    <Sphere ref={ref} args={[2.1, 24, 18]}>
-      <meshBasicMaterial color="#06b6d4" wireframe transparent opacity={0.28} />
+    <Sphere ref={ref} args={[2, 32, 20]}>
+      <meshBasicMaterial color="#06b6d4" wireframe transparent opacity={0.3} />
     </Sphere>
   );
 }
 
 function FloatingLogo() {
-  const texture = useLoader(TextureLoader, logoAsset.url, (loader) => {
-    loader.setCrossOrigin("anonymous");
-  });
+  const texture = useLoader(TextureLoader, iconUrl);
   texture.colorSpace = SRGBColorSpace;
 
   const group = useRef<Group>(null);
   useFrame((_, delta) => {
     if (group.current) {
-      group.current.rotation.y += delta * 0.35;
+      group.current.rotation.y += delta * 0.08;
     }
   });
 
+  const size = 2.2; // ~55% of globe diameter (4)
   return (
     <group ref={group}>
-      {/* Front face */}
       <mesh>
-        <planeGeometry args={[2.6, 2.6]} />
+        <planeGeometry args={[size, size]} />
         <meshBasicMaterial
           map={texture}
           transparent
           side={DoubleSide}
           toneMapped={false}
-          depthWrite={false}
-        />
-      </mesh>
-      {/* Cross plane for pseudo-3D effect */}
-      <mesh rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[2.6, 2.6]} />
-        <meshBasicMaterial
-          map={texture}
-          transparent
-          side={DoubleSide}
-          toneMapped={false}
-          opacity={0.55}
           depthWrite={false}
         />
       </mesh>
@@ -63,7 +49,7 @@ function FloatingLogo() {
 
 export function TropaLogo3D() {
   return (
-    <div className="relative w-full aspect-square max-w-[520px] mx-auto">
+    <div className="relative w-full aspect-square max-w-[440px] mx-auto overflow-visible">
       <div
         aria-hidden
         className="absolute inset-0 rounded-full blur-3xl"
@@ -73,7 +59,7 @@ export function TropaLogo3D() {
         }}
       />
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
+        camera={{ position: [0, 0, 6], fov: 45 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         className="!absolute inset-0"
@@ -82,8 +68,7 @@ export function TropaLogo3D() {
         <pointLight position={[4, 4, 4]} intensity={1.4} color="#06b6d4" />
         <pointLight position={[-4, -2, -3]} intensity={0.8} color="#3b82f6" />
         <Suspense fallback={null}>
-          {/* Logo rendered FIRST and in front — never occluded by the globe */}
-          <Float speed={2} rotationIntensity={0.3} floatIntensity={1.2}>
+          <Float speed={1.6} rotationIntensity={0} floatIntensity={1.1}>
             <FloatingLogo />
           </Float>
           <GlobeShell />
