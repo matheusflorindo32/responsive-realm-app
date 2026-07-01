@@ -10,6 +10,7 @@ import {
   Play,
   ArrowUpRight,
 } from "lucide-react";
+import { TropaLogo3D } from "@/components/tropa/TropaLogo3D";
 
 const pillars = [
   {
