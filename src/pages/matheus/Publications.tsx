@@ -53,7 +53,7 @@ export default function Publications() {
       <SEOHead
         title="Publicações — Matheus Florindo"
         description="Artigos científicos indexados e resumos publicados em anais. Filtros por ano, periódico e citações em ABNT/Vancouver."
-        path="/publicacoes"
+        path="/matheus/publicacoes"
         jsonLd={publications.map((p) => scholarlyArticleJsonLd(p))}
       />
       <section className="container-wide pt-14 pb-10">

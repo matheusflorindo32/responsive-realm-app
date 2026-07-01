@@ -2,16 +2,16 @@ import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { CLIENT_CONFIG } from "@/config/client";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Início" },
-  { to: "/sobre", label: "Sobre" },
-  { to: "/publicacoes", label: "Publicações" },
-  { to: "/formacao", label: "Formação" },
-  { to: "/projetos", label: "Projetos" },
-  { to: "/experiencia", label: "Experiência" },
-  { to: "/contato", label: "Contato" },
+  { to: "/matheus", label: "Início" },
+  { to: "/matheus/sobre", label: "Sobre" },
+  { to: "/matheus/publicacoes", label: "Publicações" },
+  { to: "/matheus/formacao", label: "Formação" },
+  { to: "/matheus/projetos", label: "Projetos" },
+  { to: "/matheus/experiencia", label: "Experiência" },
+  { to: "/matheus/contato", label: "Contato" },
 ];
 
 export function Navbar() {
@@ -31,7 +31,7 @@ export function Navbar() {
       )}
     >
       <div className="container-wide flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2.5 group">
+        <Link to="/matheus" className="flex items-center gap-2.5 group">
           <span className="grid place-items-center h-8 w-8 rounded-sm bg-primary text-primary-foreground font-display font-semibold text-sm">
             MF
           </span>
@@ -50,7 +50,7 @@ export function Navbar() {
             <NavLink
               key={n.to}
               to={n.to}
-              end={n.to === "/"}
+              end={n.to === "/matheus"}
               className={({ isActive }) =>
                 cn(
                   "px-3 py-2 text-[13px] font-medium rounded-md transition-colors relative",
@@ -70,6 +70,13 @@ export function Navbar() {
               )}
             </NavLink>
           ))}
+          <Link
+            to="/"
+            className="ml-2 inline-flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
+          >
+            <ArrowLeft size={12} />
+            Tropa Científica
+          </Link>
         </nav>
 
         <button
@@ -87,7 +94,7 @@ export function Navbar() {
               <NavLink
                 key={n.to}
                 to={n.to}
-                end={n.to === "/"}
+                end={n.to === "/matheus"}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   cn(
@@ -99,6 +106,9 @@ export function Navbar() {
                 {n.label}
               </NavLink>
             ))}
+            <Link to="/" onClick={() => setOpen(false)} className="px-2 py-2.5 text-sm text-muted-foreground border-t border-border/50 mt-1 pt-3">
+              ← Tropa Científica
+            </Link>
           </div>
         </div>
       )}

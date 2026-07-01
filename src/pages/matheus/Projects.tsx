@@ -10,7 +10,7 @@ export default function Projects() {
       <SEOHead
         title="Projetos — Matheus Florindo"
         description="Iniciativas, produtos e produções técnico-científicas: Tropa Científica, Núcleo Tático, CONACIPS, guias operacionais e projetos web."
-        path="/projetos"
+        path="/matheus/projetos"
       />
       <section className="container-wide pt-14 pb-10">
         <SectionHeader

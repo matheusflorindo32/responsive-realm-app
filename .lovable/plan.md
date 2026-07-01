@@ -1,87 +1,78 @@
-## Visão
+## Objetivo
 
-Transformar o site atual (portfólio "Tropa Científica", tema dark neon cyberpunk) em uma **plataforma institucional acadêmica APOS** — Academic Personal Operating System — para posicionar Matheus Florindo de Deus como autoridade interdisciplinar (pesquisador CEFD/UFES, policial militar, desenvolvedor).
+Restaurar a **Tropa Científica** como marca principal na raiz (`/`) e mover todo o trabalho APOS já feito para uma área institucional separada em `/matheus/*`, sem apagar nada.
 
-**Mudança conceitual:** a "Tropa Científica" deixa de ser a marca principal e vira **um dos projetos** de Matheus. A identidade nova é acadêmica, institucional, sóbria — o oposto do visual atual.
+## Arquitetura de rotas
 
-## Direção visual — Elite Acadêmico
-
-Inspiração 21st.dev: Aceternity Timeline, Codehagen Timeline, Reapollo Metrics, Portfolio Hero (wisedev), Bento Grid (aceternity). Traduzido para tokens semânticos próprios — nada de copiar código.
-
-- **Paleta clara institucional** (nova): navy `#0B1F3A` (primário), azul acadêmico `#1E3A8A`, verde científico `#0F766E` (accent), grafite `#374151`, off-white `#F8FAFC` (background), dourado `#B7791F` (detalhes editoriais)
-- **Tipografia**: Fraunces (display serif editorial acadêmico) + Inter (corpo) + JetBrains Mono (labels/DOI/citações)
-- **Motion**: framer-motion — fade-up sutil em scroll, hover-lift discreto em cards, número contando em métricas. Sem neon, sem glow.
-- **Composição**: bento grid discreto na home, hairlines em vez de bordas grossas, generosos espaços em branco, tabelas com zebra, timeline vertical fina com marcador dourado.
-
-## Estrutura de páginas
-
-```
-/                — Home institucional (bento + destaques, sem sobrecarga)
-/publicacoes     — Artigos + Anais CONACIPS com filtros e copiar citação
-/formacao        — Formação + Cursos (55) + Certificações, com busca/filtros
-/projetos        — Grid de projetos (Tropa Científica, CONACIPS, Núcleo Tático, etc.)
-/experiencia     — Timeline vertical (PMES, UFES/CEFD, IFES, pesquisa, tech)
-/sobre           — Bio expandida institucional
-/contato         — Formulário + links acadêmicos (ORCID, Lattes, GitHub, LinkedIn)
+```text
+/                      → Tropa Científica — Home (marca, conteúdo, ciência+IA+segurança pública)
+/sobre-a-tropa         → Manifesto/sobre o projeto Tropa Científica
+/conteudos             → Vídeos, posts, materiais educativos (placeholder inicial)
+/projetos-tropa        → Projetos internos da Tropa (placeholder inicial)
+/matheus               → Site institucional acadêmico (Home APOS — atual `/`)
+/matheus/sobre         → atual /sobre
+/matheus/publicacoes   → atual /publicacoes
+/matheus/formacao      → atual /formacao
+/matheus/projetos      → atual /projetos (inclui card destacado "Tropa Científica" linkando para /)
+/matheus/experiencia   → atual /experiencia
+/matheus/contato       → atual /contato
 ```
 
-## Arquitetura de dados (preparada para MCP/Google Sheets)
+Navegação cruzada obrigatória:
+- Navbar da Tropa Científica: link "Sobre o fundador" → `/matheus`
+- Navbar do APOS: link "← Tropa Científica" → `/`
 
-```
-src/
-  data/
-    types/           publication.ts, course.ts, project.ts, education.ts, ...
-    mock/            dados extraídos da APOS_Master_Database_v2.xlsx
-    adapters/        localMockAdapter.ts (agora) → googleSheetsAdapter.ts (depois)
-    mappers/         normalizam linhas cruas em objetos tipados
-  lib/
-    citations.ts     generateABNT / generateVancouver / generateShort / generateProceedings
-    utils.ts         normalizeTags, normalizeBoolean, formatDoi, getDoiUrl, copyToClipboard
-    seo.ts           helpers de JSON-LD (Person, WebSite, ScholarlyArticle)
-  config/
-    client.ts        CLIENT_CONFIG (nome, domínio, brand) — reutilizável para outros clientes
-    privacy.ts       SHOW_PRIVATE_DATA = false
-```
+## Design tokens separados por contexto
 
-Componentes React: `Layout`, `Navbar`, `Footer`, `HeroSection`, `MetricCard`, `BioSection`, `ExpertiseGrid`, `PublicationCard`, `ProceedingCard`, `ProjectCard`, `EducationTimeline`, `CourseTable`, `CertificationCard`, `ExperienceTimeline`, `AcademicLinks`, `FilterBar`, `SearchInput`, `TagBadge`, `CopyCitationButton`, `StatusBadge`, `FeaturedBadge`, `SEOHead`, `SchemaPerson`, `SchemaScholarlyArticle`, `EmptyState`, `LoadingState`.
+Adicionar duas famílias de tokens no `src/index.css` (via classes de escopo `.theme-tropa` e `.theme-apos` aplicadas no `<Layout>` de cada área), preservando os tokens APOS já existentes:
 
-## SEO & Schema.org
+- **Tropa Científica** (raiz): dark futurista, cyan/electric blue neon, glassmorphism, Orbitron + Inter — respeitando a memória do projeto.
+- **Matheus/APOS** (`/matheus/*`): navy `#0B1F3A`, gold `#B7791F`, verde científico `#0F766E`, Fraunces + Inter + JetBrains Mono — já implementado, apenas isolado por escopo.
 
-- `<title>` e `meta description` por página
-- Open Graph + Twitter Card
-- JSON-LD: `Person` (com `sameAs` puxando dos links), `WebSite`, `ScholarlyArticle` para publicações
-- Canonical, sitemap-friendly URLs
+## Trabalho a fazer
 
-## Regras de visibilidade e privacidade
+### 1. Reorganizar APOS (não apagar)
+- Mover `src/pages/Home|About|Publications|EducationPage|Projects|ExperiencePage|Contact.tsx` para `src/pages/matheus/`.
+- Manter `src/components/apos/*` como está.
+- Ajustar todos os links internos do APOS para prefixo `/matheus`.
+- No `src/components/apos/Navbar.tsx`, adicionar botão "← Tropa Científica" apontando para `/`.
+- No card de projeto "Tropa Científica" dentro de `/matheus/projetos`, apontar demo para `/`.
 
-- Toda entidade respeita `visibility` (`public`/`private`/`hidden`) e `featured`
-- Home mostra apenas `featured=TRUE`; listas completas ficam nas páginas internas
-- 55 cursos NÃO renderizados na Home (só total + destaques)
-- Constante `SHOW_PRIVATE_DATA=false` bloqueia dados sensíveis (CPF, endereço, telefone)
+### 2. Recriar Tropa Científica
+- Novos componentes em `src/components/tropa/`:
+  - `Navbar.tsx` (marca Tropa + links: Conteúdos, Projetos, Sobre a Tropa, "Sobre o fundador →/matheus")
+  - `Footer.tsx`
+  - `Layout.tsx` (wrapper com classe `theme-tropa`)
+  - `HeroSection.tsx` (Tropa Científica — ciência, IA e segurança pública)
+  - `MissionSection.tsx` (manifesto curto)
+  - `ContentPillars.tsx` (3–4 pilares: Ciência, IA, Segurança Pública, Educação)
+  - `FeaturedContent.tsx` (grid placeholder para vídeos/posts, com estado vazio elegante)
+  - `FounderCTA.tsx` (bloco destacando Matheus Florindo com CTA → `/matheus`)
+- Novas páginas em `src/pages/tropa/`: `Home.tsx`, `Sobre.tsx`, `Conteudos.tsx`, `Projetos.tsx`.
+- Restaurar estética Orbitron + neon cyan conforme memória do projeto, sem reintroduzir componentes deletados 1:1 — versão nova, coerente com o design atual do restante.
 
-## Escopo desta entrega (Fase 1)
+### 3. Fonte de dados compartilhada
+- `src/data/apos-master.json` continua sendo a fonte única.
+- Criar `src/data/tropa-content.json` (placeholder) para pilares/conteúdos da Tropa Científica.
+- Adapter atual (`localMockAdapter`) permanece; adicionar leitura leve de `tropa-content.json`.
 
-Entregue completo nesta iteração:
+### 4. Roteamento e SEO
+- Atualizar `src/App.tsx`: dois grupos de rotas com Layouts distintos (`TropaLayout` na raiz, `AposLayout` em `/matheus`).
+- SEOHead por rota: título/description específicos por contexto; JSON-LD `Organization` (Tropa) na raiz e `Person` (Matheus) em `/matheus`.
+- Atualizar `index.html` `<title>` e `<meta description>` para a marca Tropa Científica (institucional passa a ser página interna).
 
-1. **Setup**: adicionar `fraunces`/`inter`/`jetbrains-mono`, `react-router-dom` (rotas), reset completo do tema atual
-2. **Design system novo**: reescrever `index.css` e `tailwind.config.ts` com tokens claros institucionais; refazer variantes de `button.tsx`
-3. **Camada de dados**: types, mocks extraídos da planilha, adapter mock, mappers, citations, utils
-4. **Componentes base**: os 25 componentes listados
-5. **7 páginas** com roteamento e SEO/Schema básico
-6. **Layout persistente**: Navbar sticky minimal + Footer institucional
-7. **Deletar**: componentes antigos de tema cyberpunk que não se aplicam
+### 5. Compatibilidade / redirects
+- Adicionar rotas de compatibilidade que redirecionam antigas URLs APOS da raiz para `/matheus/*` (`/sobre` → `/matheus/sobre`, `/publicacoes` → `/matheus/publicacoes`, etc.) para não quebrar links já compartilhados.
 
-Ficam **fora da Fase 1** (arquitetura preparada, implementação depois):
-- Adapter real de Google Sheets/MCP (mocks cobrem tudo)
-- Painel admin
-- Toggle EN/PT
-- Backend do formulário de contato (envia mensagem no submit, mostra confirmação)
+## Detalhes técnicos
 
-## Detalhes técnicos importantes
+- Sem novas dependências. Usa React Router, Helmet, Tailwind e tokens já instalados.
+- Tokens escopados por classe no `<Layout>` para evitar vazamento de cores entre as duas áreas.
+- Nenhum arquivo será deletado; APOS é movido, não removido. Componentes antigos da Tropa são reescritos (não restaurados do histórico) para casar com o padrão de código atual.
 
-- Todas as cores via tokens HSL em `index.css` e `tailwind.config.ts` — zero hex hardcoded em componentes
-- Rotas com `react-router-dom` (já instalado)
-- `react-helmet-async` (já instalado) para SEO por página
-- Filtros e busca client-side com `useMemo` (mocks pequenos, sem necessidade de virtualização — exceto tabela de cursos que terá 55 linhas paginadas de 20)
-- Botão "copiar citação" usa `navigator.clipboard.writeText` + toast de confirmação
-- Motion: `framer-motion` (adicionar como dependência) só onde agrega — fade-up em seções, contador em métricas, hover-lift em cards
+## Fora de escopo (fase 2)
+
+- CMS real para posts/vídeos da Tropa.
+- Integração com YouTube/RSS.
+- Toggle PT/EN.
+- Backend do formulário de contato.

@@ -2,16 +2,24 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { Layout } from "@/components/apos/Layout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Publications from "./pages/Publications";
-import EducationPage from "./pages/EducationPage";
-import Projects from "./pages/Projects";
-import ExperiencePage from "./pages/ExperiencePage";
-import Contact from "./pages/Contact";
+
+import { Layout as AposLayout } from "@/components/apos/Layout";
+import AposHome from "./pages/matheus/Home";
+import About from "./pages/matheus/About";
+import Publications from "./pages/matheus/Publications";
+import EducationPage from "./pages/matheus/EducationPage";
+import Projects from "./pages/matheus/Projects";
+import ExperiencePage from "./pages/matheus/ExperiencePage";
+import Contact from "./pages/matheus/Contact";
+
+import { TropaLayout } from "@/components/tropa/Layout";
+import TropaHome from "./pages/tropa/Home";
+import TropaSobre from "./pages/tropa/Sobre";
+import TropaConteudos from "./pages/tropa/Conteudos";
+import TropaProjetos from "./pages/tropa/Projetos";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,15 +32,33 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/sobre" element={<About />} />
-              <Route path="/publicacoes" element={<Publications />} />
-              <Route path="/formacao" element={<EducationPage />} />
-              <Route path="/projetos" element={<Projects />} />
-              <Route path="/experiencia" element={<ExperiencePage />} />
-              <Route path="/contato" element={<Contact />} />
+            {/* Tropa Científica — raiz */}
+            <Route element={<TropaLayout />}>
+              <Route path="/" element={<TropaHome />} />
+              <Route path="/sobre-a-tropa" element={<TropaSobre />} />
+              <Route path="/conteudos" element={<TropaConteudos />} />
+              <Route path="/projetos-tropa" element={<TropaProjetos />} />
             </Route>
+
+            {/* Matheus Florindo / APOS — site institucional */}
+            <Route element={<AposLayout />}>
+              <Route path="/matheus" element={<AposHome />} />
+              <Route path="/matheus/sobre" element={<About />} />
+              <Route path="/matheus/publicacoes" element={<Publications />} />
+              <Route path="/matheus/formacao" element={<EducationPage />} />
+              <Route path="/matheus/projetos" element={<Projects />} />
+              <Route path="/matheus/experiencia" element={<ExperiencePage />} />
+              <Route path="/matheus/contato" element={<Contact />} />
+            </Route>
+
+            {/* Compatibilidade com URLs antigas */}
+            <Route path="/sobre" element={<Navigate to="/matheus/sobre" replace />} />
+            <Route path="/publicacoes" element={<Navigate to="/matheus/publicacoes" replace />} />
+            <Route path="/formacao" element={<Navigate to="/matheus/formacao" replace />} />
+            <Route path="/projetos" element={<Navigate to="/matheus/projetos" replace />} />
+            <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
+            <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

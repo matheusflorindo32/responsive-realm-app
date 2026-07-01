@@ -30,7 +30,7 @@ export default function Contact() {
       <SEOHead
         title="Contato — Matheus Florindo"
         description="Contato institucional para pesquisa, colaborações acadêmicas, parcerias em segurança pública, saúde operacional e desenvolvimento tecnológico."
-        path="/contato"
+        path="/matheus/contato"
       />
       <section className="container-wide pt-14 pb-10">
         <SectionHeader

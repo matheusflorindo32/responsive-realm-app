@@ -87,18 +87,18 @@ export default function Home() {
                 className="mt-8 flex flex-wrap gap-3"
               >
                 <Button asChild size="lg" variant="default">
-                  <Link to="/publicacoes">
+                  <Link to="/matheus/publicacoes">
                     Ver publicações <ArrowRight size={16} />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="institutional">
-                  <Link to="/formacao">Ver currículo</Link>
+                  <Link to="/matheus/formacao">Ver currículo</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link to="/projetos">Projetos</Link>
+                  <Link to="/matheus/projetos">Projetos</Link>
                 </Button>
                 <Button asChild size="lg" variant="ghost">
-                  <Link to="/contato">Contato</Link>
+                  <Link to="/matheus/contato">Contato</Link>
                 </Button>
               </motion.div>
 
@@ -191,7 +191,7 @@ export default function Home() {
             <p className="italic text-foreground/80 border-l-2 border-gold pl-4">
               {bio.positioning}
             </p>
-            <Link to="/sobre" className="inline-flex items-center gap-2 text-accent hover:underline text-sm font-medium">
+            <Link to="/matheus/sobre" className="inline-flex items-center gap-2 text-accent hover:underline text-sm font-medium">
               Ver biografia completa <ArrowRight size={14} />
             </Link>
           </div>
@@ -222,7 +222,7 @@ export default function Home() {
               description="Artigos indexados em periódicos revisados por pares."
             />
             <Button asChild variant="outline" size="sm">
-              <Link to="/publicacoes">
+              <Link to="/matheus/publicacoes">
                 Ver todas <ArrowRight size={14} />
               </Link>
             </Button>
@@ -245,7 +245,7 @@ export default function Home() {
               description="Produtos, plataformas educacionais e produções técnico-científicas."
             />
             <Button asChild variant="outline" size="sm">
-              <Link to="/projetos">
+              <Link to="/matheus/projetos">
                 Ver todos <ArrowRight size={14} />
               </Link>
             </Button>
@@ -264,10 +264,10 @@ export default function Home() {
           <SectionHeader eyebrow="Formação resumida" title="Trajetória acadêmica e operacional" />
           <div className="mt-10 grid md:grid-cols-4 gap-4">
             {[
-              { icon: GraduationCap, label: "Formações acadêmicas", value: 10, to: "/formacao" },
-              { icon: BookMarked, label: "Cursos importados", value: 53, to: "/formacao" },
-              { icon: Award, label: "Certificações destaque", value: 4, to: "/formacao" },
-              { icon: FolderGit2, label: "Projetos públicos", value: 5, to: "/projetos" },
+              { icon: GraduationCap, label: "Formações acadêmicas", value: 10, to: "/matheus/formacao" },
+              { icon: BookMarked, label: "Cursos importados", value: 53, to: "/matheus/formacao" },
+              { icon: Award, label: "Certificações destaque", value: 4, to: "/matheus/formacao" },
+              { icon: FolderGit2, label: "Projetos públicos", value: 5, to: "/matheus/projetos" },
             ].map((c) => (
               <Link
                 key={c.label}
@@ -319,7 +319,7 @@ export default function Home() {
           </div>
           <div className="flex md:justify-end">
             <Button asChild size="lg" variant="gold">
-              <Link to="/contato">
+              <Link to="/matheus/contato">
                 Entrar em contato <ArrowRight size={16} />
               </Link>
             </Button>
