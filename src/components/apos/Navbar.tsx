@@ -50,7 +50,7 @@ export function Navbar() {
             <NavLink
               key={n.to}
               to={n.to}
-              end={n.to === "/"}
+              end={n.to === "/matheus"}
               className={({ isActive }) =>
                 cn(
                   "px-3 py-2 text-[13px] font-medium rounded-md transition-colors relative",
