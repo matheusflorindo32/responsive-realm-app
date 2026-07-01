@@ -403,9 +403,8 @@ export function Hero() {
                     className="relative w-full h-full object-contain drop-shadow-[0_20px_60px_rgba(37,99,235,0.35)]"
                   />
                 </motion.div>
+                {/* Floating cards moved to stage-level (left edge) */}
 
-                {/* Floating cards (desktop only, scroll-driven) */}
-                {pinned && <FloatingCards p={p} />}
               </div>
 
               {/* Mobile fallback chips */}
