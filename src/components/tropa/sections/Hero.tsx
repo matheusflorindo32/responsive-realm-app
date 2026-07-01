@@ -7,7 +7,6 @@ import iconUrl from "@/assets/tropa-icon.png";
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -99,39 +98,33 @@ export function Hero() {
             style={{ y, scale, rotate, opacity }}
             className="lg:col-span-5 will-change-transform"
           >
-            {isMobile ? (
-              <div className="relative w-full aspect-square max-w-[420px] mx-auto">
-                <div
-                  aria-hidden
-                  className="absolute inset-[-10%] rounded-full blur-3xl pointer-events-none"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 50% 50%, hsl(213 94% 68% / 0.35), transparent 70%)",
-                  }}
-                />
+            <div className="relative w-full aspect-square max-w-[560px] mx-auto">
+              <div
+                aria-hidden
+                className="absolute inset-[-12%] rounded-full blur-3xl pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 50%, hsl(213 94% 68% / 0.45), hsl(190 90% 55% / 0.18) 45%, transparent 72%)",
+                }}
+              />
+              <motion.div
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { y: [0, -14, 0], rotate: [0, 1.5, 0] }
+                }
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full"
+              >
                 <img
                   src={iconUrl}
                   alt="Emblema Tropa Científica"
-                  width={520}
-                  height={520}
-                  className="relative w-full h-full object-contain"
+                  width={640}
+                  height={640}
+                  className="relative w-full h-full object-contain drop-shadow-[0_20px_60px_rgba(37,99,235,0.35)]"
                 />
-              </div>
-            ) : (
-              <Suspense
-                fallback={
-                  <div className="relative w-full aspect-square max-w-[560px] mx-auto">
-                    <img
-                      src={iconUrl}
-                      alt=""
-                      className="w-full h-full object-contain opacity-70"
-                    />
-                  </div>
-                }
-              >
-                <TropaLogo3D />
-              </Suspense>
-            )}
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
