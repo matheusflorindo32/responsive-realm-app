@@ -1,50 +1,91 @@
 import { Link } from "react-router-dom";
-import { Atom, Github, Linkedin, Youtube } from "lucide-react";
+import { Youtube, Instagram, Linkedin, Github, Mail, ArrowUpRight } from "lucide-react";
+import iconUrl from "@/assets/tropa-icon.png";
+
+const socials = [
+  { icon: Youtube, label: "YouTube", href: "https://youtube.com" },
+  { icon: Instagram, label: "Instagram", href: "https://instagram.com" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
+  { icon: Github, label: "GitHub", href: "https://github.com" },
+];
 
 export function TropaFooter() {
   return (
-    <footer className="border-t border-primary/20 mt-24">
-      <div className="container-wide py-12 grid gap-10 md:grid-cols-4">
-        <div className="md:col-span-2 space-y-3">
-          <div className="flex items-center gap-2.5">
-            <span className="grid place-items-center h-8 w-8 rounded-md neon-border">
-              <Atom size={16} className="text-primary" />
+    <footer className="mt-24 border-t border-border bg-white/60 backdrop-blur-sm">
+      <div className="container-wide py-16 grid gap-12 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <div className="flex items-center gap-3">
+            <span className="grid place-items-center h-10 w-10 rounded-xl bg-white ring-1 ring-border overflow-hidden">
+              <img src={iconUrl} alt="Tropa Científica" className="h-8 w-8 object-contain" />
             </span>
-            <span className="text-sm font-bold tracking-[0.2em] uppercase neon-text">
-              Tropa Científica
-            </span>
+            <span className="brand text-[15px] font-bold text-foreground">TROPA CIENTÍFICA</span>
           </div>
-          <p className="text-sm text-muted-foreground max-w-md">
-            Divulgação científica com foco em Inteligência Artificial, tecnologia e
-            segurança pública. Um projeto de Matheus Florindo de Deus.
+          <p className="mt-5 text-sm text-muted-foreground max-w-md leading-relaxed">
+            Divulgação científica com foco em Inteligência Artificial, ciência de dados,
+            segurança pública e educação digital — do laboratório ao mundo real.
           </p>
-          <div className="flex items-center gap-3 pt-2">
-            <a href="https://www.linkedin.com/in/matheus-florindo-de-deus-b953b017a/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><Linkedin size={18} /></a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Youtube size={18} /></a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Github size={18} /></a>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={s.label}
+                className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
+              >
+                <s.icon size={16} />
+              </a>
+            ))}
           </div>
         </div>
-        <div>
-          <h4 className="text-[11px] mono uppercase tracking-[0.2em] text-primary mb-3">Projeto</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link to="/conteudos" className="text-muted-foreground hover:text-primary">Conteúdos</Link></li>
-            <li><Link to="/projetos-tropa" className="text-muted-foreground hover:text-primary">Projetos</Link></li>
-            <li><Link to="/sobre-a-tropa" className="text-muted-foreground hover:text-primary">Manifesto</Link></li>
+
+        <div className="md:col-span-2">
+          <h4 className="text-[11px] mono uppercase tracking-[0.22em] text-muted-foreground mb-4">
+            Navegar
+          </h4>
+          <ul className="space-y-2.5 text-sm">
+            <li><Link to="/" className="hover:text-primary">Início</Link></li>
+            <li><Link to="/sobre-a-tropa" className="hover:text-primary">Manifesto</Link></li>
+            <li><Link to="/conteudos" className="hover:text-primary">Conteúdos</Link></li>
+            <li><Link to="/projetos-tropa" className="hover:text-primary">Projetos</Link></li>
           </ul>
         </div>
-        <div>
-          <h4 className="text-[11px] mono uppercase tracking-[0.2em] text-primary mb-3">Institucional</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link to="/matheus" className="text-muted-foreground hover:text-primary">Sobre o fundador</Link></li>
-            <li><Link to="/matheus/publicacoes" className="text-muted-foreground hover:text-primary">Publicações acadêmicas</Link></li>
-            <li><Link to="/matheus/contato" className="text-muted-foreground hover:text-primary">Contato</Link></li>
+
+        <div className="md:col-span-2">
+          <h4 className="text-[11px] mono uppercase tracking-[0.22em] text-muted-foreground mb-4">
+            Institucional
+          </h4>
+          <ul className="space-y-2.5 text-sm">
+            <li>
+              <Link to="/matheus" className="hover:text-primary inline-flex items-center gap-1">
+                Fundador <ArrowUpRight size={12} />
+              </Link>
+            </li>
+            <li><Link to="/matheus/publicacoes" className="hover:text-primary">Publicações</Link></li>
+            <li><Link to="/matheus/projetos" className="hover:text-primary">Portfólio</Link></li>
           </ul>
+        </div>
+
+        <div className="md:col-span-3">
+          <h4 className="text-[11px] mono uppercase tracking-[0.22em] text-muted-foreground mb-4">
+            Contato
+          </h4>
+          <a
+            href="mailto:contato@tropacientifica.com"
+            className="inline-flex items-center gap-2 text-sm hover:text-primary"
+          >
+            <Mail size={14} /> contato@tropacientifica.com
+          </a>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Parcerias, palestras e projetos educativos.
+          </p>
         </div>
       </div>
-      <div className="border-t border-primary/10">
-        <div className="container-wide py-4 text-[11px] mono uppercase tracking-[0.2em] text-muted-foreground flex flex-wrap gap-2 justify-between">
-          <span>© {new Date().getFullYear()} Tropa Científica</span>
-          <span>Feito com ciência, código e café</span>
+      <div className="border-t border-border">
+        <div className="container-wide py-5 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} Tropa Científica. Todos os direitos reservados.</span>
+          <span className="mono">Ciência · IA · Inovação</span>
         </div>
       </div>
     </footer>

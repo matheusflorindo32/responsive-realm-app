@@ -1,7 +1,8 @@
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Menu, X, ArrowUpRight, Atom } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import iconUrl from "@/assets/tropa-icon.png";
 
 const nav = [
   { to: "/", label: "Início" },
@@ -24,21 +25,21 @@ export function TropaNavbar() {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-primary/20"
+          ? "bg-white/80 backdrop-blur-xl border-b border-border/70"
           : "bg-transparent",
       )}
     >
       <div className="container-wide flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="grid place-items-center h-9 w-9 rounded-md neon-border bg-background/50">
-            <Atom size={18} className="text-primary" />
+        <Link to="/" className="flex items-center gap-3 group">
+          <span className="relative grid place-items-center h-10 w-10 rounded-xl bg-white shadow-[0_4px_16px_-4px_hsl(221_83%_53%_/_0.3)] ring-1 ring-border overflow-hidden">
+            <img src={iconUrl} alt="" className="h-8 w-8 object-contain" />
           </span>
           <div className="flex flex-col leading-tight">
-            <span className="text-[13px] font-bold tracking-[0.2em] uppercase text-foreground neon-text">
-              Tropa Científica
+            <span className="brand text-[13px] font-bold text-foreground">
+              TROPA CIENTÍFICA
             </span>
-            <span className="text-[9px] uppercase tracking-[0.35em] text-primary/80 mono">
-              Ciência · IA · Segurança Pública
+            <span className="text-[9.5px] uppercase tracking-[0.28em] text-muted-foreground mono">
+              Ciência · IA · Inovação
             </span>
           </div>
         </Link>
@@ -51,10 +52,10 @@ export function TropaNavbar() {
               end={n.to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.15em] rounded-md transition-colors",
+                  "px-3.5 py-2 text-[13px] font-medium rounded-md transition-colors",
                   isActive
-                    ? "text-primary neon-text"
-                    : "text-muted-foreground hover:text-primary",
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground",
                 )
               }
             >
@@ -63,7 +64,7 @@ export function TropaNavbar() {
           ))}
           <Link
             to="/matheus"
-            className="ml-3 inline-flex items-center gap-1.5 px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.15em] rounded-md neon-border text-primary hover:bg-primary/10 transition-colors"
+            className="ml-3 inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium rounded-md border border-border text-foreground hover:border-primary/40 hover:text-primary transition-colors"
           >
             Sobre o fundador
             <ArrowUpRight size={14} />
@@ -71,15 +72,15 @@ export function TropaNavbar() {
         </nav>
 
         <button
-          className="lg:hidden inline-flex items-center justify-center h-9 w-9 rounded-md border border-primary/30 text-primary"
+          className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-border text-foreground"
           onClick={() => setOpen((o) => !o)}
           aria-label="Abrir menu"
         >
-          {open ? <X size={16} /> : <Menu size={16} />}
+          {open ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
       {open && (
-        <div className="lg:hidden border-t border-primary/20 bg-background/95 backdrop-blur-md">
+        <div className="lg:hidden border-t border-border bg-white/95 backdrop-blur-xl">
           <div className="container-wide py-3 flex flex-col">
             {nav.map((n) => (
               <NavLink
@@ -89,8 +90,8 @@ export function TropaNavbar() {
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   cn(
-                    "px-2 py-2.5 text-sm uppercase tracking-[0.15em] rounded-md",
-                    isActive ? "text-primary font-bold" : "text-muted-foreground",
+                    "px-2 py-3 text-sm rounded-md",
+                    isActive ? "text-primary font-semibold" : "text-muted-foreground",
                   )
                 }
               >
@@ -100,7 +101,7 @@ export function TropaNavbar() {
             <Link
               to="/matheus"
               onClick={() => setOpen(false)}
-              className="mt-2 px-2 py-2.5 text-sm uppercase tracking-[0.15em] text-primary font-semibold"
+              className="mt-2 px-2 py-3 text-sm text-primary font-semibold"
             >
               Sobre o fundador →
             </Link>
