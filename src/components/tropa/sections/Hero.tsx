@@ -42,27 +42,24 @@ function useIsMobile() {
 /* ------------------------------------------------------------------ */
 
 const FLOATING = [
-  { label: "Inteligência Artificial", Icon: Brain, angle: -110, radius: 46 },
-  { label: "Ciência de Dados", Icon: Database, angle: -50, radius: 52 },
-  { label: "Segurança Pública", Icon: Shield, angle: 20, radius: 48 },
-  { label: "Drones & Sensores", Icon: Plane, angle: 90, radius: 44 },
-  { label: "Pesquisa Aplicada", Icon: Microscope, angle: 160, radius: 50 },
+  { label: "Inteligência Artificial", Icon: Brain, y: -36 },
+  { label: "Ciência de Dados", Icon: Database, y: -18 },
+  { label: "Segurança Pública", Icon: Shield, y: 0 },
+  { label: "Drones & Sensores", Icon: Plane, y: 18 },
+  { label: "Pesquisa Aplicada", Icon: Microscope, y: 36 },
 ] as const;
 
 function FloatingCards({ p }: { p: MotionValue<number> }) {
   return (
-    <div className="absolute inset-0 pointer-events-none hidden md:block">
+    <div className="absolute inset-0 pointer-events-none hidden lg:block overflow-visible">
       {FLOATING.map((c, i) => {
         // stagger entry over [0.30 .. 0.60]
         const start = 0.30 + i * 0.05;
         const end = start + 0.15;
         const opacity = useTransform(p, [start, end, 0.9, 1], [0, 1, 1, 0.9]);
-        const rad = (c.angle * Math.PI) / 180;
-        const tx = Math.cos(rad) * c.radius;
-        const ty = Math.sin(rad) * c.radius;
-        // travel from center → final polar position
-        const x = useTransform(p, [start, end], [0, tx]);
-        const y = useTransform(p, [start, end], [0, ty]);
+        // slide in from left
+        const x = useTransform(p, [start, end], [-24, -56]);
+        const y = useTransform(p, [start, end], [0, c.y]);
         const scale = useTransform(p, [start, end], [0.7, 1]);
         const Icon = c.Icon;
         return (
