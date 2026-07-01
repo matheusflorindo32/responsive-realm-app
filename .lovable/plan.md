@@ -1,78 +1,39 @@
 ## Objetivo
 
-Restaurar a **Tropa Científica** como marca principal na raiz (`/`) e mover todo o trabalho APOS já feito para uma área institucional separada em `/matheus/*`, sem apagar nada.
+Corrigir o hero da Tropa Científica: logo limpa (só ícone, sem fundo escuro e sem texto "TROPA CIENTÍFICA") flutuando dentro do globo wireframe, sem cortar nas bordas, com o globo girando devagar em um sentido e a logo girando devagar no sentido oposto.
 
-## Arquitetura de rotas
+## Passos
 
-```text
-/                      → Tropa Científica — Home (marca, conteúdo, ciência+IA+segurança pública)
-/sobre-a-tropa         → Manifesto/sobre o projeto Tropa Científica
-/conteudos             → Vídeos, posts, materiais educativos (placeholder inicial)
-/projetos-tropa        → Projetos internos da Tropa (placeholder inicial)
-/matheus               → Site institucional acadêmico (Home APOS — atual `/`)
-/matheus/sobre         → atual /sobre
-/matheus/publicacoes   → atual /publicacoes
-/matheus/formacao      → atual /formacao
-/matheus/projetos      → atual /projetos (inclui card destacado "Tropa Científica" linkando para /)
-/matheus/experiencia   → atual /experiencia
-/matheus/contato       → atual /contato
-```
+1. **Gerar ícone transparente da logo**
+   - Usar a ferramenta `generate_image` (premium, `transparent_background: true`) para produzir apenas o emblema hexagonal geométrico com brilho neon cyan, sem o círculo azul-marinho de fundo e sem o texto "TROPA CIENTÍFICA".
+   - Salvar em `src/assets/tropa-icon.png` e criar `tropa-icon.png.asset.json` via `lovable-assets` (CDN).
 
-Navegação cruzada obrigatória:
-- Navbar da Tropa Científica: link "Sobre o fundador" → `/matheus`
-- Navbar do APOS: link "← Tropa Científica" → `/`
+2. **Ajustar `TropaLogo3D.tsx`**
+   - Trocar a textura para o novo ícone transparente.
+   - Remover a segunda plane cruzada (elimina o "duplicado" e o efeito de arte quebrada). Deixar apenas 1 plane frontal com billboard sutil.
+   - Reduzir o tamanho da logo para caber confortavelmente dentro do globo (~55–60% do diâmetro do globo), garantindo que nada saia da esfera.
+   - Ajustar câmera/`fov` e o `aspect-square max-w` do container para que o globo inteiro caiba na viewport (hoje ele estende pra fora e "corta").
+   - Rotações opostas:
+     - Globo: `rotation.y -= delta * 0.15`
+     - Logo (group): `rotation.y += delta * 0.08` (bem devagar)
+   - Manter `Float` só com `floatIntensity` (movimento vertical suave), zerando `rotationIntensity` para não competir com o giro controlado.
+   - Adicionar leve `emissive`/glow via material `MeshBasicMaterial` + duplicata blur atrás para o efeito neon já casar com o ícone transparente.
 
-## Design tokens separados por contexto
+3. **Enquadramento no hero**
+   - No `Home.tsx` da Tropa: reduzir `max-w-[520px]` para `max-w-[440px]` e adicionar `overflow-visible` no container do Canvas para não cortar o glow. Verificar em viewport 1204px que o globo fica inteiro dentro da coluna direita (`lg:col-span-5`).
 
-Adicionar duas famílias de tokens no `src/index.css` (via classes de escopo `.theme-tropa` e `.theme-apos` aplicadas no `<Layout>` de cada área), preservando os tokens APOS já existentes:
-
-- **Tropa Científica** (raiz): dark futurista, cyan/electric blue neon, glassmorphism, Orbitron + Inter — respeitando a memória do projeto.
-- **Matheus/APOS** (`/matheus/*`): navy `#0B1F3A`, gold `#B7791F`, verde científico `#0F766E`, Fraunces + Inter + JetBrains Mono — já implementado, apenas isolado por escopo.
-
-## Trabalho a fazer
-
-### 1. Reorganizar APOS (não apagar)
-- Mover `src/pages/Home|About|Publications|EducationPage|Projects|ExperiencePage|Contact.tsx` para `src/pages/matheus/`.
-- Manter `src/components/apos/*` como está.
-- Ajustar todos os links internos do APOS para prefixo `/matheus`.
-- No `src/components/apos/Navbar.tsx`, adicionar botão "← Tropa Científica" apontando para `/`.
-- No card de projeto "Tropa Científica" dentro de `/matheus/projetos`, apontar demo para `/`.
-
-### 2. Recriar Tropa Científica
-- Novos componentes em `src/components/tropa/`:
-  - `Navbar.tsx` (marca Tropa + links: Conteúdos, Projetos, Sobre a Tropa, "Sobre o fundador →/matheus")
-  - `Footer.tsx`
-  - `Layout.tsx` (wrapper com classe `theme-tropa`)
-  - `HeroSection.tsx` (Tropa Científica — ciência, IA e segurança pública)
-  - `MissionSection.tsx` (manifesto curto)
-  - `ContentPillars.tsx` (3–4 pilares: Ciência, IA, Segurança Pública, Educação)
-  - `FeaturedContent.tsx` (grid placeholder para vídeos/posts, com estado vazio elegante)
-  - `FounderCTA.tsx` (bloco destacando Matheus Florindo com CTA → `/matheus`)
-- Novas páginas em `src/pages/tropa/`: `Home.tsx`, `Sobre.tsx`, `Conteudos.tsx`, `Projetos.tsx`.
-- Restaurar estética Orbitron + neon cyan conforme memória do projeto, sem reintroduzir componentes deletados 1:1 — versão nova, coerente com o design atual do restante.
-
-### 3. Fonte de dados compartilhada
-- `src/data/apos-master.json` continua sendo a fonte única.
-- Criar `src/data/tropa-content.json` (placeholder) para pilares/conteúdos da Tropa Científica.
-- Adapter atual (`localMockAdapter`) permanece; adicionar leitura leve de `tropa-content.json`.
-
-### 4. Roteamento e SEO
-- Atualizar `src/App.tsx`: dois grupos de rotas com Layouts distintos (`TropaLayout` na raiz, `AposLayout` em `/matheus`).
-- SEOHead por rota: título/description específicos por contexto; JSON-LD `Organization` (Tropa) na raiz e `Person` (Matheus) em `/matheus`.
-- Atualizar `index.html` `<title>` e `<meta description>` para a marca Tropa Científica (institucional passa a ser página interna).
-
-### 5. Compatibilidade / redirects
-- Adicionar rotas de compatibilidade que redirecionam antigas URLs APOS da raiz para `/matheus/*` (`/sobre` → `/matheus/sobre`, `/publicacoes` → `/matheus/publicacoes`, etc.) para não quebrar links já compartilhados.
+4. **Limpeza**
+   - Manter o asset antigo `tropa-logo.png.asset.json` (pode ser usado em outro lugar como favicon/OG). Não deletar.
 
 ## Detalhes técnicos
 
-- Sem novas dependências. Usa React Router, Helmet, Tailwind e tokens já instalados.
-- Tokens escopados por classe no `<Layout>` para evitar vazamento de cores entre as duas áreas.
-- Nenhum arquivo será deletado; APOS é movido, não removido. Componentes antigos da Tropa são reescritos (não restaurados do histórico) para casar com o padrão de código atual.
+- Arquivos alterados: `src/components/tropa/TropaLogo3D.tsx`, `src/pages/tropa/Home.tsx`.
+- Arquivos criados: `src/assets/tropa-icon.png` (gerado) e `src/assets/tropa-icon.png.asset.json`.
+- Sem novas dependências.
+- Sem mudanças de rota, tema ou dados.
 
-## Fora de escopo (fase 2)
+## Fora de escopo
 
-- CMS real para posts/vídeos da Tropa.
-- Integração com YouTube/RSS.
-- Toggle PT/EN.
-- Backend do formulário de contato.
+- Refazer o resto do site.
+- Trocar a fonte ou cores do hero.
+- Substituir a logo em outras áreas (favicon, footer, etc.).
