@@ -42,42 +42,34 @@ function useIsMobile() {
 /* ------------------------------------------------------------------ */
 
 const FLOATING = [
-  { label: "Inteligência Artificial", Icon: Brain, y: -36 },
-  { label: "Ciência de Dados", Icon: Database, y: -18 },
-  { label: "Segurança Pública", Icon: Shield, y: 0 },
-  { label: "Drones & Sensores", Icon: Plane, y: 18 },
-  { label: "Pesquisa Aplicada", Icon: Microscope, y: 36 },
+  { label: "Inteligência Artificial", Icon: Brain },
+  { label: "Ciência de Dados", Icon: Database },
+  { label: "Segurança Pública", Icon: Shield },
+  { label: "Drones & Sensores", Icon: Plane },
+  { label: "Pesquisa Aplicada", Icon: Microscope },
 ] as const;
 
 function FloatingCards({ p }: { p: MotionValue<number> }) {
   return (
-    <div className="absolute inset-0 pointer-events-none hidden lg:block overflow-visible">
+    <div className="absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 z-20 pointer-events-none">
       {FLOATING.map((c, i) => {
-        // stagger entry over [0.30 .. 0.60]
         const start = 0.30 + i * 0.05;
         const end = start + 0.15;
-        const opacity = useTransform(p, [start, end, 0.9, 1], [0, 1, 1, 0.9]);
-        // slide in from left
-        const x = useTransform(p, [start, end], [-24, -56]);
-        const y = useTransform(p, [start, end], [0, c.y]);
-        const scale = useTransform(p, [start, end], [0.7, 1]);
+        const opacity = useTransform(p, [start - 0.02, end, 0.92, 1], [0, 1, 1, 0.85]);
+        const x = useTransform(p, [start, end], [-40, 0]);
+        const scale = useTransform(p, [start, end], [0.9, 1]);
         const Icon = c.Icon;
         return (
           <motion.div
             key={c.label}
-            style={{
-              x: useTransform(x, (v) => `calc(-50% + ${v}%)`),
-              y: useTransform(y, (v) => `calc(-50% + ${v}%)`),
-              opacity,
-              scale,
-            }}
-            className="absolute left-1/2 top-1/2 will-change-transform"
+            style={{ x, opacity, scale }}
+            className="will-change-transform lg:w-[210px] xl:w-[240px]"
           >
-            <div className="t-glass rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 shadow-[var(--shadow-glass)]">
-              <span className="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+            <div className="t-glass w-full rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 shadow-[var(--shadow-glass)]">
+              <span className="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary shrink-0">
                 <Icon size={14} />
               </span>
-              <span className="text-[12px] font-semibold text-foreground whitespace-nowrap">
+              <span className="text-[12px] font-semibold text-foreground">
                 {c.label}
               </span>
             </div>
@@ -87,6 +79,7 @@ function FloatingCards({ p }: { p: MotionValue<number> }) {
     </div>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /*  Orbit rings (SVG, cheap)                                          */
@@ -276,6 +269,10 @@ export function Hero() {
         {/* Layer 2 — particles */}
         {pinned && <Particles opacity={particlesOp} />}
 
+        {/* Floating cards — anchored to left edge of viewport */}
+        {pinned && <FloatingCards p={p} />}
+
+
         <div className="container-wide relative w-full">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Text column */}
@@ -410,9 +407,8 @@ export function Hero() {
                     className="relative w-full h-full object-contain drop-shadow-[0_20px_60px_rgba(37,99,235,0.35)]"
                   />
                 </motion.div>
+                {/* Floating cards moved to stage-level (left edge) */}
 
-                {/* Floating cards (desktop only, scroll-driven) */}
-                {pinned && <FloatingCards p={p} />}
               </div>
 
               {/* Mobile fallback chips */}
