@@ -23,7 +23,14 @@ import {
   Lightbulb,
 } from "lucide-react";
 
-export const areas = [
+type Area = {
+  icon: typeof Brain;
+  title: string;
+  text: string;
+  span?: string;
+};
+
+export const areas: readonly Area[] = [
   { icon: Brain, title: "Inteligência Artificial", text: "Modelos, LLMs e IA aplicada a problemas reais.", span: "md:col-span-2" },
   { icon: BarChart3, title: "Ciência de Dados", text: "Análise, visualização e engenharia de dados." },
   { icon: Shield, title: "Segurança Pública", text: "Tecnologia, dados e política a serviço da sociedade." },
@@ -32,7 +39,8 @@ export const areas = [
   { icon: FlaskConical, title: "Pesquisa Aplicada", text: "Do laboratório ao mundo real, com rigor e método." },
   { icon: Code2, title: "Desenvolvimento Web", text: "Aplicações, dashboards e produtos digitais." },
   { icon: Zap, title: "Automação & Ferramentas", text: "Processos otimizados por código e IA." },
-] as const;
+];
+
 
 export const contents = [
   { icon: PlayCircle, title: "Vídeos educativos", text: "Explicações visuais de conceitos técnicos." },
