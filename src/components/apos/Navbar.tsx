@@ -106,6 +106,9 @@ export function Navbar() {
                 {n.label}
               </NavLink>
             ))}
+            <Link to="/" onClick={() => setOpen(false)} className="px-2 py-2.5 text-sm text-muted-foreground border-t border-border/50 mt-1 pt-3">
+              ← Tropa Científica
+            </Link>
           </div>
         </div>
       )}
