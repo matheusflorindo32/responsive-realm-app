@@ -1,24 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { ArrowRight, Play, Mail, Sparkles } from "lucide-react";
-import { Suspense, lazy, useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import iconUrl from "@/assets/tropa-icon.png";
-
-const TropaLogo3D = lazy(() =>
-  import("@/components/tropa/TropaLogo3D").then((m) => ({ default: m.TropaLogo3D })),
-);
-
-function useIsMobile() {
-  const [is, setIs] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    const on = () => setIs(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return is;
-}
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
