@@ -1,81 +1,43 @@
+## Problema
+
+Os cards flutuantes hoje vivem **dentro do container da logo** (coluna direita, `absolute inset-0` com `left-1/2 top-1/2`). Resultado:
+1. Eles aparecem **em cima da logo** durante o scroll.
+2. Os `y` offsets (-36% / -18% / 0 / 18% / 36%) do container quadrado geram sobreposição vertical entre eles — ficam ilegíveis.
+
 ## Objetivo
 
-Transformar o hero atual da Tropa Científica (imagem estática com float) em uma **pinned hero section** com scrollytelling: a cena fica travada na viewport por ~2.5x a altura da tela, e o progresso do scroll controla a coreografia da logo, do fundo, das partículas e dos cards flutuantes. Escopo: apenas `src/components/tropa/sections/Hero.tsx` (e um par de subcomponentes novos). Nenhuma outra seção da home muda.
+Tirar os cards de dentro do emblema e ancorá-los na **lateral esquerda da tela** (fora da área da logo), empilhados verticalmente com **espaçamento fixo em pixels**, entrando em stagger conforme o scroll — sem nunca cruzar a logo.
 
-## Arquitetura da seção
+## Mudanças em `src/components/tropa/sections/Hero.tsx`
 
-```
-<section ref className="relative h-[320vh]">   ← "trilho" de scroll (3.2x viewport)
-  <div className="sticky top-0 h-screen overflow-hidden">   ← palco pinado
-    ├── Layer 0: grid SVG (parallax lento, y = -10%..+10%)
-    ├── Layer 1: gradient blobs (scale + opacity com scroll)
-    ├── Layer 2: partículas canvas 2D (translate y + fade)
-    ├── Layer 3: linhas/anéis orbitais SVG (rotate + stroke-dashoffset)
-    ├── Layer 4: logo emblema (translateX/Y + scale + rotateY/X + blur pulse)
-    ├── Layer 5: cards flutuantes IA/Dados/Segurança/Drones/Pesquisa (fade + translate radial)
-    └── Layer 6: bloco de texto (eyebrow → H1 → subtítulo → CTAs, em etapas)
-  </div>
-</section>
-```
+### 1. Reposicionar `<FloatingCards />`
+- Remover a instância de dentro de `<div className="lg:col-span-5">` (linha ~415).
+- Renderizar como **irmão direto** do `container-wide`, dentro do stage `sticky top-0 h-screen`, para que fique ancorado no viewport, não no emblema.
+- Wrapper novo: `absolute left-6 xl:left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 z-20 pointer-events-none`.
+- Largura fixa dos cards: `w-[240px]` (não passa da coluna de texto porque texto começa depois do padding do `container-wide`; fica na margem lateral esquerda do viewport, ainda dentro do stage).
 
-Um único `useScroll({ target, offset: ["start start", "end end"] })` alimenta todos os `useTransform`. Timeline por progresso `p ∈ [0,1]`:
+### 2. Reescrever a lógica de animação de cada card
+- Sair de `x/y` percentuais → usar apenas `opacity`, `translateX` em px e `scale`, já que o layout agora é flex vertical (o irmão flex resolve a posição Y — sem sobreposição possível).
+- Por card `i` (0..4):
+  - `start = 0.30 + i * 0.05`, `end = start + 0.15`
+  - `opacity: [start-0.02, end] → [0, 1]`; fade suave em `[0.92, 1] → [1, 0.85]`
+  - `x: [start, end] → [-40px, 0px]` (entram deslizando da esquerda)
+  - `scale: [start, end] → [0.9, 1]`
+- Remover completamente os offsets `y` do array `FLOATING` (não são mais necessários).
 
-- **0.00 – 0.15** — Estado inicial: logo grande à direita, título principal visível, fundo limpo.
-- **0.15 – 0.35** — Logo rotaciona `rotateY: 0→18°`, `rotateX: 0→-6°`, `scale: 1→1.08`. Grid ganha profundidade (`y: 0→-40px`, `opacity: 0.4→0.7`). Partículas fazem fade-in.
-- **0.35 – 0.55** — Cinco cards flutuantes (IA, Ciência de Dados, Segurança Pública, Drones, Pesquisa Aplicada) entram em stagger radial ao redor da logo (`opacity 0→1`, `translate` do centro para posições distribuídas em elipse).
-- **0.55 – 0.80** — Logo desloca `x: 0→-8%` (centraliza), `scale: 1.08→0.92`. Textos secundários (subtítulo curto + 3 métricas) fazem slide-up. Halo pulsa (`opacity 0.35↔0.6` via loop independente).
-- **0.80 – 1.00** — Cena estabiliza: cards param, logo volta a `rotateY: 0`, CTAs entram e a seção libera o scroll natural para `WhatIs`.
+### 3. Ajuste visual dos cards
+- Trocar `whitespace-nowrap` por permitir wrap se necessário, e garantir `w-full` no card interno para que todos tenham a mesma largura visual.
+- Manter estilo `t-glass` + ícone + label.
 
-## Componentes e utilidades novas
+### 4. Fallback e responsividade
+- Desktop (`lg+`, pinned): cards à esquerda do viewport, empilhados.
+- Tablet / mobile: continuam usando os chips de fallback já existentes no bloco `!pinned` — nenhuma alteração ali.
+- Em telas `lg` mas com viewport estreito (< 1200px) onde a coluna esquerda começa perto da borda, adicionar `xl:left-10 lg:left-4` e reduzir card para `lg:w-[210px] xl:w-[240px]` para evitar encostar no texto.
 
-1. **`Hero.tsx`** reescrito:
-   - Wrapper `section` com altura `h-[320vh]` desktop / `h-[220vh]` tablet / `h-auto` mobile.
-   - Palco interno `sticky top-0 h-screen`.
-   - `useScroll` no wrapper, `useTransform` para cada layer.
-   - `useReducedMotion` → desativa pin (altura vira `min-h-screen`, transforms viram estáticos).
+### 5. Preservar tudo o mais
+- Logo, orbits, particles, halo, textos, CTAs, stats: **sem alteração**.
+- Outras seções: intocadas.
 
-2. **`HeroParticles.tsx`** (novo, lazy):
-   - Canvas 2D leve (~80 partículas desktop, 30 mobile) com drift lento.
-   - Recebe `progress: MotionValue<number>` e ajusta densidade/opacidade via `useMotionValueEvent`.
-   - Sem three.js — mantém performance.
+## Resultado esperado
 
-3. **`HeroGrid.tsx`** (novo):
-   - Fundo SVG com pattern de grid + máscara radial + linhas diagonais sutis.
-   - Recebe `y` e `opacity` como MotionValues.
-
-4. **`HeroOrbits.tsx`** (novo):
-   - SVG com 3 anéis elípticos + nodes, animados por `rotate` MotionValue.
-   - Substitui a necessidade de Canvas 3D no hero e é 10x mais leve.
-
-5. **`HeroFloatingCards.tsx`** (novo):
-   - Array de 5 cards `{ label, icon, angle }` posicionados em coordenadas polares.
-   - Cada card recebe `opacity` e `translate` derivados do progresso global com offsets escalonados (`stagger` por index).
-   - Glassmorphism: `bg-white/70 backdrop-blur-md border border-border/60 shadow-elevated`.
-
-6. **Logo**: continua sendo `<img src={iconUrl} />` (já validado pelo usuário), mas envolta em `motion.div` com `style={{ x, y, scale, rotateX, rotateY, filter }}`. `transformPerspective: 1200` no wrapper para dar profundidade real ao `rotateY`.
-
-## Detalhes técnicos
-
-- **Framer Motion** já instalado — sem novas deps. GSAP **não** será usado (Framer cobre todo o requisito com menos peso).
-- Todos os `useTransform` usam `clamp: true` e curvas suaves (`[0, 0.15, 0.35, 0.55, 0.8, 1]` como keyframes de entrada, com valores correspondentes) — evita saltos.
-- `will-change: transform, opacity` nas camadas animadas.
-- Cores continuam via tokens `.theme-tropa`: `--primary #2563EB`, `--primary-glow #60A5FA`, fundo `#FAFBFC`. Zero hex hardcoded nos componentes.
-- Halo pulsante: `motion.div` com `animate={{ opacity: [0.35, 0.6, 0.35] }}` em loop, **independente** do scroll, para dar vida mesmo parado.
-- Cards flutuantes usam ícones Lucide (`Brain`, `Database`, `Shield`, `Plane`, `Microscope`) e labels curtos.
-
-## Mobile & acessibilidade
-
-- **< 768px**: sem pin. Section vira `min-h-screen`, layout single-column, logo estática com float sutil (comportamento atual), cards flutuantes viram grid 2x2 abaixo. Sem canvas de partículas.
-- **`prefers-reduced-motion`**: pin desativado, transforms fixos no estado final da etapa 0, cards aparecem por `whileInView` clássico.
-- `HeroParticles` importado via `React.lazy` + `Suspense fallback={null}`.
-- Semântica preservada: `<section aria-labelledby="hero-title">`, H1 único, textos fora de camadas puramente decorativas.
-
-## Fora de escopo
-
-- Alterações em outras seções (WhatIs, Areas, etc.) — permanecem como estão.
-- Reintrodução do Canvas 3D (`TropaLogo3D`) — foi descartado por peso; a sensação de "câmera 3D" vem do `rotateY/rotateX` com perspective + parallax em camadas.
-- Rotas fora de `/`.
-
-## Critério de aceitação
-
-Ao rolar a `/`, o usuário vê o hero **travar** por cerca de 2–3 alturas de tela; durante esse trecho a logo gira/escala, o grid e as partículas se movem em velocidades diferentes, os 5 cards temáticos entram em torno da logo em stagger, e só então a página libera para `WhatIs`. Em mobile, a experiência degrada para uma versão estática elegante sem travar o scroll.
+Cards ancorados no canto esquerdo do viewport, em coluna vertical bem espaçada (gap 12px), entrando um por um da esquerda conforme o usuário scrolla o hero pinado. Nunca sobrepõem a logo (que fica na coluna direita) nem uns aos outros.
