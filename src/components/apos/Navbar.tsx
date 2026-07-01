@@ -94,7 +94,7 @@ export function Navbar() {
               <NavLink
                 key={n.to}
                 to={n.to}
-                end={n.to === "/"}
+                end={n.to === "/matheus"}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   cn(
