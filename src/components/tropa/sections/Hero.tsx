@@ -269,6 +269,10 @@ export function Hero() {
         {/* Layer 2 — particles */}
         {pinned && <Particles opacity={particlesOp} />}
 
+        {/* Floating cards — anchored to left edge of viewport */}
+        {pinned && <FloatingCards p={p} />}
+
+
         <div className="container-wide relative w-full">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Text column */}
