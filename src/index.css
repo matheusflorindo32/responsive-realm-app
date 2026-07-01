@@ -11,6 +11,11 @@
 @import "@fontsource/orbitron/500.css";
 @import "@fontsource/orbitron/700.css";
 @import "@fontsource/orbitron/900.css";
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+
 
 
 @tailwind base;
@@ -184,66 +189,156 @@
 }
 
 /* ================================================
-   THEME: Tropa Científica (dark futurist / neon cyan)
+   THEME: Tropa Científica (light premium tech)
    Scoped via .theme-tropa on Layout wrapper.
    ================================================ */
 .theme-tropa {
-  --background: 222 47% 6%;
-  --foreground: 190 40% 96%;
-  --card: 222 45% 9%;
-  --card-foreground: 190 40% 96%;
-  --popover: 222 45% 9%;
-  --popover-foreground: 190 40% 96%;
-  --primary: 187 96% 55%;              /* neon cyan */
-  --primary-foreground: 222 47% 6%;
-  --secondary: 217 91% 60%;            /* electric blue */
-  --secondary-foreground: 222 47% 6%;
-  --accent: 187 96% 55%;
-  --accent-foreground: 222 47% 6%;
-  --gold: 187 96% 55%;
-  --gold-foreground: 222 47% 6%;
-  --muted: 222 30% 14%;
-  --muted-foreground: 210 20% 70%;
-  --border: 190 40% 22%;
-  --input: 190 40% 22%;
-  --ring: 187 96% 55%;
-  --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
-  color-scheme: dark;
+  --background: 210 20% 99%;                /* #FAFBFC */
+  --foreground: 222 47% 8%;                 /* deep ink */
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 8%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 8%;
+  --primary: 221 83% 53%;                   /* scientific blue #2563EB */
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 213 94% 68%;              /* #60A5FA */
+  --secondary: 215 20% 65%;                 /* silver */
+  --secondary-foreground: 222 47% 8%;
+  --accent: 199 89% 48%;                    /* cyan blue accent */
+  --accent-foreground: 0 0% 100%;
+  --gold: 221 83% 53%;
+  --gold-foreground: 0 0% 100%;
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 16% 42%;
+  --border: 215 20% 91%;
+  --input: 215 20% 91%;
+  --ring: 221 83% 53%;
+  --radius: 0.85rem;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-brand: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-elevated: 0 1px 2px hsl(222 47% 20% / 0.04),
+                     0 8px 24px -8px hsl(222 47% 20% / 0.10),
+                     0 24px 60px -24px hsl(221 83% 53% / 0.14);
+  --shadow-glass:    0 1px 2px hsl(222 47% 20% / 0.05),
+                     0 12px 40px -12px hsl(221 83% 53% / 0.18);
+  --shadow-hero:     0 30px 80px -20px hsl(221 83% 53% / 0.28);
+
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% 0%, hsl(213 94% 68% / 0.18), transparent 60%),
+                   radial-gradient(ellipse 60% 50% at 100% 20%, hsl(199 89% 48% / 0.10), transparent 60%),
+                   linear-gradient(180deg, hsl(210 20% 99%), hsl(210 30% 97%));
+  --gradient-brand: linear-gradient(135deg, hsl(221 83% 53%), hsl(199 89% 48%));
+
+  color-scheme: light;
 }
-.theme-tropa body,
 .theme-tropa {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, hsl(187 96% 55% / 0.14), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 20%, hsl(217 91% 60% / 0.12), transparent 60%),
-    hsl(var(--background));
+  background: var(--gradient-hero);
 }
 .theme-tropa h1, .theme-tropa h2, .theme-tropa h3,
 .theme-tropa h4, .theme-tropa h5, .theme-tropa h6 {
   font-family: var(--font-display);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
-.theme-tropa .neon-text {
-  text-shadow:
-    0 0 12px hsl(var(--primary) / 0.55),
-    0 0 32px hsl(var(--primary) / 0.28);
+.theme-tropa .brand {
+  font-family: var(--font-brand);
+  letter-spacing: 0.14em;
 }
-.theme-tropa .neon-border {
-  border: 1px solid hsl(var(--primary) / 0.35);
-  box-shadow:
-    0 0 0 1px hsl(var(--primary) / 0.08),
-    0 0 24px -4px hsl(var(--primary) / 0.35),
-    inset 0 0 24px -12px hsl(var(--primary) / 0.35);
+.theme-tropa .mono {
+  font-family: var(--font-mono);
 }
-.theme-tropa .glass {
-  background: linear-gradient(180deg, hsl(222 45% 12% / 0.7), hsl(222 45% 8% / 0.7));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid hsl(190 40% 40% / 0.18);
+.theme-tropa .t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
 }
-.theme-tropa .grid-bg {
+.theme-tropa .t-glass {
+  background: hsl(0 0% 100% / 0.7);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid hsl(var(--border) / 0.9);
+  box-shadow: var(--shadow-elevated);
+}
+.theme-tropa .t-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 300ms ease,
+              border-color 300ms ease;
+}
+.theme-tropa .t-card:hover {
+  transform: translateY(-3px);
+  border-color: hsl(var(--primary) / 0.3);
+  box-shadow: var(--shadow-elevated);
+}
+.theme-tropa .t-hairline-top {
+  position: relative;
+}
+.theme-tropa .t-hairline-top::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.6), transparent);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.theme-tropa .t-card:hover .t-hairline-top::before,
+.theme-tropa .t-hairline-top:hover::before {
+  opacity: 1;
+}
+.theme-tropa .t-grid-bg {
   background-image:
-    linear-gradient(hsl(190 40% 40% / 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(190 40% 40% / 0.08) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(hsl(215 20% 91% / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(215 20% 91% / 0.55) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 75%);
 }
+.theme-tropa .t-gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.theme-tropa .t-btn-hero {
+  background: var(--gradient-brand);
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 8px 24px -8px hsl(var(--primary) / 0.5);
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+.theme-tropa .t-btn-hero:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 32px -8px hsl(var(--primary) / 0.6);
+}
+.theme-tropa .t-chip {
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 200ms ease;
+}
+.theme-tropa .t-chip:hover {
+  background: hsl(var(--primary) / 0.08);
+  border-color: hsl(var(--primary) / 0.4);
+  color: hsl(var(--primary));
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-tropa *,
+  .theme-tropa *::before,
+  .theme-tropa *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 
