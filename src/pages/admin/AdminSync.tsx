@@ -79,7 +79,7 @@ export default function AdminSync() {
   const resolveConflict = async (id: string, keep: "app" | "sheet") => {
     const c = conflicts.find((x) => x.id === id);
     if (!c) return;
-    const newData = keep === "app" ? c.app_version : c.sheet_version;
+    const newData = (keep === "app" ? c.app_version : c.sheet_version) as any;
     const newStatus = keep === "app" ? "pending_push" : "synced";
     const { error: e1 } = await supabase.from("sheet_rows")
       .update({ data: newData, sync_status: newStatus, conflict_status: null, conflict_payload: null, source: keep === "app" ? "app" : "sheets" })
