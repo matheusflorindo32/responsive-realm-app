@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import iconUrl from "@/assets/tropa-icon.png";
+import { AtmoEntry, AtmoResearch, AtmoOps, AtmoField, AtmoMedic, AtmoFuture } from "./Atmosphere";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,7 +83,6 @@ export function CinematicJourney() {
         const exit = (sel: string, at: number) =>
           tl.to(sel, { autoAlpha: 0, y: -80, scale: 1.06, filter: "blur(8px)", duration: 4, ease: "power1.in" }, at);
 
-        /* câmera + camadas de parallax (timeline inteira) */
         tl.fromTo(".cj-cam", { scale: 1.06 }, { scale: 1, duration: 8, ease: "power1.out" }, 0)
           .to(".cj-cam", { xPercent: -2.5, duration: 12, ease: "power1.inOut" }, 12)
           .to(".cj-cam", { xPercent: 1.5, duration: 12, ease: "power1.inOut" }, 30)
@@ -94,7 +94,6 @@ export function CinematicJourney() {
           .to(".cj-railfill", { scaleY: 1, duration: 60 }, 0)
           .to(".cj-cue", { autoAlpha: 0, duration: 2 }, 2);
 
-        /* índice de cenas */
         const inAt = [0, 8, 17, 31, 42, 51];
         const outAt = [7, 16, 30, 41, 50];
         IDX.forEach((_, i) => {
@@ -102,20 +101,16 @@ export function CinematicJourney() {
           if (i < 5) tl.to(`.cj-idx[data-i="${i}"]`, { opacity: 0.35, duration: 1.5 }, outAt[i]);
         });
 
-        /* cena 01 — entrada */
         tl.fromTo(".cj-emblem", { yPercent: 4, scale: 1.05 }, { yPercent: -4, scale: 0.97, duration: 10, ease: "power1.inOut" }, 0)
           .to(".cj-orbit", { rotation: 70, duration: 60, svgOrigin: "100 100" }, 0);
         exit(".cj-s1", 7);
 
-        /* o mundo escurece */
         tl.to(".cj-dark", { autoAlpha: 1, duration: 5 }, 7);
 
-        /* cena 02 — transição de mundo */
         enter(".cj-s2", 8);
         tl.fromTo(".cj-line", { y: 64, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 3, stagger: 1.6, ease: "power2.out" }, 9.5);
         exit(".cj-s2", 16);
 
-        /* cena 03 — painéis em profundidade */
         enter(".cj-s3", 17);
         tl.fromTo(
           ".cj-panel",
@@ -127,7 +122,6 @@ export function CinematicJourney() {
           .to(".cj-panel-b", { y: 14, duration: 5, ease: "power1.inOut" }, 25);
         exit(".cj-s3", 30);
 
-        /* cena 04 — ambiente tecnológico */
         enter(".cj-s4", 31);
         tl.to(".cj-radar", { rotation: 140, svgOrigin: "60 60", duration: 12 }, 31)
           .fromTo(".cj-meter", { scaleX: 0.15, transformOrigin: "left center" }, { scaleX: 1, duration: 6, stagger: 0.5, ease: "power1.inOut" }, 32)
@@ -135,23 +129,89 @@ export function CinematicJourney() {
           .to(".cj-chip", { y: -10, duration: 6, stagger: 0.4, ease: "power1.inOut" }, 36);
         exit(".cj-s4", 41);
 
-        /* o mundo clareia */
         tl.to(".cj-dark", { autoAlpha: 0, duration: 5 }, 41);
 
-        /* cena 05 — autoridade */
         enter(".cj-s5", 42);
         exit(".cj-s5", 50);
 
-        /* cena 06 — destino: a câmera estabiliza */
         tl.fromTo(".cj-s6", { autoAlpha: 0, y: 70, scale: 1.05 }, { autoAlpha: 1, y: 0, scale: 1.02, duration: 4, ease: "power1.out" }, 51)
           .to(".cj-s6", { scale: 1, duration: 8, ease: "power2.out" }, 55);
 
-        /* poeira em profundidade */
         gsap.utils.toArray<HTMLElement>(".cj-dot").forEach((d, i) => {
           tl.to(d, { y: -(20 + (i % 5) * 14), duration: 60 }, 0);
         });
+
+        /* ATMOSFERA CINEMATOGRÁFICA */
+
+        tl.fromTo(".atm-datacol", { autoAlpha: 0, y: 30 }, { autoAlpha: 0.55, y: -20, duration: 8, ease: "none" }, 0.5)
+          .fromTo(".atm-scan", { y: 0, autoAlpha: 0 }, { autoAlpha: 0.7, y: () => window.innerHeight * 0.9, duration: 7, ease: "power1.inOut" }, 1)
+          .to(".atm-scan", { autoAlpha: 0, duration: 1.5 }, 8);
+
+        tl.fromTo(".cj-s2 .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5, stagger: 0.4, ease: "none" }, 9)
+          .fromTo(".atm-circuit", { autoAlpha: 0 }, { autoAlpha: 0.55, duration: 3 }, 9)
+          .fromTo(".atm-paper-1", { xPercent: 140, yPercent: -6, autoAlpha: 0, scale: 0.9 }, { xPercent: -10, yPercent: 2, autoAlpha: 0.5, scale: 1, duration: 5, ease: "none" }, 9)
+          .to(".atm-paper-1", { xPercent: -160, autoAlpha: 0, duration: 4.5, ease: "none" }, 14.5)
+          .fromTo(".atm-paper-2", { xPercent: 90, yPercent: 20, autoAlpha: 0 }, { xPercent: -180, yPercent: 6, autoAlpha: 0.3, duration: 10, ease: "none" }, 8.8)
+          .fromTo(".atm-neural", { autoAlpha: 0, scale: 0.92, y: 30 }, { autoAlpha: 0.5, scale: 1, y: 0, duration: 4 }, 10)
+          .fromTo(".atm-flow", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 9, ease: "none" }, 9.5)
+          .to(".atm-neural", { autoAlpha: 0, y: -40, duration: 3.5 }, 16.5);
+
+        tl.fromTo(".atm-map", { autoAlpha: 0, yPercent: 8 }, { autoAlpha: 0.32, yPercent: 0, duration: 3.5 }, 17.5)
+          .fromTo(".atm-mission", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 12, ease: "none" }, 18)
+          .fromTo(".atm-wp", { autoAlpha: 0, scale: 0.4, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 1.2, stagger: 1.6 }, 18.5)
+          .to(".atm-map", { yPercent: -6, duration: 10, ease: "none" }, 21)
+          .to(".atm-map", { autoAlpha: 0, duration: 3 }, 30.5);
+
+        tl.set(".atm-drone", { xPercent: 260, yPercent: -70, scale: 0.45, autoAlpha: 0 }, 17.8)
+          .to(
+            ".atm-drone",
+            {
+              keyframes: [
+                { xPercent: 70, yPercent: -20, scale: 0.85, autoAlpha: 0.8, duration: 4, ease: "power1.out" },
+                { xPercent: -60, yPercent: 10, scale: 1.1, autoAlpha: 0.8, duration: 4, ease: "none" },
+                { xPercent: -260, yPercent: 55, scale: 1.4, autoAlpha: 0, duration: 4, ease: "power1.in" },
+              ],
+            },
+            18,
+          )
+          .to(".atm-rotor", { scaleX: 0.35, duration: 0.35, repeat: 33, yoyo: true, ease: "none" }, 18);
+
+        tl.set(".atm-track", { xPercent: 300, yPercent: -80, autoAlpha: 0 }, 18.2)
+          .to(
+            ".atm-track",
+            {
+              keyframes: [
+                { xPercent: 95, yPercent: -30, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
+                { xPercent: -35, yPercent: 5, autoAlpha: 0.9, duration: 4, ease: "none" },
+                { xPercent: -230, yPercent: 50, autoAlpha: 0, duration: 3.6, ease: "power1.in" },
+              ],
+            },
+            18.45,
+          );
+
+        tl.fromTo(".atm-rappel", { autoAlpha: 0, yPercent: -46 }, { autoAlpha: 0.5, yPercent: -30, duration: 3, ease: "power1.out" }, 31.5)
+          .to(".atm-rappel", { yPercent: 26, duration: 9, ease: "none" }, 34)
+          .to(".atm-rappel", { autoAlpha: 0, duration: 2.5 }, 41.5)
+          .to(".atm-rappel-fig", { x: 7, duration: 2.6, repeat: 3, yoyo: true, ease: "sine.inOut" }, 32)
+          .fromTo(".atm-team", { xPercent: -35, autoAlpha: 0 }, { xPercent: 20, autoAlpha: 0.2, duration: 10.5, ease: "none" }, 31.5)
+          .to(".atm-team", { autoAlpha: 0, duration: 2.5 }, 41.5);
+
+        tl.fromTo(".atm-medic", { xPercent: -14, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.55, duration: 3.5, ease: "power1.out" }, 43)
+          .fromTo(".atm-medic .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 6, stagger: 0.3, ease: "none" }, 43.2)
+          .to(".atm-medic", { y: -24, duration: 6, ease: "none" }, 47)
+          .to(".atm-medic", { autoAlpha: 0, duration: 2.5 }, 50.5);
+
+        tl.set(".atm-robot", { xPercent: -380, autoAlpha: 0 }, 51.6)
+          .to(".atm-robot", { xPercent: -60, autoAlpha: 0.55, duration: 4, ease: "none" }, 52)
+          .to(".atm-robot", { xPercent: 205, duration: 4, ease: "power1.in" }, 56.2)
+          .to(".atm-robot", { autoAlpha: 0.12, filter: "blur(2px)", duration: 2.5 }, 57.5)
+          .to(".atm-robot", { y: -5, duration: 0.7, repeat: 10, yoyo: true, ease: "sine.inOut" }, 52)
+          .to(".atm-leg-a", { rotation: 9, duration: 0.7, repeat: 10, yoyo: true, ease: "sine.inOut" }, 52)
+          .to(".atm-leg-b", { rotation: -9, duration: 0.7, repeat: 10, yoyo: true, ease: "sine.inOut" }, 52)
+          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.45, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
+          .fromTo(".atm-ar-panel", { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 2.5, stagger: 0.8 }, 53)
+          .fromTo(".atm-glass", { autoAlpha: 0 }, { autoAlpha: 1, duration: 3 }, 53);
       } else {
-        /* versão leve (mobile/tablet): revelações discretas, sem pin */
         gsap.utils.toArray<HTMLElement>(".cj-scene").forEach((s) => {
           const els = s.querySelectorAll(".cj-rev");
           if (els.length)
@@ -184,7 +244,6 @@ export function CinematicJourney() {
   return (
     <div ref={rootRef} className="relative overflow-x-clip">
       <div className={cinematic ? "cj-stage relative h-screen overflow-hidden" : "cj-stage relative"}>
-        {/* Camadas globais de fundo — apenas no modo cinematográfico */}
         {cinematic && (
           <div aria-hidden className="absolute inset-0 pointer-events-none z-0">
             <div
@@ -230,7 +289,6 @@ export function CinematicJourney() {
           </div>
         )}
 
-        {/* Indicadores de progresso — apenas cinematográfico */}
         {cinematic && (
           <>
             <div
@@ -254,10 +312,11 @@ export function CinematicJourney() {
         )}
 
         <div className={cinematic ? "cj-cam relative z-10 h-full" : "cj-cam relative z-10"}>
-          {/* ============ CENA 01 — ENTRADA ============ */}
+          {/* CENA 01 */}
           <article className={scene(1, cinematic ? "" : "min-h-[86vh]")} aria-labelledby="cj-title">
             {!cinematic && <div aria-hidden className="absolute inset-0 t-grid-bg pointer-events-none" />}
-            <div className="container-wide relative grid lg:grid-cols-12 gap-10 items-center">
+            <AtmoEntry cinematic={cinematic} />
+            <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7">
                 <p className="cj-rev mono text-[11px] uppercase tracking-[0.3em] text-primary flex items-center gap-3">
                   <span aria-hidden className="inline-block w-8 h-px bg-primary/60" />
@@ -305,9 +364,10 @@ export function CinematicJourney() {
             )}
           </article>
 
-          {/* ============ CENA 02 — TRANSIÇÃO DE MUNDO ============ */}
+          {/* CENA 02 */}
           <article className={scene(2, cinematic ? "" : darkBg)}>
-            <div className="container-wide relative">
+            <AtmoResearch cinematic={cinematic} />
+            <div className="container-wide relative z-10">
               <p className="cj-rev mono text-[11px] uppercase tracking-[0.3em] text-[hsl(199,89%,60%)] flex items-center gap-3">
                 <span aria-hidden className="inline-block w-8 h-px bg-[hsl(199,89%,60%)]/60" />
                 02 · Transição de mundo
@@ -332,9 +392,10 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* ============ CENA 03 — PAINÉIS EM PROFUNDIDADE ============ */}
+          {/* CENA 03 */}
           <article className={scene(3, cinematic ? "" : darkBg)}>
-            <div className="container-wide relative grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            <AtmoOps cinematic={cinematic} />
+            <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
               <header className="lg:col-span-4">
                 <p className="cj-rev mono text-[11px] uppercase tracking-[0.3em] text-[hsl(199,89%,60%)] flex items-center gap-3">
                   <span aria-hidden className="inline-block w-8 h-px bg-[hsl(199,89%,60%)]/60" />
@@ -350,7 +411,7 @@ export function CinematicJourney() {
               <div className="lg:col-span-8 grid sm:grid-cols-2 gap-4 lg:gap-5">
                 <div className="space-y-4 lg:space-y-5">
                   {FRONTS.filter((_, i) => i % 2 === 0).map((f) => (
-                    <article key={f.n} className="cj-panel cj-panel-a cj-rev relative rounded-[8px] border border-white/10 bg-white/[0.045] px-5 py-4 overflow-hidden">
+                    <article key={f.n} className="cj-panel cj-panel-a cj-rev relative rounded-[8px] border border-white/10 bg-white/[0.045] px-5 py-4 overflow-hidden backdrop-blur-[2px]">
                       <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(199,89%,55%)]/70 to-transparent" />
                       <div className="flex items-baseline justify-between">
                         <span className="mono text-[11px] tracking-[0.2em] text-[hsl(199,89%,60%)]">{f.n}</span>
@@ -363,7 +424,7 @@ export function CinematicJourney() {
                 </div>
                 <div className="space-y-4 lg:space-y-5 sm:mt-12">
                   {FRONTS.filter((_, i) => i % 2 === 1).map((f) => (
-                    <article key={f.n} className="cj-panel cj-panel-b cj-rev relative rounded-[8px] border border-white/10 bg-white/[0.045] px-5 py-4 overflow-hidden">
+                    <article key={f.n} className="cj-panel cj-panel-b cj-rev relative rounded-[8px] border border-white/10 bg-white/[0.045] px-5 py-4 overflow-hidden backdrop-blur-[2px]">
                       <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(199,89%,55%)]/70 to-transparent" />
                       <div className="flex items-baseline justify-between">
                         <span className="mono text-[11px] tracking-[0.2em] text-[hsl(199,89%,60%)]">{f.n}</span>
@@ -378,9 +439,10 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* ============ CENA 04 — AMBIENTE TECNOLÓGICO ============ */}
+          {/* CENA 04 */}
           <article className={scene(4, cinematic ? "" : darkBg)}>
-            <div className="container-wide relative grid lg:grid-cols-12 gap-10 items-center">
+            <AtmoField cinematic={cinematic} />
+            <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-5">
                 <p className="cj-rev mono text-[11px] uppercase tracking-[0.3em] text-[hsl(199,89%,60%)] flex items-center gap-3">
                   <span aria-hidden className="inline-block w-8 h-px bg-[hsl(199,89%,60%)]/60" />
@@ -395,14 +457,14 @@ export function CinematicJourney() {
                 </p>
                 <div className="cj-rev mt-7 flex flex-wrap gap-2">
                   {CHIPS.map((c) => (
-                    <span key={c} className="cj-chip mono text-[10.5px] uppercase tracking-[0.14em] text-slate-300 border border-white/12 rounded-[6px] px-3 py-1.5 bg-white/[0.03]">
+                    <span key={c} className="cj-chip mono text-[10.5px] uppercase tracking-[0.14em] text-slate-300 border border-white/10 rounded-[6px] px-3 py-1.5 bg-white/[0.03]">
                       {c}
                     </span>
                   ))}
                 </div>
               </div>
               <div className="cj-rev lg:col-span-7">
-                <div className="relative rounded-[8px] border border-white/10 bg-[hsl(222_45%_9%)] p-5 sm:p-7 overflow-hidden">
+                <div className="relative rounded-[8px] border border-white/10 bg-[hsl(222_45%_9%)]/90 p-5 sm:p-7 overflow-hidden">
                   <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(199,89%,55%)]/70 to-transparent" />
                   <div className="flex items-center justify-between">
                     <span className="mono text-[10px] uppercase tracking-[0.24em] text-slate-500">Painel operacional · simulação</span>
@@ -446,9 +508,10 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* ============ CENA 05 — AUTORIDADE ============ */}
+          {/* CENA 05 */}
           <article className={scene(5)}>
-            <div className="container-wide relative">
+            <AtmoMedic cinematic={cinematic} />
+            <div className="container-wide relative z-10">
               <div className="max-w-3xl mx-auto text-center">
                 <span aria-hidden className="cj-rev mx-auto block w-12 h-px bg-[hsl(38,65%,48%)]" />
                 <p className="cj-rev mt-6 mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">05 · Autoridade</p>
@@ -484,9 +547,10 @@ export function CinematicJourney() {
             </div>
           </article>
 
-          {/* ============ CENA 06 — DESTINO ============ */}
+          {/* CENA 06 */}
           <article className={scene(6)}>
-            <div className="container-wide relative text-center">
+            <AtmoFuture cinematic={cinematic} />
+            <div className="container-wide relative z-10 text-center">
               <p className="cj-rev mono text-[11px] uppercase tracking-[0.3em] text-primary">06 · Junte-se à Tropa</p>
               <h2 className="cj-rev mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-foreground leading-[1.05] max-w-3xl mx-auto">
                 Ciência não precisa ficar distante da prática.
