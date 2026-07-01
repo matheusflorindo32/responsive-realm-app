@@ -2,10 +2,10 @@ import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { CLIENT_CONFIG } from "@/config/client";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Início" },
+  { to: "/matheus", label: "Início" },
   { to: "/matheus/sobre", label: "Sobre" },
   { to: "/matheus/publicacoes", label: "Publicações" },
   { to: "/matheus/formacao", label: "Formação" },
