@@ -1,73 +1,62 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Icosahedron, Torus, TorusKnot } from "@react-three/drei";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Float, Sphere } from "@react-three/drei";
 import { Suspense, useRef } from "react";
-import type { Mesh } from "three";
+import { TextureLoader, type Mesh, DoubleSide } from "three";
+import logoAsset from "@/assets/tropa-logo.png.asset.json";
 
-function Core() {
+function GlobeShell() {
   const ref = useRef<Mesh>(null);
   useFrame((_, delta) => {
     if (ref.current) {
-      ref.current.rotation.x += delta * 0.15;
-      ref.current.rotation.y += delta * 0.2;
+      ref.current.rotation.y += delta * 0.15;
+      ref.current.rotation.x += delta * 0.05;
     }
   });
   return (
-    <Icosahedron ref={ref} args={[1.15, 1]}>
-      {/* Neon cyan distorted material */}
-      <MeshDistortMaterial
-        color="#06b6d4"
-        emissive="#06b6d4"
-        emissiveIntensity={0.6}
-        distort={0.35}
-        speed={2}
-        roughness={0.15}
-        metalness={0.8}
-        wireframe
+    <Sphere ref={ref} args={[1.9, 48, 48]}>
+      <meshBasicMaterial color="#06b6d4" wireframe transparent opacity={0.35} />
+    </Sphere>
+  );
+}
+
+function InnerGlow() {
+  return (
+    <Sphere args={[1.85, 32, 32]}>
+      <meshBasicMaterial color="#0ea5e9" transparent opacity={0.06} />
+    </Sphere>
+  );
+}
+
+function FloatingLogo() {
+  const texture = useLoader(TextureLoader, logoAsset.url);
+  const ref = useRef<Mesh>(null);
+  useFrame((_, delta) => {
+    if (ref.current) {
+      ref.current.rotation.y += delta * 0.4;
+    }
+  });
+  return (
+    <mesh ref={ref}>
+      <planeGeometry args={[2.2, 2.2]} />
+      <meshBasicMaterial
+        map={texture}
+        transparent
+        side={DoubleSide}
+        toneMapped={false}
       />
-    </Icosahedron>
-  );
-}
-
-function Ring() {
-  const ref = useRef<Mesh>(null);
-  useFrame((_, delta) => {
-    if (ref.current) {
-      ref.current.rotation.x += delta * 0.4;
-      ref.current.rotation.z -= delta * 0.2;
-    }
-  });
-  return (
-    <Torus ref={ref} args={[1.9, 0.015, 16, 128]}>
-      <meshBasicMaterial color="#22d3ee" transparent opacity={0.7} />
-    </Torus>
-  );
-}
-
-function Knot() {
-  const ref = useRef<Mesh>(null);
-  useFrame((_, delta) => {
-    if (ref.current) {
-      ref.current.rotation.y -= delta * 0.25;
-      ref.current.rotation.x += delta * 0.1;
-    }
-  });
-  return (
-    <TorusKnot ref={ref} args={[1.55, 0.008, 200, 16]}>
-      <meshBasicMaterial color="#3b82f6" transparent opacity={0.55} />
-    </TorusKnot>
+    </mesh>
   );
 }
 
 export function TropaLogo3D() {
   return (
     <div className="relative w-full aspect-square max-w-[520px] mx-auto">
-      {/* Neon glow backdrop */}
       <div
         aria-hidden
         className="absolute inset-0 rounded-full blur-3xl"
         style={{
           background:
-            "radial-gradient(circle at 50% 50%, hsl(187 96% 55% / 0.35), transparent 65%)",
+            "radial-gradient(circle at 50% 50%, hsl(187 96% 55% / 0.4), transparent 65%)",
         }}
       />
       <Canvas
@@ -76,14 +65,14 @@ export function TropaLogo3D() {
         gl={{ antialias: true, alpha: true }}
         className="!absolute inset-0"
       >
-        <ambientLight intensity={0.6} />
+        <ambientLight intensity={1} />
         <pointLight position={[4, 4, 4]} intensity={1.4} color="#06b6d4" />
         <pointLight position={[-4, -2, -3]} intensity={0.8} color="#3b82f6" />
         <Suspense fallback={null}>
-          <Float speed={1.4} rotationIntensity={0.6} floatIntensity={1.2}>
-            <Core />
-            <Ring />
-            <Knot />
+          <GlobeShell />
+          <InnerGlow />
+          <Float speed={2} rotationIntensity={0.4} floatIntensity={1.4}>
+            <FloatingLogo />
           </Float>
         </Suspense>
       </Canvas>
