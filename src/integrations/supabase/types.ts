@@ -14,16 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      sheet_rows: {
+        Row: {
+          conflict_payload: Json | null
+          conflict_status: string | null
+          created_at: string
+          data: Json
+          error_message: string | null
+          id: string
+          last_synced_at: string | null
+          sheet_name: string
+          sheet_row_id: string
+          sheet_row_number: number | null
+          source: string
+          sync_status: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          conflict_payload?: Json | null
+          conflict_status?: string | null
+          created_at?: string
+          data?: Json
+          error_message?: string | null
+          id?: string
+          last_synced_at?: string | null
+          sheet_name: string
+          sheet_row_id: string
+          sheet_row_number?: number | null
+          source?: string
+          sync_status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          conflict_payload?: Json | null
+          conflict_status?: string | null
+          created_at?: string
+          data?: Json
+          error_message?: string | null
+          id?: string
+          last_synced_at?: string | null
+          sheet_name?: string
+          sheet_row_id?: string
+          sheet_row_number?: number | null
+          source?: string
+          sync_status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      sync_conflicts: {
+        Row: {
+          app_updated_at: string | null
+          app_version: Json
+          created_at: string
+          id: string
+          resolution: string | null
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by: string | null
+          sheet_row_id: string
+          sheet_updated_at: string | null
+          sheet_version: Json
+        }
+        Insert: {
+          app_updated_at?: string | null
+          app_version: Json
+          created_at?: string
+          id?: string
+          resolution?: string | null
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sheet_row_id: string
+          sheet_updated_at?: string | null
+          sheet_version: Json
+        }
+        Update: {
+          app_updated_at?: string | null
+          app_version?: Json
+          created_at?: string
+          id?: string
+          resolution?: string | null
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sheet_row_id?: string
+          sheet_updated_at?: string | null
+          sheet_version?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sync_conflicts_sheet_row_id_fkey"
+            columns: ["sheet_row_id"]
+            isOneToOne: false
+            referencedRelation: "sheet_rows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sync_runs: {
+        Row: {
+          conflicts: number
+          direction: string
+          duration_ms: number | null
+          errors: Json | null
+          finished_at: string | null
+          id: string
+          rows_pulled: number
+          rows_pushed: number
+          sheet_name: string | null
+          started_at: string
+          status: string
+          trigger: string
+          triggered_by: string | null
+        }
+        Insert: {
+          conflicts?: number
+          direction: string
+          duration_ms?: number | null
+          errors?: Json | null
+          finished_at?: string | null
+          id?: string
+          rows_pulled?: number
+          rows_pushed?: number
+          sheet_name?: string | null
+          started_at?: string
+          status?: string
+          trigger: string
+          triggered_by?: string | null
+        }
+        Update: {
+          conflicts?: number
+          direction?: string
+          duration_ms?: number | null
+          errors?: Json | null
+          finished_at?: string | null
+          id?: string
+          rows_pulled?: number
+          rows_pushed?: number
+          sheet_name?: string | null
+          started_at?: string
+          status?: string
+          trigger?: string
+          triggered_by?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +325,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor", "viewer"],
+    },
   },
 } as const
