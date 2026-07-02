@@ -195,7 +195,7 @@ function MedTQCard() {
   return (
     <div className="w-full rounded-[8px] border border-border/80 bg-white/60 backdrop-blur-md p-2.5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.28)]">
       <div className="relative rounded-[6px] overflow-hidden aspect-[4/3]">
-        <Footage src={IMG.tq} mask="none" grade={0.35} className="absolute inset-0" />
+        <Footage src={IMG.tq} mask="none" grade={0.35} pos="30% 38%" className="absolute inset-0" />
         <svg viewBox="0 0 100 75" preserveAspectRatio="none" className="absolute inset-0 w-full h-full text-[hsl(199,89%,65%)]" fill="none" stroke="currentColor" strokeWidth="0.45">
           <path d="M5 12 v-7 h7" strokeOpacity="0.8" />
           <path d="M95 12 v-7 h-7" strokeOpacity="0.8" />
