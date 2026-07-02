@@ -345,7 +345,7 @@ export function AtmoFuture({ cinematic }: AtmoProps) {
       <div className={`atm-ar absolute inset-6 lg:inset-12 ${cinematic ? "opacity-0" : "opacity-20"}`}>
         <ArFrame />
       </div>
-      <div className={`atm-arop absolute right-[3%] top-[14%] w-52 lg:w-60 ${cinematic ? "opacity-0" : "opacity-35"}`}>
+      <div className={`atm-arop absolute right-[2%] top-[10%] w-44 lg:w-52 ${cinematic ? "opacity-0" : "opacity-35"}`}>
         <FootagePanel src={IMG.arOperador} tag="Realidade aumentada" sub="HUD · ativo" />
       </div>
       <div className={`atm-robot absolute bottom-[2%] left-1/2 -ml-56 w-[420px] lg:w-[500px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
