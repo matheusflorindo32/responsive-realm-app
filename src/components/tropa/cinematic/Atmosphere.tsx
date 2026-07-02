@@ -356,9 +356,6 @@ export function AtmoFuture({ cinematic }: AtmoProps) {
           </div>
         )}
       </div>
-      {cinematic && (
-        <div className="atm-glass absolute right-[5%] top-1/2 -translate-y-1/2 h-[62%] w-36 lg:w-44 rounded-[8px] border border-border bg-white/40 backdrop-blur-md hidden lg:block" />
-      )}
     </div>
   );
 }
