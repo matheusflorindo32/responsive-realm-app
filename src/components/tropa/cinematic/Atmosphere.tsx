@@ -293,14 +293,11 @@ export function AtmoOps({ cinematic }: AtmoProps) {
       <div className={`atm-map absolute inset-x-0 bottom-0 h-[72%] ${cinematic ? "opacity-0" : "opacity-15"}`}>
         <TacMap />
       </div>
-      <div className={`atm-drone absolute left-1/2 top-[16%] -ml-64 w-[420px] lg:w-[560px] ${cinematic ? "opacity-0" : "opacity-25"}`}>
-        <Footage src={IMG.drone} mask="radial" className="aspect-[16/10]" />
-      </div>
-      <div className={`atm-uav absolute right-[8%] top-[6%] w-64 lg:w-[330px] ${cinematic ? "opacity-0" : "opacity-60"}`}>
-        <UavSilhouette />
+      <div className={`atm-drone absolute left-1/2 top-[22%] -ml-[300px] w-[480px] lg:w-[640px] ${cinematic ? "opacity-0" : "opacity-45"}`}>
+        <Footage src={IMG.drone} mask="radial" grade={0.7} className="aspect-[16/10]" />
       </div>
       {cinematic && (
-        <div className="atm-track absolute right-[10%] top-[8%] w-44 h-32 opacity-0 text-[hsl(38,70%,58%)]">
+        <div className="atm-track absolute left-1/2 top-[26%] -ml-28 w-52 h-36 opacity-0 text-[hsl(38,70%,58%)]">
           <TrackBox label="TRK-01 · UAV · LOCK" />
         </div>
       )}
