@@ -229,11 +229,10 @@ export function CinematicJourney() {
         tl.set(".atm-robot", { xPercent: -300, autoAlpha: 0 }, 51.6)
           .to(".atm-robot", { xPercent: -40, autoAlpha: 0.8, duration: 4, ease: "none" }, 52)
           .to(".atm-robot", { xPercent: 150, duration: 4, ease: "power1.in" }, 56.2)
-          .to(".atm-robot", { autoAlpha: 0.2, filter: "blur(3px)", duration: 2.5 }, 57.5)
+          .to(".atm-robot", { autoAlpha: 0.3, duration: 2.5 }, 57.5)
           .fromTo(".atm-arop", { xPercent: 26, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.95, duration: 3.5, ease: "power1.out" }, 52.5)
           .to(".atm-arop", { y: -14, duration: 6, ease: "none" }, 54)
-          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.55, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
-          .fromTo(".atm-glass", { autoAlpha: 0 }, { autoAlpha: 1, duration: 3 }, 53);
+          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.55, scale: 1, duration: 4, ease: "power1.out" }, 52.5);
       } else {
         /* versão leve (mobile/tablet): revelações discretas, sem pin */
         gsap.utils.toArray<HTMLElement>(".cj-scene").forEach((s) => {
