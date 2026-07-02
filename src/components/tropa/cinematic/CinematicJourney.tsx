@@ -153,7 +153,7 @@ export function CinematicJourney() {
         });
 
         /* ============================================================
-           ATMOSFERA CINEMATOGRÁFICA — caminhos de movimento por cena
+           ATMOSFERA CINEMATOGRÁFICA — footage real em movimento
            ============================================================ */
 
         /* cena 01 — varredura + telemetria */
@@ -161,74 +161,77 @@ export function CinematicJourney() {
           .fromTo(".atm-scan", { y: 0, autoAlpha: 0 }, { autoAlpha: 0.7, y: () => window.innerHeight * 0.9, duration: 7, ease: "power1.inOut" }, 1)
           .to(".atm-scan", { autoAlpha: 0, duration: 1.5 }, 8);
 
-        /* cena 02 — pesquisa & IA: cartões de vidro cruzam em profundidade, espectro sobe, rede infere */
+        /* cena 02 — pesquisa & IA: data center cruza em profundidade */
         tl.fromTo(".atm-bars", { autoAlpha: 0 }, { autoAlpha: 0.7, duration: 2 }, 9)
           .fromTo(".atm-bar", { scaleY: 0.12, transformOrigin: "bottom center" }, { scaleY: 1, duration: 2.6, stagger: 0.14, ease: "power1.out" }, 9.2)
-          .fromTo(".atm-paper-1", { xPercent: 120, yPercent: -6, autoAlpha: 0, scale: 0.92 }, { xPercent: -8, yPercent: 2, autoAlpha: 0.75, scale: 1, duration: 5, ease: "none" }, 9)
-          .to(".atm-paper-1", { xPercent: -140, autoAlpha: 0, duration: 4.5, ease: "none" }, 14.5)
-          .fromTo(".atm-paper-2", { xPercent: 80, yPercent: 22, autoAlpha: 0 }, { xPercent: -160, yPercent: 8, autoAlpha: 0.45, duration: 10, ease: "none" }, 8.8)
-          .fromTo(".atm-neural", { autoAlpha: 0, scale: 0.92, y: 30 }, { autoAlpha: 0.6, scale: 1, y: 0, duration: 4 }, 10)
+          .fromTo(".atm-dc", { xPercent: 22, autoAlpha: 0, scale: 1.06 }, { xPercent: -4, autoAlpha: 0.6, scale: 1, duration: 6, ease: "none" }, 8.8)
+          .to(".atm-dc", { xPercent: -24, autoAlpha: 0, duration: 4.2, ease: "none" }, 15.6)
+          .fromTo(".atm-paper-1", { xPercent: 90, yPercent: 8, autoAlpha: 0, scale: 0.92 }, { xPercent: -6, yPercent: 0, autoAlpha: 0.8, scale: 1, duration: 5, ease: "none" }, 9.5)
+          .to(".atm-paper-1", { xPercent: -110, autoAlpha: 0, duration: 4, ease: "none" }, 15 )
+          .fromTo(".atm-neural", { autoAlpha: 0, scale: 0.92, y: 30 }, { autoAlpha: 0.55, scale: 1, y: 0, duration: 4 }, 10)
           .fromTo(".atm-flow", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 9, ease: "none" }, 9.5)
           .to(".atm-neural", { autoAlpha: 0, y: -40, duration: 3.5 }, 16.5);
 
-        /* cena 03 — operacional: mapa tático, rota de missão, holograma de drone cruzando + tracking */
+        /* cena 03 — operacional: drone real cruza em perspectiva + mapa + tracking */
         tl.fromTo(".atm-map", { autoAlpha: 0, yPercent: 8 }, { autoAlpha: 0.3, yPercent: 0, duration: 3.5 }, 17.5)
           .fromTo(".atm-mission", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 12, ease: "none" }, 18)
           .fromTo(".atm-wp", { autoAlpha: 0, scale: 0.4, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 1.2, stagger: 1.6 }, 18.5)
           .to(".atm-map", { yPercent: -6, duration: 10, ease: "none" }, 21)
           .to(".atm-map", { autoAlpha: 0, duration: 3 }, 30.5);
 
-        tl.set(".atm-drone", { xPercent: 240, yPercent: -70, scale: 0.45, autoAlpha: 0 }, 17.8)
+        tl.set(".atm-drone", { xPercent: 160, yPercent: -50, scale: 0.55, autoAlpha: 0 }, 17.8)
           .to(
             ".atm-drone",
             {
               keyframes: [
-                { xPercent: 65, yPercent: -18, scale: 0.85, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
-                { xPercent: -55, yPercent: 12, scale: 1.12, autoAlpha: 0.9, duration: 4, ease: "none" },
-                { xPercent: -240, yPercent: 55, scale: 1.4, autoAlpha: 0, duration: 4, ease: "power1.in" },
+                { xPercent: 45, yPercent: -14, scale: 0.85, autoAlpha: 0.75, duration: 4, ease: "power1.out" },
+                { xPercent: -40, yPercent: 8, scale: 1.08, autoAlpha: 0.75, duration: 4, ease: "none" },
+                { xPercent: -170, yPercent: 40, scale: 1.32, autoAlpha: 0, duration: 4, ease: "power1.in" },
               ],
             },
             18,
-          )
-          .to(".atm-rotor", { scale: 1.18, opacity: 0.5, duration: 0.4, repeat: 28, yoyo: true, ease: "none" }, 18);
+          );
 
-        tl.set(".atm-track", { xPercent: 280, yPercent: -80, autoAlpha: 0 }, 18.2)
+        tl.set(".atm-track", { xPercent: 220, yPercent: -60, autoAlpha: 0 }, 18.2)
           .to(
             ".atm-track",
             {
               keyframes: [
-                { xPercent: 90, yPercent: -28, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
-                { xPercent: -32, yPercent: 6, autoAlpha: 0.9, duration: 4, ease: "none" },
-                { xPercent: -215, yPercent: 50, autoAlpha: 0, duration: 3.6, ease: "power1.in" },
+                { xPercent: 80, yPercent: -22, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
+                { xPercent: -30, yPercent: 4, autoAlpha: 0.9, duration: 4, ease: "none" },
+                { xPercent: -190, yPercent: 40, autoAlpha: 0, duration: 3.6, ease: "power1.in" },
               ],
             },
             18.45,
           );
 
-        /* cena 04 — campo & treinamento: descida em sombra acompanha o scroll, equipe fora de foco cruza */
-        tl.fromTo(".atm-rappel", { autoAlpha: 0, yPercent: -46 }, { autoAlpha: 0.6, yPercent: -30, duration: 3, ease: "power1.out" }, 31.5)
-          .to(".atm-rappel", { yPercent: 26, duration: 9, ease: "none" }, 34)
+        /* cena 04 — campo & treinamento: rapel real desce com o scroll, heli distante em parallax */
+        tl.fromTo(".atm-rappel", { autoAlpha: 0, yPercent: -16, scale: 1.08 }, { autoAlpha: 0.7, yPercent: -6, scale: 1, duration: 3, ease: "power1.out" }, 31.5)
+          .to(".atm-rappel", { yPercent: 12, duration: 9, ease: "none" }, 34)
           .to(".atm-rappel", { autoAlpha: 0, duration: 2.5 }, 41.5)
-          .to(".atm-rappel-fig", { x: 7, duration: 2.6, repeat: 3, yoyo: true, ease: "sine.inOut" }, 32)
+          .fromTo(".atm-heli2", { xPercent: -14, autoAlpha: 0 }, { xPercent: 8, autoAlpha: 0.35, duration: 10, ease: "none" }, 31.8)
+          .to(".atm-heli2", { autoAlpha: 0, duration: 2 }, 41.5)
           .fromTo(".atm-alt", { y: 70, autoAlpha: 0 }, { y: -70, autoAlpha: 0.7, duration: 10, ease: "none" }, 31.8)
           .to(".atm-alt", { autoAlpha: 0, duration: 2 }, 41.5)
           .fromTo(".atm-team", { xPercent: -35, autoAlpha: 0 }, { xPercent: 22, autoAlpha: 0.35, duration: 10.5, ease: "none" }, 31.5)
           .to(".atm-team", { autoAlpha: 0, duration: 2.5 }, 41.5);
 
-        /* cena 05 — medicina operacional: painel de treino desliza e o esquema se desenha */
-        tl.fromTo(".atm-medic", { xPercent: -12, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.6, duration: 3.5, ease: "power1.out" }, 43)
-          .fromTo(".atm-medic .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 6, stagger: 0.3, ease: "none" }, 43.2)
-          .to(".atm-medic", { y: -24, duration: 6, ease: "none" }, 47)
-          .to(".atm-medic", { autoAlpha: 0, duration: 2.5 }, 50.5);
+        /* cena 05 — medicina operacional: painel de treino real desliza em profundidade */
+        tl.fromTo(".atm-medic", { xPercent: -14, y: 24, autoAlpha: 0 }, { xPercent: 0, y: 0, autoAlpha: 0.9, duration: 3.5, ease: "power1.out" }, 43)
+          .fromTo(".atm-medb", { xPercent: 10, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.65, duration: 3, ease: "power1.out" }, 43.6)
+          .fromTo(".atm-medb .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5.5, stagger: 0.3, ease: "none" }, 44)
+          .to(".atm-medic", { y: -26, duration: 6, ease: "none" }, 47)
+          .to(".atm-medic", { autoAlpha: 0, duration: 2.5 }, 50.5)
+          .to(".atm-medb", { autoAlpha: 0, duration: 2.5 }, 50.5);
 
-        /* cena 06 — futuro: massa industrial atravessa e some atrás do vidro fosco, HUD estabiliza */
-        tl.set(".atm-robot", { xPercent: -380, autoAlpha: 0 }, 51.6)
-          .to(".atm-robot", { xPercent: -60, autoAlpha: 0.8, duration: 4, ease: "none" }, 52)
-          .to(".atm-robot", { xPercent: 200, duration: 4, ease: "power1.in" }, 56.2)
-          .to(".atm-robot", { autoAlpha: 0.15, filter: "blur(3px)", duration: 2.5 }, 57.5)
-          .to(".atm-robot", { y: -6, duration: 0.9, repeat: 8, yoyo: true, ease: "sine.inOut" }, 52)
-          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.6, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
-          .fromTo(".atm-ar-panel", { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 2.5, stagger: 0.8 }, 53)
+        /* cena 06 — futuro: robótica real atravessa e some atrás do vidro, operador AR entra */
+        tl.set(".atm-robot", { xPercent: -300, autoAlpha: 0 }, 51.6)
+          .to(".atm-robot", { xPercent: -40, autoAlpha: 0.8, duration: 4, ease: "none" }, 52)
+          .to(".atm-robot", { xPercent: 150, duration: 4, ease: "power1.in" }, 56.2)
+          .to(".atm-robot", { autoAlpha: 0.2, filter: "blur(3px)", duration: 2.5 }, 57.5)
+          .fromTo(".atm-arop", { xPercent: 26, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.95, duration: 3.5, ease: "power1.out" }, 52.5)
+          .to(".atm-arop", { y: -14, duration: 6, ease: "none" }, 54)
+          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.55, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
           .fromTo(".atm-glass", { autoAlpha: 0 }, { autoAlpha: 1, duration: 3 }, 53);
       } else {
         /* versão leve (mobile/tablet): revelações discretas, sem pin */
