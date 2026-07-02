@@ -17,7 +17,7 @@ const IMG = {
   heliRapel: "https://images.unsplash.com/photo-1763656444141-e011b6c1f81f?auto=format&fit=crop&w=1100&q=70",
   heliFundo: "https://images.unsplash.com/photo-1694931458368-33f1e05c06db?auto=format&fit=crop&w=1000&q=65",
   medTreino: "https://images.pexels.com/photos/34104787/pexels-photo-34104787/free-photo-of-cpr-training-demonstration-on-mannequin.jpeg?auto=compress&cs=tinysrgb&w=1100",
-  tq: "https://images.pexels.com/photos/4680228/pexels-photo-4680228.jpeg?auto=compress&cs=tinysrgb&w=900",
+  tq: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Combat_lifesaver_class_not_just_for_combat_130704-M-UY543-109.jpg/1280px-Combat_lifesaver_class_not_just_for_combat_130704-M-UY543-109.jpg",
   robo: "https://images.unsplash.com/photo-1778689015315-46cd9cde1419?auto=format&fit=crop&w=1400&q=70",
   arOperador: "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&w=1100&q=70",
 } as const;
