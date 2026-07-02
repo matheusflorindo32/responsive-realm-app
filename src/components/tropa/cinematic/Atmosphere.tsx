@@ -81,59 +81,6 @@ function FootagePanel({ src, tag, sub, className = "" }: { src: string; tag: str
   );
 }
 
-/* ---------------- UAV vetorial premium (silhueta sólida, estilo render) ---------------- */
-
-function UavSilhouette() {
-  return (
-    <svg viewBox="0 0 360 200" fill="none" className="w-full h-full">
-      <defs>
-        <linearGradient id="uavBody" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="hsl(217 30% 24%)" />
-          <stop offset="1" stopColor="hsl(222 45% 8%)" />
-        </linearGradient>
-        <linearGradient id="uavRim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="hsl(199 89% 62%)" stopOpacity="0.9" />
-          <stop offset="1" stopColor="hsl(199 89% 62%)" stopOpacity="0" />
-        </linearGradient>
-        <radialGradient id="uavGlow" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="hsl(199 89% 55%)" stopOpacity="0.22" />
-          <stop offset="1" stopColor="hsl(199 89% 55%)" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse cx="180" cy="95" rx="150" ry="62" fill="url(#uavGlow)" />
-      {[
-        { x: 62, y: 52, rx: 44, ry: 7 },
-        { x: 298, y: 52, rx: 44, ry: 7 },
-        { x: 118, y: 34, rx: 34, ry: 5.5 },
-        { x: 242, y: 34, rx: 34, ry: 5.5 },
-      ].map((r, i) => (
-        <g key={i}>
-          <ellipse cx={r.x} cy={r.y} rx={r.rx} ry={r.ry} fill="hsl(199 89% 70%)" opacity="0.10" />
-          <ellipse cx={r.x} cy={r.y} rx={r.rx} ry={r.ry} stroke="hsl(199 89% 70%)" strokeOpacity="0.28" strokeWidth="1" />
-          <rect x={r.x - 6} y={r.y} width="12" height={i < 2 ? 14 : 11} rx="3" fill="url(#uavBody)" />
-        </g>
-      ))}
-      <path d="M150 88 L66 60 l4 -8 84 26 z" fill="url(#uavBody)" />
-      <path d="M210 88 L294 60 l-4 -8 -84 26 z" fill="url(#uavBody)" />
-      <path d="M158 82 L120 44 l7 -5 40 36 z" fill="url(#uavBody)" opacity="0.85" />
-      <path d="M202 82 L240 44 l-7 -5 -40 36 z" fill="url(#uavBody)" opacity="0.85" />
-      <path d="M138 78 q42 -16 84 0 l10 26 q-8 18 -52 18 q-44 0 -52 -18 z" fill="url(#uavBody)" />
-      <path d="M140 78 q40 -15 80 0" stroke="url(#uavRim)" strokeWidth="2" strokeLinecap="round" />
-      <path d="M150 118 l-12 34 h6 l12 -32 z" fill="url(#uavBody)" />
-      <path d="M210 118 l12 34 h-6 l-12 -32 z" fill="url(#uavBody)" />
-      <rect x="128" y="150" width="34" height="4" rx="2" fill="hsl(222 40% 12%)" />
-      <rect x="198" y="150" width="34" height="4" rx="2" fill="hsl(222 40% 12%)" />
-      <circle cx="180" cy="130" r="13" fill="hsl(222 45% 10%)" />
-      <circle cx="180" cy="130" r="13" stroke="hsl(199 89% 60%)" strokeOpacity="0.35" strokeWidth="1" />
-      <circle cx="180" cy="133" r="5.5" fill="hsl(199 89% 55%)" fillOpacity="0.5" />
-      <circle cx="182" cy="131" r="2" fill="hsl(199 89% 80%)" />
-      <rect x="146" y="64" width="2.5" height="12" rx="1" fill="hsl(217 30% 26%)" />
-      <rect x="212" y="64" width="2.5" height="12" rx="1" fill="hsl(217 30% 26%)" />
-      <circle cx="66" cy="66" r="2.2" fill="hsl(0 75% 58%)" />
-      <circle cx="294" cy="66" r="2.2" fill="hsl(145 65% 52%)" />
-    </svg>
-  );
-}
 
 /* ---------------- HUD e instrumentos ---------------- */
 
