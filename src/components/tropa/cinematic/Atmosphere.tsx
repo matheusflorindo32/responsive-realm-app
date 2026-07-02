@@ -17,6 +17,7 @@ const IMG = {
   heliRapel: "https://images.unsplash.com/photo-1763656444141-e011b6c1f81f?auto=format&fit=crop&w=1100&q=70",
   heliFundo: "https://images.unsplash.com/photo-1694931458368-33f1e05c06db?auto=format&fit=crop&w=1000&q=65",
   medTreino: "https://images.pexels.com/photos/34104787/pexels-photo-34104787/free-photo-of-cpr-training-demonstration-on-mannequin.jpeg?auto=compress&cs=tinysrgb&w=1100",
+  tq: "https://images.pexels.com/photos/4680228/pexels-photo-4680228.jpeg?auto=compress&cs=tinysrgb&w=900",
   robo: "https://images.unsplash.com/photo-1778689015315-46cd9cde1419?auto=format&fit=crop&w=1400&q=70",
   arOperador: "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&w=1100&q=70",
 } as const;
@@ -76,6 +77,60 @@ function FootagePanel({ src, tag, sub, className = "" }: { src: string; tag: str
         <span className="mono text-[9px] tracking-[0.16em] text-[hsl(38,60%,42%)]">{sub}</span>
       </div>
     </div>
+  );
+}
+
+/* ---------------- UAV vetorial premium (silhueta sólida, estilo render) ---------------- */
+
+function UavSilhouette() {
+  return (
+    <svg viewBox="0 0 360 200" fill="none" className="w-full h-full">
+      <defs>
+        <linearGradient id="uavBody" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="hsl(217 30% 24%)" />
+          <stop offset="1" stopColor="hsl(222 45% 8%)" />
+        </linearGradient>
+        <linearGradient id="uavRim" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="hsl(199 89% 62%)" stopOpacity="0.9" />
+          <stop offset="1" stopColor="hsl(199 89% 62%)" stopOpacity="0" />
+        </linearGradient>
+        <radialGradient id="uavGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stopColor="hsl(199 89% 55%)" stopOpacity="0.22" />
+          <stop offset="1" stopColor="hsl(199 89% 55%)" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="180" cy="95" rx="150" ry="62" fill="url(#uavGlow)" />
+      {[
+        { x: 62, y: 52, rx: 44, ry: 7 },
+        { x: 298, y: 52, rx: 44, ry: 7 },
+        { x: 118, y: 34, rx: 34, ry: 5.5 },
+        { x: 242, y: 34, rx: 34, ry: 5.5 },
+      ].map((r, i) => (
+        <g key={i}>
+          <ellipse cx={r.x} cy={r.y} rx={r.rx} ry={r.ry} fill="hsl(199 89% 70%)" opacity="0.10" />
+          <ellipse cx={r.x} cy={r.y} rx={r.rx} ry={r.ry} stroke="hsl(199 89% 70%)" strokeOpacity="0.28" strokeWidth="1" />
+          <rect x={r.x - 6} y={r.y} width="12" height={i < 2 ? 14 : 11} rx="3" fill="url(#uavBody)" />
+        </g>
+      ))}
+      <path d="M150 88 L66 60 l4 -8 84 26 z" fill="url(#uavBody)" />
+      <path d="M210 88 L294 60 l-4 -8 -84 26 z" fill="url(#uavBody)" />
+      <path d="M158 82 L120 44 l7 -5 40 36 z" fill="url(#uavBody)" opacity="0.85" />
+      <path d="M202 82 L240 44 l-7 -5 -40 36 z" fill="url(#uavBody)" opacity="0.85" />
+      <path d="M138 78 q42 -16 84 0 l10 26 q-8 18 -52 18 q-44 0 -52 -18 z" fill="url(#uavBody)" />
+      <path d="M140 78 q40 -15 80 0" stroke="url(#uavRim)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M150 118 l-12 34 h6 l12 -32 z" fill="url(#uavBody)" />
+      <path d="M210 118 l12 34 h-6 l-12 -32 z" fill="url(#uavBody)" />
+      <rect x="128" y="150" width="34" height="4" rx="2" fill="hsl(222 40% 12%)" />
+      <rect x="198" y="150" width="34" height="4" rx="2" fill="hsl(222 40% 12%)" />
+      <circle cx="180" cy="130" r="13" fill="hsl(222 45% 10%)" />
+      <circle cx="180" cy="130" r="13" stroke="hsl(199 89% 60%)" strokeOpacity="0.35" strokeWidth="1" />
+      <circle cx="180" cy="133" r="5.5" fill="hsl(199 89% 55%)" fillOpacity="0.5" />
+      <circle cx="182" cy="131" r="2" fill="hsl(199 89% 80%)" />
+      <rect x="146" y="64" width="2.5" height="12" rx="1" fill="hsl(217 30% 26%)" />
+      <rect x="212" y="64" width="2.5" height="12" rx="1" fill="hsl(217 30% 26%)" />
+      <circle cx="66" cy="66" r="2.2" fill="hsl(0 75% 58%)" />
+      <circle cx="294" cy="66" r="2.2" fill="hsl(145 65% 52%)" />
+    </svg>
   );
 }
 
@@ -186,35 +241,33 @@ function AltScale() {
   );
 }
 
-function MedSchematicPanel() {
+/* ---------------- card de torniquete (foto real + HUD + microcopy) ---------------- */
+
+function MedTQCard() {
   return (
-    <div className="w-full rounded-[8px] border border-border/80 bg-white/60 backdrop-blur-md p-6 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.28)]">
-      <div className="flex items-center justify-between">
-        <span className="mono text-[9.5px] uppercase tracking-[0.22em] text-[hsl(221,45%,40%)]">Procedimento · torniquete</span>
-        <span className="mono text-[9.5px] tracking-[0.18em] text-[hsl(38,60%,42%)]">TQ · 14:32</span>
-      </div>
-      <div className="mt-5">
-        <svg viewBox="0 0 300 122" fill="none" stroke="hsl(221 45% 35%)" className="w-full">
-          <line className="atm-draw" pathLength={1} x1="20" y1="38" x2="280" y2="38" strokeOpacity="0.5" />
-          <line className="atm-draw" pathLength={1} x1="20" y1="86" x2="280" y2="86" strokeOpacity="0.5" />
-          <ellipse className="atm-draw" pathLength={1} cx="21" cy="62" rx="9" ry="24" strokeOpacity="0.3" />
-          <rect className="atm-draw" pathLength={1} x="120" y="30" width="34" height="64" rx="6" strokeOpacity="0.85" strokeWidth="1.4" />
-          <line className="atm-draw" pathLength={1} x1="137" y1="9" x2="137" y2="30" strokeWidth="1.4" strokeOpacity="0.85" />
-          <line className="atm-draw" pathLength={1} x1="118" y1="9" x2="156" y2="9" strokeWidth="2" strokeOpacity="0.85" />
-          <path className="atm-draw" pathLength={1} d="M164 7 a 26 26 0 0 1 10 18" strokeOpacity="0.45" strokeDasharray="3 4" />
-          <path d="M172 28 l 4 -7 -8 1 z" fill="hsl(221 45% 35%)" stroke="none" opacity="0.45" />
-          <line className="atm-draw" pathLength={1} x1="120" y1="106" x2="154" y2="106" strokeOpacity="0.4" />
-          <line x1="120" y1="102" x2="120" y2="110" strokeOpacity="0.4" />
-          <line x1="154" y1="102" x2="154" y2="110" strokeOpacity="0.4" />
-          <text x="160" y="110" fontSize="8" fill="hsl(221 45% 40%)" stroke="none" fontFamily={MONO}>zona de aplicação</text>
+    <div className="w-full rounded-[8px] border border-border/80 bg-white/60 backdrop-blur-md p-2.5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.28)]">
+      <div className="relative rounded-[6px] overflow-hidden aspect-[4/3]">
+        <Footage src={IMG.tq} mask="none" grade={0.35} className="absolute inset-0" />
+        <svg viewBox="0 0 100 75" preserveAspectRatio="none" className="absolute inset-0 w-full h-full text-[hsl(199,89%,65%)]" fill="none" stroke="currentColor" strokeWidth="0.45">
+          <path d="M5 12 v-7 h7" strokeOpacity="0.8" />
+          <path d="M95 12 v-7 h-7" strokeOpacity="0.8" />
+          <path d="M5 63 v7 h7" strokeOpacity="0.8" />
+          <path d="M95 63 v7 h-7" strokeOpacity="0.8" />
+          <circle cx="52" cy="38" r="9" strokeOpacity="0.65" />
+          <line x1="61" y1="38" x2="74" y2="30" strokeOpacity="0.5" />
+          <line x1="30" y1="38" x2="43" y2="38" strokeOpacity="0.5" strokeDasharray="2 2" />
         </svg>
+        <span className="absolute right-2 top-2 mono text-[8px] tracking-[0.14em] text-[hsl(38,80%,70%)] bg-[hsl(222,47%,10%)]/55 rounded-[4px] px-1.5 py-0.5 backdrop-blur-sm">5–7 cm</span>
+        <span className="absolute left-2 bottom-2 mono text-[8.5px] uppercase tracking-[0.18em] text-white/90 bg-[hsl(222,47%,10%)]/55 rounded-[4px] px-2 py-1 backdrop-blur-sm">
+          Torniquete de extremidade
+        </span>
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2">
-        {["posicionamento", "tensão controlada", "fixação da haste", "registro de hora"].map((t, i) => (
-          <div key={t} className="flex items-center gap-2 mono text-[9.5px] uppercase tracking-[0.14em] text-[hsl(221,30%,45%)]">
-            <span className={`w-3 h-3 rounded-[3px] border ${i < 2 ? "bg-[hsl(199,89%,48%)]/15 border-[hsl(199,89%,48%)]/60" : "border-[hsl(221,30%,60%)]/50"}`} />
+      <div className="px-1.5 pt-2.5 pb-1 grid grid-cols-2 gap-x-4 gap-y-1.5">
+        {["5–7 cm acima da lesão", "Evitar articulação", "Entre a lesão e o tronco", "Registrar horário"].map((t) => (
+          <span key={t} className="mono text-[8.5px] uppercase tracking-[0.12em] text-[hsl(221,30%,42%)] flex items-center gap-1.5">
+            <i className="w-1 h-1 rounded-full bg-[hsl(38,60%,48%)] shrink-0" />
             {t}
-          </div>
+          </span>
         ))}
       </div>
     </div>
@@ -292,11 +345,14 @@ export function AtmoOps({ cinematic }: AtmoProps) {
       <div className={`atm-map absolute inset-x-0 bottom-0 h-[72%] ${cinematic ? "opacity-0" : "opacity-15"}`}>
         <TacMap />
       </div>
-      <div className={`atm-drone absolute left-1/2 top-[16%] -ml-64 w-[420px] lg:w-[560px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
+      <div className={`atm-drone absolute left-1/2 top-[16%] -ml-64 w-[420px] lg:w-[560px] ${cinematic ? "opacity-0" : "opacity-25"}`}>
         <Footage src={IMG.drone} mask="radial" className="aspect-[16/10]" />
       </div>
+      <div className={`atm-uav absolute right-[8%] top-[6%] w-64 lg:w-[330px] ${cinematic ? "opacity-0" : "opacity-60"}`}>
+        <UavSilhouette />
+      </div>
       {cinematic && (
-        <div className="atm-track absolute left-1/2 top-[22%] -ml-24 w-44 h-32 opacity-0 text-[hsl(38,70%,58%)]">
+        <div className="atm-track absolute right-[10%] top-[8%] w-44 h-32 opacity-0 text-[hsl(38,70%,58%)]">
           <TrackBox label="TRK-01 · UAV · LOCK" />
         </div>
       )}
@@ -331,8 +387,8 @@ export function AtmoMedic({ cinematic }: AtmoProps) {
       <div className={`atm-medic absolute top-1/2 -translate-y-1/2 left-[2%] w-[260px] lg:w-[320px] ${cinematic ? "opacity-0" : "opacity-40"}`}>
         <FootagePanel src={IMG.medTreino} tag="Medicina operacional" sub="Treino · RCP" />
       </div>
-      <div className={`atm-medb absolute top-1/2 -translate-y-1/2 right-[2%] w-[300px] hidden xl:block ${cinematic ? "opacity-0" : "opacity-30"}`}>
-        <MedSchematicPanel />
+      <div className={`atm-medb absolute top-1/2 -translate-y-1/2 right-[2%] w-[280px] lg:w-[320px] hidden xl:block ${cinematic ? "opacity-0" : "opacity-40"}`}>
+        <MedTQCard />
       </div>
     </div>
   );
