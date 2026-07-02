@@ -179,30 +179,35 @@ export function CinematicJourney() {
           .to(".atm-map", { yPercent: -6, duration: 10, ease: "none" }, 21)
           .to(".atm-map", { autoAlpha: 0, duration: 3 }, 30.5);
 
-        tl.set(".atm-drone", { xPercent: 160, yPercent: -50, scale: 0.55, autoAlpha: 0 }, 17.8)
+        tl.set(".atm-drone", { xPercent: 100, yPercent: -30, scale: 0.7, autoAlpha: 0 }, 17.8)
+          .to(".atm-drone", { xPercent: -40, yPercent: 10, scale: 1, autoAlpha: 0.5, duration: 12, ease: "none" }, 18)
+          .to(".atm-drone", { autoAlpha: 0, duration: 2.5 }, 29.5);
+
+        tl.set(".atm-uav", { xPercent: 130, yPercent: -20, scale: 0.7, autoAlpha: 0, rotation: 2 }, 17.8)
           .to(
-            ".atm-drone",
+            ".atm-uav",
             {
               keyframes: [
-                { xPercent: 45, yPercent: -14, scale: 0.85, autoAlpha: 0.75, duration: 4, ease: "power1.out" },
-                { xPercent: -40, yPercent: 8, scale: 1.08, autoAlpha: 0.75, duration: 4, ease: "none" },
-                { xPercent: -170, yPercent: 40, scale: 1.32, autoAlpha: 0, duration: 4, ease: "power1.in" },
+                { xPercent: 25, yPercent: 0, scale: 0.9, autoAlpha: 0.95, duration: 4.5, ease: "power1.out" },
+                { xPercent: -55, yPercent: 12, scale: 1.02, autoAlpha: 0.95, rotation: -2, duration: 5, ease: "none" },
+                { xPercent: -130, yPercent: 4, scale: 1.08, autoAlpha: 0, duration: 3.5, ease: "power1.in" },
               ],
             },
             18,
-          );
+          )
+          .to(".atm-uav", { y: -10, duration: 1.6, repeat: 7, yoyo: true, ease: "sine.inOut" }, 18);
 
-        tl.set(".atm-track", { xPercent: 220, yPercent: -60, autoAlpha: 0 }, 18.2)
+        tl.set(".atm-track", { xPercent: 150, yPercent: -10, autoAlpha: 0 }, 18.2)
           .to(
             ".atm-track",
             {
               keyframes: [
-                { xPercent: 80, yPercent: -22, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
-                { xPercent: -30, yPercent: 4, autoAlpha: 0.9, duration: 4, ease: "none" },
-                { xPercent: -190, yPercent: 40, autoAlpha: 0, duration: 3.6, ease: "power1.in" },
+                { xPercent: 40, yPercent: 8, autoAlpha: 0.9, duration: 4.5, ease: "power1.out" },
+                { xPercent: -45, yPercent: 20, autoAlpha: 0.9, duration: 5, ease: "none" },
+                { xPercent: -115, yPercent: 12, autoAlpha: 0, duration: 3.2, ease: "power1.in" },
               ],
             },
-            18.45,
+            18.4,
           );
 
         /* cena 04 — campo & treinamento: rapel real desce com o scroll, heli distante em parallax */
@@ -219,7 +224,7 @@ export function CinematicJourney() {
         /* cena 05 — medicina operacional: painel de treino real desliza em profundidade */
         tl.fromTo(".atm-medic", { xPercent: -14, y: 24, autoAlpha: 0 }, { xPercent: 0, y: 0, autoAlpha: 0.9, duration: 3.5, ease: "power1.out" }, 43)
           .fromTo(".atm-medb", { xPercent: 10, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.65, duration: 3, ease: "power1.out" }, 43.6)
-          .fromTo(".atm-medb .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5.5, stagger: 0.3, ease: "none" }, 44)
+          
           .to(".atm-medic", { y: -26, duration: 6, ease: "none" }, 47)
           .to(".atm-medic", { autoAlpha: 0, duration: 2.5 }, 50.5)
           .to(".atm-medb", { autoAlpha: 0, duration: 2.5 }, 50.5);
