@@ -179,32 +179,28 @@ export function CinematicJourney() {
           .to(".atm-map", { yPercent: -6, duration: 10, ease: "none" }, 21)
           .to(".atm-map", { autoAlpha: 0, duration: 3 }, 30.5);
 
-        tl.set(".atm-drone", { xPercent: 100, yPercent: -30, scale: 0.7, autoAlpha: 0 }, 17.8)
-          .to(".atm-drone", { xPercent: -40, yPercent: 10, scale: 1, autoAlpha: 0.5, duration: 12, ease: "none" }, 18)
-          .to(".atm-drone", { autoAlpha: 0, duration: 2.5 }, 29.5);
-
-        tl.set(".atm-uav", { xPercent: 130, yPercent: -20, scale: 0.7, autoAlpha: 0, rotation: 2 }, 17.8)
+        tl.set(".atm-drone", { xPercent: 150, yPercent: -35, scale: 0.6, autoAlpha: 0 }, 17.8)
           .to(
-            ".atm-uav",
+            ".atm-drone",
             {
               keyframes: [
-                { xPercent: 25, yPercent: 0, scale: 0.9, autoAlpha: 0.95, duration: 4.5, ease: "power1.out" },
-                { xPercent: -55, yPercent: 12, scale: 1.02, autoAlpha: 0.95, rotation: -2, duration: 5, ease: "none" },
-                { xPercent: -130, yPercent: 4, scale: 1.08, autoAlpha: 0, duration: 3.5, ease: "power1.in" },
+                { xPercent: 40, yPercent: -10, scale: 0.85, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
+                { xPercent: -45, yPercent: 12, scale: 1.12, autoAlpha: 0.9, duration: 5, ease: "none" },
+                { xPercent: -150, yPercent: 30, scale: 1.25, autoAlpha: 0, duration: 3.5, ease: "power1.in" },
               ],
             },
             18,
           )
-          .to(".atm-uav", { y: -10, duration: 1.6, repeat: 7, yoyo: true, ease: "sine.inOut" }, 18);
+          .to(".atm-drone", { y: -12, duration: 1.8, repeat: 6, yoyo: true, ease: "sine.inOut" }, 18);
 
-        tl.set(".atm-track", { xPercent: 150, yPercent: -10, autoAlpha: 0 }, 18.2)
+        tl.set(".atm-track", { xPercent: 170, yPercent: -25, autoAlpha: 0 }, 18.15)
           .to(
             ".atm-track",
             {
               keyframes: [
-                { xPercent: 40, yPercent: 8, autoAlpha: 0.9, duration: 4.5, ease: "power1.out" },
-                { xPercent: -45, yPercent: 20, autoAlpha: 0.9, duration: 5, ease: "none" },
-                { xPercent: -115, yPercent: 12, autoAlpha: 0, duration: 3.2, ease: "power1.in" },
+                { xPercent: 55, yPercent: 0, autoAlpha: 0.9, duration: 4, ease: "power1.out" },
+                { xPercent: -30, yPercent: 22, autoAlpha: 0.9, duration: 5, ease: "none" },
+                { xPercent: -135, yPercent: 40, autoAlpha: 0, duration: 3.2, ease: "power1.in" },
               ],
             },
             18.4,
@@ -233,11 +229,10 @@ export function CinematicJourney() {
         tl.set(".atm-robot", { xPercent: -300, autoAlpha: 0 }, 51.6)
           .to(".atm-robot", { xPercent: -40, autoAlpha: 0.8, duration: 4, ease: "none" }, 52)
           .to(".atm-robot", { xPercent: 150, duration: 4, ease: "power1.in" }, 56.2)
-          .to(".atm-robot", { autoAlpha: 0.2, filter: "blur(3px)", duration: 2.5 }, 57.5)
+          .to(".atm-robot", { autoAlpha: 0.3, duration: 2.5 }, 57.5)
           .fromTo(".atm-arop", { xPercent: 26, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.95, duration: 3.5, ease: "power1.out" }, 52.5)
           .to(".atm-arop", { y: -14, duration: 6, ease: "none" }, 54)
-          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.55, scale: 1, duration: 4, ease: "power1.out" }, 52.5)
-          .fromTo(".atm-glass", { autoAlpha: 0 }, { autoAlpha: 1, duration: 3 }, 53);
+          .fromTo(".atm-ar", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 0.55, scale: 1, duration: 4, ease: "power1.out" }, 52.5);
       } else {
         /* versão leve (mobile/tablet): revelações discretas, sem pin */
         gsap.utils.toArray<HTMLElement>(".cj-scene").forEach((s) => {

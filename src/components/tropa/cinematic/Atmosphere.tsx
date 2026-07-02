@@ -13,11 +13,11 @@ const GRAIN =
 
 const IMG = {
   datacenter: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=70",
-  drone: "https://images.unsplash.com/photo-1476933025333-7f84f8303a37?auto=format&fit=crop&w=1400&q=70",
+  drone: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Romanian_DJI_Matrice_300%2C_Eastern_Phoenix_2026_exercise.jpg/1280px-Romanian_DJI_Matrice_300%2C_Eastern_Phoenix_2026_exercise.jpg",
   heliRapel: "https://images.unsplash.com/photo-1763656444141-e011b6c1f81f?auto=format&fit=crop&w=1100&q=70",
   heliFundo: "https://images.unsplash.com/photo-1694931458368-33f1e05c06db?auto=format&fit=crop&w=1000&q=65",
   medTreino: "https://images.pexels.com/photos/34104787/pexels-photo-34104787/free-photo-of-cpr-training-demonstration-on-mannequin.jpeg?auto=compress&cs=tinysrgb&w=1100",
-  tq: "https://images.pexels.com/photos/4680228/pexels-photo-4680228.jpeg?auto=compress&cs=tinysrgb&w=900",
+  tq: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Combat_lifesaver_class_not_just_for_combat_130704-M-UY543-109.jpg/1280px-Combat_lifesaver_class_not_just_for_combat_130704-M-UY543-109.jpg",
   robo: "https://images.unsplash.com/photo-1778689015315-46cd9cde1419?auto=format&fit=crop&w=1400&q=70",
   arOperador: "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&w=1100&q=70",
 } as const;
@@ -29,10 +29,11 @@ type FootageProps = {
   mask?: "radial" | "left" | "right" | "bottom" | "none";
   blur?: number;
   grade?: number;
+  pos?: string;
   className?: string;
 };
 
-function Footage({ src, mask = "radial", blur = 0, grade = 0.45, className = "" }: FootageProps) {
+function Footage({ src, mask = "radial", blur = 0, grade = 0.45, pos, className = "" }: FootageProps) {
   const masks: Record<string, string | undefined> = {
     radial: "radial-gradient(ellipse 68% 62% at 50% 50%, black 36%, transparent 74%)",
     left: "linear-gradient(90deg, black 42%, transparent 96%)",
@@ -50,7 +51,7 @@ function Footage({ src, mask = "radial", blur = 0, grade = 0.45, className = "" 
         loading="lazy"
         decoding="async"
         className="w-full h-full object-cover"
-        style={{ filter: `saturate(0.55) contrast(1.1) brightness(0.78)${blur ? ` blur(${blur}px)` : ""}` }}
+        style={{ objectPosition: pos, filter: `saturate(0.55) contrast(1.1) brightness(0.78)${blur ? ` blur(${blur}px)` : ""}` }}
       />
       <div
         className="absolute inset-0"
@@ -80,59 +81,6 @@ function FootagePanel({ src, tag, sub, className = "" }: { src: string; tag: str
   );
 }
 
-/* ---------------- UAV vetorial premium (silhueta sólida, estilo render) ---------------- */
-
-function UavSilhouette() {
-  return (
-    <svg viewBox="0 0 360 200" fill="none" className="w-full h-full">
-      <defs>
-        <linearGradient id="uavBody" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="hsl(217 30% 24%)" />
-          <stop offset="1" stopColor="hsl(222 45% 8%)" />
-        </linearGradient>
-        <linearGradient id="uavRim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="hsl(199 89% 62%)" stopOpacity="0.9" />
-          <stop offset="1" stopColor="hsl(199 89% 62%)" stopOpacity="0" />
-        </linearGradient>
-        <radialGradient id="uavGlow" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="hsl(199 89% 55%)" stopOpacity="0.22" />
-          <stop offset="1" stopColor="hsl(199 89% 55%)" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse cx="180" cy="95" rx="150" ry="62" fill="url(#uavGlow)" />
-      {[
-        { x: 62, y: 52, rx: 44, ry: 7 },
-        { x: 298, y: 52, rx: 44, ry: 7 },
-        { x: 118, y: 34, rx: 34, ry: 5.5 },
-        { x: 242, y: 34, rx: 34, ry: 5.5 },
-      ].map((r, i) => (
-        <g key={i}>
-          <ellipse cx={r.x} cy={r.y} rx={r.rx} ry={r.ry} fill="hsl(199 89% 70%)" opacity="0.10" />
-          <ellipse cx={r.x} cy={r.y} rx={r.rx} ry={r.ry} stroke="hsl(199 89% 70%)" strokeOpacity="0.28" strokeWidth="1" />
-          <rect x={r.x - 6} y={r.y} width="12" height={i < 2 ? 14 : 11} rx="3" fill="url(#uavBody)" />
-        </g>
-      ))}
-      <path d="M150 88 L66 60 l4 -8 84 26 z" fill="url(#uavBody)" />
-      <path d="M210 88 L294 60 l-4 -8 -84 26 z" fill="url(#uavBody)" />
-      <path d="M158 82 L120 44 l7 -5 40 36 z" fill="url(#uavBody)" opacity="0.85" />
-      <path d="M202 82 L240 44 l-7 -5 -40 36 z" fill="url(#uavBody)" opacity="0.85" />
-      <path d="M138 78 q42 -16 84 0 l10 26 q-8 18 -52 18 q-44 0 -52 -18 z" fill="url(#uavBody)" />
-      <path d="M140 78 q40 -15 80 0" stroke="url(#uavRim)" strokeWidth="2" strokeLinecap="round" />
-      <path d="M150 118 l-12 34 h6 l12 -32 z" fill="url(#uavBody)" />
-      <path d="M210 118 l12 34 h-6 l-12 -32 z" fill="url(#uavBody)" />
-      <rect x="128" y="150" width="34" height="4" rx="2" fill="hsl(222 40% 12%)" />
-      <rect x="198" y="150" width="34" height="4" rx="2" fill="hsl(222 40% 12%)" />
-      <circle cx="180" cy="130" r="13" fill="hsl(222 45% 10%)" />
-      <circle cx="180" cy="130" r="13" stroke="hsl(199 89% 60%)" strokeOpacity="0.35" strokeWidth="1" />
-      <circle cx="180" cy="133" r="5.5" fill="hsl(199 89% 55%)" fillOpacity="0.5" />
-      <circle cx="182" cy="131" r="2" fill="hsl(199 89% 80%)" />
-      <rect x="146" y="64" width="2.5" height="12" rx="1" fill="hsl(217 30% 26%)" />
-      <rect x="212" y="64" width="2.5" height="12" rx="1" fill="hsl(217 30% 26%)" />
-      <circle cx="66" cy="66" r="2.2" fill="hsl(0 75% 58%)" />
-      <circle cx="294" cy="66" r="2.2" fill="hsl(145 65% 52%)" />
-    </svg>
-  );
-}
 
 /* ---------------- HUD e instrumentos ---------------- */
 
@@ -247,7 +195,7 @@ function MedTQCard() {
   return (
     <div className="w-full rounded-[8px] border border-border/80 bg-white/60 backdrop-blur-md p-2.5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.28)]">
       <div className="relative rounded-[6px] overflow-hidden aspect-[4/3]">
-        <Footage src={IMG.tq} mask="none" grade={0.35} className="absolute inset-0" />
+        <Footage src={IMG.tq} mask="none" grade={0.35} pos="30% 38%" className="absolute inset-0" />
         <svg viewBox="0 0 100 75" preserveAspectRatio="none" className="absolute inset-0 w-full h-full text-[hsl(199,89%,65%)]" fill="none" stroke="currentColor" strokeWidth="0.45">
           <path d="M5 12 v-7 h7" strokeOpacity="0.8" />
           <path d="M95 12 v-7 h-7" strokeOpacity="0.8" />
@@ -345,14 +293,11 @@ export function AtmoOps({ cinematic }: AtmoProps) {
       <div className={`atm-map absolute inset-x-0 bottom-0 h-[72%] ${cinematic ? "opacity-0" : "opacity-15"}`}>
         <TacMap />
       </div>
-      <div className={`atm-drone absolute left-1/2 top-[16%] -ml-64 w-[420px] lg:w-[560px] ${cinematic ? "opacity-0" : "opacity-25"}`}>
-        <Footage src={IMG.drone} mask="radial" className="aspect-[16/10]" />
-      </div>
-      <div className={`atm-uav absolute right-[8%] top-[6%] w-64 lg:w-[330px] ${cinematic ? "opacity-0" : "opacity-60"}`}>
-        <UavSilhouette />
+      <div className={`atm-drone absolute left-1/2 top-[22%] -ml-[300px] w-[480px] lg:w-[640px] ${cinematic ? "opacity-0" : "opacity-45"}`}>
+        <Footage src={IMG.drone} mask="radial" grade={0.7} className="aspect-[16/10]" />
       </div>
       {cinematic && (
-        <div className="atm-track absolute right-[10%] top-[8%] w-44 h-32 opacity-0 text-[hsl(38,70%,58%)]">
+        <div className="atm-track absolute left-1/2 top-[26%] -ml-28 w-52 h-36 opacity-0 text-[hsl(38,70%,58%)]">
           <TrackBox label="TRK-01 · UAV · LOCK" />
         </div>
       )}
@@ -400,7 +345,7 @@ export function AtmoFuture({ cinematic }: AtmoProps) {
       <div className={`atm-ar absolute inset-6 lg:inset-12 ${cinematic ? "opacity-0" : "opacity-20"}`}>
         <ArFrame />
       </div>
-      <div className={`atm-arop absolute right-[3%] top-[14%] w-52 lg:w-60 ${cinematic ? "opacity-0" : "opacity-35"}`}>
+      <div className={`atm-arop absolute right-[2%] top-[10%] w-44 lg:w-52 ${cinematic ? "opacity-0" : "opacity-35"}`}>
         <FootagePanel src={IMG.arOperador} tag="Realidade aumentada" sub="HUD · ativo" />
       </div>
       <div className={`atm-robot absolute bottom-[2%] left-1/2 -ml-56 w-[420px] lg:w-[500px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
@@ -411,9 +356,6 @@ export function AtmoFuture({ cinematic }: AtmoProps) {
           </div>
         )}
       </div>
-      {cinematic && (
-        <div className="atm-glass absolute right-[5%] top-1/2 -translate-y-1/2 h-[62%] w-36 lg:w-44 rounded-[8px] border border-border bg-white/40 backdrop-blur-md hidden lg:block" />
-      )}
     </div>
   );
 }
