@@ -1,12 +1,85 @@
 /**
- * Camadas atmosféricas cinematográficas — linguagem: holograma volumétrico,
- * bokeh/silhueta desfocada, vidro fosco, esquema técnico de precisão e HUD.
- * Nada de contorno figurativo. Containers aria-hidden + pointer-events-none.
- * Classes .atm-* são alvos da timeline GSAP em CinematicJourney.
+ * Camadas atmosféricas cinematográficas — footage real tratado.
+ * Fotografia royalty-free (Unsplash/Pexels) com grading frio navy/ciano,
+ * grain de filme, máscaras esfumadas, vidro fosco e HUD nítido.
+ * Containers aria-hidden + pointer-events-none. Classes .atm-* = alvos GSAP.
  */
+import type { CSSProperties } from "react";
+
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
 
-/* ---------------- peças ---------------- */
+const GRAIN =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E";
+
+const IMG = {
+  datacenter: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=70",
+  drone: "https://images.unsplash.com/photo-1476933025333-7f84f8303a37?auto=format&fit=crop&w=1400&q=70",
+  heliRapel: "https://images.unsplash.com/photo-1763656444141-e011b6c1f81f?auto=format&fit=crop&w=1100&q=70",
+  heliFundo: "https://images.unsplash.com/photo-1694931458368-33f1e05c06db?auto=format&fit=crop&w=1000&q=65",
+  medTreino: "https://images.pexels.com/photos/34104787/pexels-photo-34104787/free-photo-of-cpr-training-demonstration-on-mannequin.jpeg?auto=compress&cs=tinysrgb&w=1100",
+  robo: "https://images.unsplash.com/photo-1778689015315-46cd9cde1419?auto=format&fit=crop&w=1400&q=70",
+  arOperador: "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&w=1100&q=70",
+} as const;
+
+/* ---------------- footage tratado ---------------- */
+
+type FootageProps = {
+  src: string;
+  mask?: "radial" | "left" | "right" | "bottom" | "none";
+  blur?: number;
+  grade?: number;
+  className?: string;
+};
+
+function Footage({ src, mask = "radial", blur = 0, grade = 0.45, className = "" }: FootageProps) {
+  const masks: Record<string, string | undefined> = {
+    radial: "radial-gradient(ellipse 68% 62% at 50% 50%, black 36%, transparent 74%)",
+    left: "linear-gradient(90deg, black 42%, transparent 96%)",
+    right: "linear-gradient(270deg, black 42%, transparent 96%)",
+    bottom: "linear-gradient(0deg, black 40%, transparent 95%)",
+    none: undefined,
+  };
+  const m = masks[mask];
+  const style: CSSProperties = m ? { maskImage: m, WebkitMaskImage: m } : {};
+  return (
+    <div className={`relative overflow-hidden ${className}`} style={style}>
+      <img
+        src={src}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className="w-full h-full object-cover"
+        style={{ filter: `saturate(0.55) contrast(1.1) brightness(0.78)${blur ? ` blur(${blur}px)` : ""}` }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(160deg, hsla(222, 60%, 18%, ${0.3 + grade * 0.4}), hsla(199, 80%, 35%, 0.16))`,
+          mixBlendMode: "multiply",
+        }}
+      />
+      <div className="absolute inset-0" style={{ background: "hsl(199 89% 55% / 0.07)", mixBlendMode: "color" }} />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.09]"
+        style={{ backgroundImage: `url("${GRAIN}")`, backgroundSize: "160px 160px" }}
+      />
+    </div>
+  );
+}
+
+function FootagePanel({ src, tag, sub, className = "" }: { src: string; tag: string; sub: string; className?: string }) {
+  return (
+    <div className={`rounded-[8px] border border-border/70 bg-white/55 backdrop-blur-md p-2.5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.35)] ${className}`}>
+      <Footage src={src} mask="none" grade={0.3} className="rounded-[6px] aspect-[4/3]" />
+      <div className="flex items-center justify-between px-1.5 pt-2 pb-1">
+        <span className="mono text-[9px] uppercase tracking-[0.2em] text-[hsl(221,45%,40%)]">{tag}</span>
+        <span className="mono text-[9px] tracking-[0.16em] text-[hsl(38,60%,42%)]">{sub}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- HUD e instrumentos ---------------- */
 
 function GlassDoc({ tag, lines }: { tag: string; lines: number[] }) {
   return (
@@ -58,32 +131,6 @@ function SpectrumBars() {
   );
 }
 
-/** Drone como holograma volumétrico — gradientes desfocados, sem contorno. */
-function HoloDrone() {
-  return (
-    <div className="relative w-full aspect-[3/1]">
-      <div className="absolute inset-0" style={{ filter: "blur(6px)" }}>
-        <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24%] h-[44%] rounded-[45%]"
-          style={{ background: "radial-gradient(ellipse at 50% 45%, hsl(199 89% 62% / 0.4), hsl(199 89% 55% / 0.12) 60%, transparent 78%)" }}
-        />
-        <div className="absolute left-[12%] right-[12%] top-1/2 h-[7%] -translate-y-1/2 rotate-[7deg]" style={{ background: "linear-gradient(90deg, transparent, hsl(199 89% 60% / 0.26) 18%, hsl(199 89% 60% / 0.26) 82%, transparent)" }} />
-        <div className="absolute left-[12%] right-[12%] top-1/2 h-[7%] -translate-y-1/2 -rotate-[7deg]" style={{ background: "linear-gradient(90deg, transparent, hsl(199 89% 60% / 0.26) 18%, hsl(199 89% 60% / 0.26) 82%, transparent)" }} />
-        {[{ l: "3%", t: "8%" }, { l: "73%", t: "8%" }, { l: "3%", t: "52%" }, { l: "73%", t: "52%" }].map((p, i) => (
-          <div
-            key={i}
-            className="atm-rotor absolute w-[24%] aspect-square rounded-full opacity-90"
-            style={{ left: p.l, top: p.t, background: "radial-gradient(circle, hsl(199 89% 66% / 0.28), hsl(199 89% 60% / 0.09) 52%, transparent 70%)" }}
-          />
-        ))}
-      </div>
-      <span className="absolute left-[15%] top-[28%] w-1 h-1 rounded-full bg-[hsl(38,80%,60%)] shadow-[0_0_8px_hsl(38_80%_60%/0.9)]" />
-      <span className="absolute right-[15%] top-[28%] w-1 h-1 rounded-full bg-[hsl(199,89%,65%)] shadow-[0_0_8px_hsl(199_89%_65%/0.9)]" />
-      <div className="absolute left-1/2 -translate-x-1/2 -bottom-[26%] w-[46%] h-[24%] rounded-full" style={{ background: "radial-gradient(ellipse, hsl(199 89% 55% / 0.10), transparent 70%)" }} />
-    </div>
-  );
-}
-
 function TacMap() {
   const WPS = [
     { x: 90, y: 420, l: "WP-0" },
@@ -113,27 +160,6 @@ function TacMap() {
   );
 }
 
-/** Forma humana distante e fora de foco — apenas bokeh, sem anatomia. */
-function BokehFigure({ tone = "bg-slate-300" }: { tone?: string }) {
-  return (
-    <div className="relative w-10 h-16" style={{ filter: "blur(6px)" }}>
-      <div className={`absolute left-1/2 -translate-x-1/2 top-0 w-5 h-5 rounded-full ${tone}/25`} />
-      <div className={`absolute left-1/2 -translate-x-1/2 top-4 w-8 h-11 rounded-[45%] ${tone}/20`} />
-    </div>
-  );
-}
-
-function DescentLayer() {
-  return (
-    <div className="relative w-full h-full">
-      <span className="absolute left-[30%] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent" />
-      <span className="absolute left-[68%] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent" />
-      <div className="atm-rappel-fig absolute left-[30%] -translate-x-1/2 top-[22%]"><BokehFigure /></div>
-      <div className="atm-rappel-fig absolute left-[68%] -translate-x-1/2 top-[48%]"><BokehFigure /></div>
-    </div>
-  );
-}
-
 function BlurredTeam() {
   return (
     <div className="flex items-end gap-12" style={{ filter: "blur(9px)" }}>
@@ -160,12 +186,11 @@ function AltScale() {
   );
 }
 
-/** Painel de treino de medicina operacional — vidro fosco + esquema geométrico de precisão. */
-function MedTrainingPanel() {
+function MedSchematicPanel() {
   return (
     <div className="w-full rounded-[8px] border border-border/80 bg-white/60 backdrop-blur-md p-6 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.28)]">
       <div className="flex items-center justify-between">
-        <span className="mono text-[9.5px] uppercase tracking-[0.22em] text-[hsl(221,45%,40%)]">Medicina operacional · treino</span>
+        <span className="mono text-[9.5px] uppercase tracking-[0.22em] text-[hsl(221,45%,40%)]">Procedimento · torniquete</span>
         <span className="mono text-[9.5px] tracking-[0.18em] text-[hsl(38,60%,42%)]">TQ · 14:32</span>
       </div>
       <div className="mt-5">
@@ -192,28 +217,6 @@ function MedTrainingPanel() {
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-/** Automação como massa industrial fora de foco — sem mascote, sem contorno. */
-function IndustrialForm() {
-  return (
-    <div className="relative w-full aspect-[5/2]">
-      <div className="absolute inset-0" style={{ filter: "blur(7px)" }}>
-        <div className="absolute left-[8%] right-[22%] top-[22%] bottom-[30%] rounded-[14px]" style={{ background: "linear-gradient(165deg, hsl(222 40% 26% / 0.45), hsl(222 45% 12% / 0.6))" }} />
-        <div className="absolute right-[10%] top-[30%] w-[16%] h-[26%] rounded-[8px]" style={{ background: "hsl(222 45% 16% / 0.55)" }} />
-        {[18, 36, 58, 76].map((l, i) => (
-          <div
-            key={i}
-            className="absolute w-[3.5%] top-[62%] bottom-[6%] rounded-full"
-            style={{ left: `${l}%`, background: "linear-gradient(180deg, hsl(222 45% 14% / 0.55), transparent)", transform: i % 2 ? "rotate(6deg)" : "rotate(-5deg)" }}
-          />
-        ))}
-      </div>
-      <div className="absolute left-[8%] right-[22%] top-[22%] h-px" style={{ background: "linear-gradient(90deg, transparent, hsl(199 89% 48% / 0.35), transparent)" }} />
-      <span className="absolute right-[16%] top-[33%] w-1.5 h-1.5 rounded-full bg-[hsl(199,89%,48%)] shadow-[0_0_10px_hsl(199_89%_48%/0.8)]" />
-      <div className="absolute left-[10%] right-[24%] -bottom-[4%] h-[14%] rounded-full" style={{ background: "radial-gradient(ellipse, hsl(222 45% 20% / 0.18), transparent 70%)" }} />
     </div>
   );
 }
@@ -267,15 +270,13 @@ export function AtmoEntry({ cinematic }: AtmoProps) {
 export function AtmoResearch({ cinematic }: AtmoProps) {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-      <div className={`atm-paper-1 absolute top-[12%] right-[7%] w-48 lg:w-56 ${cinematic ? "opacity-0" : "opacity-40"}`}>
+      <div className={`atm-dc absolute right-[-4%] top-[10%] w-[420px] lg:w-[540px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
+        <Footage src={IMG.datacenter} mask="radial" className="aspect-[16/10]" />
+      </div>
+      <div className={`atm-paper-1 absolute top-[58%] right-[7%] w-44 lg:w-52 ${cinematic ? "opacity-0" : "opacity-40"}`}>
         <GlassDoc tag="Paper · DOI 10.5281" lines={[80, 62, 71, 48]} />
       </div>
-      {cinematic && (
-        <div className="atm-paper-2 absolute top-[50%] right-[2%] w-40 opacity-0" style={{ filter: "blur(2px)" }}>
-          <GlassDoc tag="Dataset · v12" lines={[70, 54, 63]} />
-        </div>
-      )}
-      <div className={`atm-neural absolute bottom-[10%] right-[12%] w-56 lg:w-64 ${cinematic ? "opacity-0" : "opacity-30"}`}>
+      <div className={`atm-neural absolute bottom-[8%] right-[30%] w-52 lg:w-60 hidden lg:block ${cinematic ? "opacity-0" : "opacity-30"}`}>
         <Constellation />
       </div>
       <div className={`absolute top-[16%] left-[4%] ${cinematic ? "" : "opacity-30"}`}>
@@ -291,11 +292,11 @@ export function AtmoOps({ cinematic }: AtmoProps) {
       <div className={`atm-map absolute inset-x-0 bottom-0 h-[72%] ${cinematic ? "opacity-0" : "opacity-15"}`}>
         <TacMap />
       </div>
-      <div className={`atm-drone absolute left-1/2 top-[24%] -ml-48 w-80 lg:w-[420px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
-        <HoloDrone />
+      <div className={`atm-drone absolute left-1/2 top-[16%] -ml-64 w-[420px] lg:w-[560px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
+        <Footage src={IMG.drone} mask="radial" className="aspect-[16/10]" />
       </div>
       {cinematic && (
-        <div className="atm-track absolute left-1/2 top-[23%] -ml-24 w-44 h-32 opacity-0 text-[hsl(38,70%,58%)]">
+        <div className="atm-track absolute left-1/2 top-[22%] -ml-24 w-44 h-32 opacity-0 text-[hsl(38,70%,58%)]">
           <TrackBox label="TRK-01 · UAV · LOCK" />
         </div>
       )}
@@ -306,14 +307,17 @@ export function AtmoOps({ cinematic }: AtmoProps) {
 export function AtmoField({ cinematic }: AtmoProps) {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none select-none">
+      <div className={`atm-heli2 absolute left-[2%] top-[6%] w-[280px] hidden lg:block ${cinematic ? "opacity-0" : "opacity-20"}`}>
+        <Footage src={IMG.heliFundo} mask="radial" blur={2} className="aspect-[16/10]" />
+      </div>
+      <div className={`atm-rappel absolute right-0 lg:right-[1%] top-[4%] w-[280px] lg:w-[360px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
+        <Footage src={IMG.heliRapel} mask="radial" className="aspect-[3/4]" />
+      </div>
       <div className={`atm-team absolute bottom-[12%] left-[8%] ${cinematic ? "opacity-0" : "opacity-10"}`}>
         <BlurredTeam />
       </div>
-      <div className={`atm-rappel absolute top-0 right-4 lg:right-10 h-[130%] w-36 lg:w-44 ${cinematic ? "opacity-0" : "opacity-20"}`}>
-        <DescentLayer />
-      </div>
       {cinematic && (
-        <div className="absolute right-6 lg:right-14 top-1/2 -translate-y-1/2">
+        <div className="absolute right-6 lg:right-12 top-1/2 -translate-y-1/2">
           <AltScale />
         </div>
       )}
@@ -324,8 +328,11 @@ export function AtmoField({ cinematic }: AtmoProps) {
 export function AtmoMedic({ cinematic }: AtmoProps) {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-      <div className={`atm-medic absolute top-1/2 -translate-y-1/2 left-[1%] w-[300px] lg:w-[380px] ${cinematic ? "opacity-0" : "opacity-40"}`}>
-        <MedTrainingPanel />
+      <div className={`atm-medic absolute top-1/2 -translate-y-1/2 left-[2%] w-[260px] lg:w-[320px] ${cinematic ? "opacity-0" : "opacity-40"}`}>
+        <FootagePanel src={IMG.medTreino} tag="Medicina operacional" sub="Treino · RCP" />
+      </div>
+      <div className={`atm-medb absolute top-1/2 -translate-y-1/2 right-[2%] w-[300px] hidden xl:block ${cinematic ? "opacity-0" : "opacity-30"}`}>
+        <MedSchematicPanel />
       </div>
     </div>
   );
@@ -336,24 +343,14 @@ export function AtmoFuture({ cinematic }: AtmoProps) {
     <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none select-none text-[hsl(221,50%,35%)]">
       <div className={`atm-ar absolute inset-6 lg:inset-12 ${cinematic ? "opacity-0" : "opacity-20"}`}>
         <ArFrame />
-        <div className="atm-ar-panel absolute left-[6%] top-[18%] w-44 rounded-[8px] border border-border/70 bg-white/55 backdrop-blur-md p-3.5">
-          <span className="mono text-[9px] uppercase tracking-[0.2em] text-[hsl(221,45%,40%)]">Automação · on</span>
-          <div className="mt-2.5 space-y-1.5">
-            <div className="h-[3px] w-4/5 rounded-full bg-[hsl(221,45%,40%)]/25" />
-            <div className="h-[3px] w-3/5 rounded-full bg-[hsl(221,45%,40%)]/15" />
-          </div>
-        </div>
-        <div className="atm-ar-panel absolute right-[6%] bottom-[16%] w-44 rounded-[8px] border border-border/70 bg-white/55 backdrop-blur-md p-3.5">
-          <span className="mono text-[9px] uppercase tracking-[0.2em] text-[hsl(221,45%,40%)]">Educação · dados</span>
-          <svg viewBox="0 0 100 26" className="mt-2 w-full">
-            <polyline points="0,22 16,14 32,18 48,8 64,13 80,5 100,10" fill="none" stroke="hsl(221 45% 40% / 0.4)" strokeWidth="1.2" />
-          </svg>
-        </div>
       </div>
-      <div className={`atm-robot absolute bottom-[6%] left-1/2 -ml-36 w-72 lg:w-80 ${cinematic ? "opacity-0" : "opacity-25"}`}>
-        <IndustrialForm />
+      <div className={`atm-arop absolute right-[3%] top-[14%] w-52 lg:w-60 ${cinematic ? "opacity-0" : "opacity-35"}`}>
+        <FootagePanel src={IMG.arOperador} tag="Realidade aumentada" sub="HUD · ativo" />
+      </div>
+      <div className={`atm-robot absolute bottom-[2%] left-1/2 -ml-56 w-[420px] lg:w-[500px] ${cinematic ? "opacity-0" : "opacity-30"}`}>
+        <Footage src={IMG.robo} mask="radial" className="aspect-[16/9]" />
         {cinematic && (
-          <div className="absolute -top-8 left-10 w-40 h-28 text-[hsl(38,70%,48%)] opacity-80">
+          <div className="absolute top-[18%] left-[14%] w-36 h-24 text-[hsl(38,70%,48%)] opacity-90">
             <TrackBox label="UGV-02 · AUTO" />
           </div>
         )}
