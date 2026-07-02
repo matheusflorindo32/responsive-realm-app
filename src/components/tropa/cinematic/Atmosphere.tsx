@@ -29,10 +29,11 @@ type FootageProps = {
   mask?: "radial" | "left" | "right" | "bottom" | "none";
   blur?: number;
   grade?: number;
+  pos?: string;
   className?: string;
 };
 
-function Footage({ src, mask = "radial", blur = 0, grade = 0.45, className = "" }: FootageProps) {
+function Footage({ src, mask = "radial", blur = 0, grade = 0.45, pos, className = "" }: FootageProps) {
   const masks: Record<string, string | undefined> = {
     radial: "radial-gradient(ellipse 68% 62% at 50% 50%, black 36%, transparent 74%)",
     left: "linear-gradient(90deg, black 42%, transparent 96%)",
@@ -50,7 +51,7 @@ function Footage({ src, mask = "radial", blur = 0, grade = 0.45, className = "" 
         loading="lazy"
         decoding="async"
         className="w-full h-full object-cover"
-        style={{ filter: `saturate(0.55) contrast(1.1) brightness(0.78)${blur ? ` blur(${blur}px)` : ""}` }}
+        style={{ objectPosition: pos, filter: `saturate(0.55) contrast(1.1) brightness(0.78)${blur ? ` blur(${blur}px)` : ""}` }}
       />
       <div
         className="absolute inset-0"
