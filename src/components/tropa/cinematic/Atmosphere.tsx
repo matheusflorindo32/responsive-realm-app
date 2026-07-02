@@ -13,7 +13,7 @@ const GRAIN =
 
 const IMG = {
   datacenter: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=70",
-  drone: "https://images.unsplash.com/photo-1476933025333-7f84f8303a37?auto=format&fit=crop&w=1400&q=70",
+  drone: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Romanian_DJI_Matrice_300%2C_Eastern_Phoenix_2026_exercise.jpg/1280px-Romanian_DJI_Matrice_300%2C_Eastern_Phoenix_2026_exercise.jpg",
   heliRapel: "https://images.unsplash.com/photo-1763656444141-e011b6c1f81f?auto=format&fit=crop&w=1100&q=70",
   heliFundo: "https://images.unsplash.com/photo-1694931458368-33f1e05c06db?auto=format&fit=crop&w=1000&q=65",
   medTreino: "https://images.pexels.com/photos/34104787/pexels-photo-34104787/free-photo-of-cpr-training-demonstration-on-mannequin.jpeg?auto=compress&cs=tinysrgb&w=1100",
