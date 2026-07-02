@@ -224,7 +224,7 @@ export function CinematicJourney() {
         /* cena 05 — medicina operacional: painel de treino real desliza em profundidade */
         tl.fromTo(".atm-medic", { xPercent: -14, y: 24, autoAlpha: 0 }, { xPercent: 0, y: 0, autoAlpha: 0.9, duration: 3.5, ease: "power1.out" }, 43)
           .fromTo(".atm-medb", { xPercent: 10, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 0.65, duration: 3, ease: "power1.out" }, 43.6)
-          .fromTo(".atm-medb .atm-draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5.5, stagger: 0.3, ease: "none" }, 44)
+          
           .to(".atm-medic", { y: -26, duration: 6, ease: "none" }, 47)
           .to(".atm-medic", { autoAlpha: 0, duration: 2.5 }, 50.5)
           .to(".atm-medb", { autoAlpha: 0, duration: 2.5 }, 50.5);
