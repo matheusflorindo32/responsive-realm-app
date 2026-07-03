@@ -359,13 +359,24 @@ export default function CertificadoPublico() {
           <div className="text-center space-y-2" role="status" aria-live="polite">
             <div
               className={`inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] ${
-                valid ? "text-muted-foreground" : "text-destructive"
+                isDemo ? "text-primary" : valid ? "text-muted-foreground" : "text-destructive"
               }`}
             >
-              {valid ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <XCircle className="w-4 h-4" />}
-              {valid ? "Certificado válido" : "Certificado revogado"}
+              {isDemo ? (
+                <Award className="w-4 h-4 text-primary" />
+              ) : valid ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              ) : (
+                <XCircle className="w-4 h-4" />
+              )}
+              {isDemo
+                ? "Certificado demonstrativo — modelo público"
+                : valid
+                ? "Certificado válido"
+                : "Certificado revogado"}
             </div>
           </div>
+
 
           {!valid && (
             <div className="rounded-lg border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 flex items-start gap-3">
