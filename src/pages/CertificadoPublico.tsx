@@ -307,7 +307,7 @@ export default function CertificadoPublico() {
     );
   }
 
-  if (!cert.data) {
+  if (!isDemo && !cert.data) {
     return (
       <ErrorLayout
         icon={XCircle}
@@ -340,7 +340,7 @@ export default function CertificadoPublico() {
   }
 
 
-  const c = cert.data as any;
+  const c = isDemo ? DEMO_CERT : (cert.data as any);
   const valid = c.status === "valid";
   const issuer = c.issuer || "Tropa Científica";
 
