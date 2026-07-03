@@ -627,11 +627,11 @@ export default function CertificadosVitrine() {
                               )}
                               <div className="min-w-0 flex-1">
                                 <div className="font-mono text-xs tracking-wider truncate">
-                                  {s.code}
+                                  <Highlight text={s.code} query={query} />
                                 </div>
                                 {s.label && (
                                   <div className="text-[11px] text-muted-foreground truncate">
-                                    {s.label}
+                                    <Highlight text={s.label} query={query} />
                                   </div>
                                 )}
                               </div>
