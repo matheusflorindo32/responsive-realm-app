@@ -10,15 +10,31 @@ import { toast } from "sonner";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+const DEMO_CERT = {
+  certificate_code: "TROPA-DEMO-2026",
+  student_name: "Matheus Florindo de Deus",
+  course_title: "Formação Premium Elite em Ciência, Tecnologia e Operações",
+  trail_name: "Tropa Científica — Inteligência Aplicada à Segurança Pública",
+  issuer: "Tropa Científica",
+  hours: 40,
+  issued_at: "2026-07-03T12:00:00-03:00",
+  status: "valid" as const,
+  revoked_at: null as string | null,
+};
+
 export default function CertificadoPublico() {
   const { code } = useParams<{ code: string }>();
-  const url = typeof window !== "undefined" ? `${window.location.origin}/certificado/${code}` : "";
+  const isDemo = !!code && code.toLowerCase() === "demo";
+  const url =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/certificado/${isDemo ? "demo" : code}`
+      : "";
 
   const codeFormatValid = !!code && /^[A-Za-z0-9-]{6,64}$/.test(code);
 
   const cert = useQuery({
     queryKey: ["verify-cert", code],
-    enabled: codeFormatValid,
+    enabled: !isDemo && codeFormatValid,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("verify_certificate", { _code: code! });
       if (error) throw error;
