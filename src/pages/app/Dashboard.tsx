@@ -8,6 +8,7 @@ import { TrailCard } from "@/components/app/TrailCard";
 import { ContinueWatching } from "@/components/app/ContinueWatching";
 import { CertificateHighlight } from "@/components/app/CertificateHighlight";
 import { DashboardStats } from "@/components/app/DashboardStats";
+import { DashboardSkeleton } from "@/components/skeletons";
 
 export default function Dashboard() {
   const me = useQuery({
@@ -67,6 +68,8 @@ export default function Dashboard() {
   const totalHours = Math.round(((courseEnrolls.length * 60) + totalLessonsCompleted * 15) / 60);
 
   const continueItem = lessonProgress.data?.[0] as any;
+
+  if (enrollments.isLoading || me.isLoading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-10">

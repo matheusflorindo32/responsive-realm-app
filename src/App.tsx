@@ -31,6 +31,7 @@ import CursoDetalhe from "./pages/admin/ensino/CursoDetalhe";
 import Matriculas from "./pages/admin/ensino/Matriculas";
 import Auditoria from "./pages/admin/ensino/Auditoria";
 import AlunoDetalhe from "./pages/admin/ensino/AlunoDetalhe";
+import CertificadosAdmin from "./pages/admin/ensino/CertificadosAdmin";
 import CertificadoPublico from "./pages/CertificadoPublico";
 import Entrar from "./pages/app/Entrar";
 import AppLayout from "./pages/app/AppLayout";
@@ -87,6 +88,7 @@ const App = () => (
               <Route path="/admin/ensino/matriculas" element={<Matriculas />} />
               <Route path="/admin/ensino/auditoria" element={<Auditoria />} />
               <Route path="/admin/ensino/alunos/:userId" element={<AlunoDetalhe />} />
+              <Route path="/admin/ensino/certificados" element={<CertificadosAdmin />} />
             </Route>
 
             {/* Validação pública de certificado */}
