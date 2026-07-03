@@ -33,6 +33,7 @@ import Auditoria from "./pages/admin/ensino/Auditoria";
 import AlunoDetalhe from "./pages/admin/ensino/AlunoDetalhe";
 import CertificadosAdmin from "./pages/admin/ensino/CertificadosAdmin";
 import CertificadoPublico from "./pages/CertificadoPublico";
+import CertificadosVitrine from "./pages/CertificadosVitrine";
 import Entrar from "./pages/app/Entrar";
 import AppLayout from "./pages/app/AppLayout";
 import Dashboard from "./pages/app/Dashboard";
