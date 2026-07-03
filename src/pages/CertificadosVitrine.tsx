@@ -166,7 +166,19 @@ function CertCard({
   );
 }
 
+type SearchState =
+  | { kind: "idle" }
+  | { kind: "loading"; code: string }
+  | { kind: "invalid"; code: string }
+  | { kind: "not_found"; code: string }
+  | { kind: "error"; code: string }
+  | { kind: "found"; code: string; cert: any };
+
 export default function CertificadosVitrine() {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [search, setSearch] = useState<SearchState>({ kind: "idle" });
+
   const q = useQuery({
     queryKey: ["public-certificates"],
     queryFn: async () => {
@@ -177,6 +189,33 @@ export default function CertificadosVitrine() {
   });
 
   const reais = (q.data ?? []).filter((c) => c.certificate_code !== "TROPA-DEMO-2026");
+
+  async function onSearch(e: FormEvent) {
+    e.preventDefault();
+    const raw = query.trim();
+    if (!raw) return;
+    if (raw.toLowerCase() === "demo") {
+      navigate("/certificado/demo");
+      return;
+    }
+    if (!/^[A-Za-z0-9-]{6,64}$/.test(raw)) {
+      setSearch({ kind: "invalid", code: raw });
+      return;
+    }
+    setSearch({ kind: "loading", code: raw });
+    const { data, error } = await supabase.rpc("verify_certificate", { _code: raw });
+    if (error) {
+      setSearch({ kind: "error", code: raw });
+      return;
+    }
+    const cert = (data as any)?.[0] ?? null;
+    if (!cert) {
+      setSearch({ kind: "not_found", code: raw });
+      return;
+    }
+    setSearch({ kind: "found", code: raw, cert });
+  }
+
 
   return (
     <>
