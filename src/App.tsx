@@ -29,6 +29,9 @@ import Trilhas from "./pages/admin/ensino/Trilhas";
 import Cursos from "./pages/admin/ensino/Cursos";
 import CursoDetalhe from "./pages/admin/ensino/CursoDetalhe";
 import Matriculas from "./pages/admin/ensino/Matriculas";
+import Auditoria from "./pages/admin/ensino/Auditoria";
+import AlunoDetalhe from "./pages/admin/ensino/AlunoDetalhe";
+import CertificadoPublico from "./pages/CertificadoPublico";
 import Entrar from "./pages/app/Entrar";
 import AppLayout from "./pages/app/AppLayout";
 import Dashboard from "./pages/app/Dashboard";
@@ -82,7 +85,12 @@ const App = () => (
               <Route path="/admin/ensino/cursos" element={<Cursos />} />
               <Route path="/admin/ensino/cursos/:id" element={<CursoDetalhe />} />
               <Route path="/admin/ensino/matriculas" element={<Matriculas />} />
+              <Route path="/admin/ensino/auditoria" element={<Auditoria />} />
+              <Route path="/admin/ensino/alunos/:userId" element={<AlunoDetalhe />} />
             </Route>
+
+            {/* Validação pública de certificado */}
+            <Route path="/certificado/:code" element={<CertificadoPublico />} />
 
             {/* Aluno */}
             <Route path="/entrar" element={<Entrar />} />
