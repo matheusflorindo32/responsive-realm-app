@@ -23,6 +23,18 @@ import TropaProjetos from "./pages/tropa/Projetos";
 import NotFound from "./pages/NotFound";
 import AdminAuth from "./pages/admin/AdminAuth";
 import AdminSync from "./pages/admin/AdminSync";
+import AdminLayout from "@/components/admin/AdminLayout";
+import EnsinoHub from "./pages/admin/ensino/Hub";
+import Trilhas from "./pages/admin/ensino/Trilhas";
+import Cursos from "./pages/admin/ensino/Cursos";
+import CursoDetalhe from "./pages/admin/ensino/CursoDetalhe";
+import Matriculas from "./pages/admin/ensino/Matriculas";
+import Entrar from "./pages/app/Entrar";
+import AppLayout from "./pages/app/AppLayout";
+import Dashboard from "./pages/app/Dashboard";
+import CursoPlayer from "./pages/app/CursoPlayer";
+import Perfil from "./pages/app/Perfil";
+import Certificados from "./pages/app/Certificados";
 
 const queryClient = new QueryClient();
 
