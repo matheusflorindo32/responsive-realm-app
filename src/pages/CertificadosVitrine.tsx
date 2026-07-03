@@ -571,7 +571,7 @@ export default function CertificadosVitrine() {
                                   )}
                                 </div>
                                 <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground/70">
-                                  {s.source === "history" ? "recente" : "válido"}
+                                  {s.source === "history" ? "histórico" : "válido"}
                                 </span>
                                 {s.source === "history" && (
                                   <span
