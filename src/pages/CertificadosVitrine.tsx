@@ -18,6 +18,8 @@ import {
   CheckCircle2,
   XCircle,
   AlertTriangle,
+  History as HistoryIcon,
+  X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -175,13 +177,38 @@ type SearchState =
   | { kind: "found"; code: string; cert: any };
 
 const LS_KEY = "tropa:last-cert-code";
+const LS_HISTORY = "tropa:cert-history";
+const HISTORY_MAX = 6;
+
+function readHistory(): string[] {
+  try {
+    const raw = localStorage.getItem(LS_HISTORY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function pushHistory(code: string): string[] {
+  const prev = readHistory().filter((c) => c.toUpperCase() !== code.toUpperCase());
+  const next = [code, ...prev].slice(0, HISTORY_MAX);
+  try { localStorage.setItem(LS_HISTORY, JSON.stringify(next)); } catch {}
+  return next;
+}
 
 export default function CertificadosVitrine() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState<SearchState>({ kind: "idle" });
+  const [history, setHistory] = useState<string[]>([]);
+  const [showSuggest, setShowSuggest] = useState(false);
+  const [activeIdx, setActiveIdx] = useState(-1);
   const lastRunRef = useRef<string | null>(null);
+  const suggestRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const q = useQuery({
     queryKey: ["public-certificates"],
@@ -194,24 +221,33 @@ export default function CertificadosVitrine() {
 
   const reais = (q.data ?? []).filter((c) => c.certificate_code !== "TROPA-DEMO-2026");
 
+  useEffect(() => { setHistory(readHistory()); }, []);
+
   const runSearch = useCallback(
-    async (raw: string, opts: { persist?: boolean } = { persist: true }) => {
+    async (raw: string, opts: { persist?: boolean; addHistory?: boolean } = {}) => {
+      const { persist = true, addHistory = true } = opts;
       const code = raw.trim();
       if (!code) return;
+      setShowSuggest(false);
+      setActiveIdx(-1);
       if (code.toLowerCase() === "demo") {
+        if (addHistory) setHistory(pushHistory("demo"));
         navigate("/certificado/demo");
         return;
       }
+      const persistState = (c: string) => {
+        if (!persist) return;
+        setParams((p) => {
+          const np = new URLSearchParams(p);
+          np.set("codigo", c);
+          return np;
+        }, { replace: true });
+        try { localStorage.setItem(LS_KEY, c); } catch {}
+      };
       if (!/^[A-Za-z0-9-]{6,64}$/.test(code)) {
         setSearch({ kind: "invalid", code });
-        if (opts.persist) {
-          setParams((p) => {
-            const np = new URLSearchParams(p);
-            np.set("codigo", code);
-            return np;
-          }, { replace: true });
-          try { localStorage.setItem(LS_KEY, code); } catch {}
-        }
+        persistState(code);
+        if (addHistory) setHistory(pushHistory(code));
         return;
       }
       setSearch({ kind: "loading", code });
@@ -222,14 +258,8 @@ export default function CertificadosVitrine() {
         const cert = (data as any)?.[0] ?? null;
         setSearch(cert ? { kind: "found", code, cert } : { kind: "not_found", code });
       }
-      if (opts.persist) {
-        setParams((p) => {
-          const np = new URLSearchParams(p);
-          np.set("codigo", code);
-          return np;
-        }, { replace: true });
-        try { localStorage.setItem(LS_KEY, code); } catch {}
-      }
+      persistState(code);
+      if (addHistory) setHistory(pushHistory(code));
     },
     [navigate, setParams],
   );
@@ -244,10 +274,8 @@ export default function CertificadosVitrine() {
     if (initial && lastRunRef.current !== initial) {
       lastRunRef.current = initial;
       setQuery(initial);
-      // don't rewrite URL if it wasn't there; do write if it was
-      runSearch(initial, { persist: !!fromUrl });
+      runSearch(initial, { persist: !!fromUrl, addHistory: false });
       if (!fromUrl) {
-        // sync URL for shareability
         setParams((p) => {
           const np = new URLSearchParams(p);
           np.set("codigo", initial);
@@ -258,10 +286,81 @@ export default function CertificadosVitrine() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Close suggestion panel on outside click
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (!suggestRef.current) return;
+      if (!suggestRef.current.contains(e.target as Node) && inputRef.current !== e.target) {
+        setShowSuggest(false);
+      }
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+
+  // Build suggestion list: history first, then remaining recent certs, filtered by query
+  const suggestions = (() => {
+    const norm = query.trim().toUpperCase();
+    const seen = new Set<string>();
+    type Item = { code: string; label?: string; source: "history" | "recent" };
+    const items: Item[] = [];
+    for (const h of history) {
+      const up = h.toUpperCase();
+      if (seen.has(up)) continue;
+      seen.add(up);
+      items.push({ code: h, source: "history" });
+    }
+    for (const c of reais) {
+      const up = c.certificate_code.toUpperCase();
+      if (seen.has(up)) continue;
+      seen.add(up);
+      items.push({ code: c.certificate_code, label: c.student_name ?? undefined, source: "recent" });
+    }
+    if (!norm) return items.slice(0, 8);
+    return items
+      .filter((i) => i.code.toUpperCase().includes(norm) || (i.label ?? "").toUpperCase().includes(norm))
+      .slice(0, 8);
+  })();
+
   function onSearch(e: FormEvent) {
     e.preventDefault();
     lastRunRef.current = query.trim();
     runSearch(query);
+  }
+
+  function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!showSuggest || suggestions.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIdx((i) => (i + 1) % suggestions.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIdx((i) => (i <= 0 ? suggestions.length - 1 : i - 1));
+    } else if (e.key === "Enter" && activeIdx >= 0) {
+      e.preventDefault();
+      const pick = suggestions[activeIdx].code;
+      setQuery(pick);
+      runSearch(pick);
+    } else if (e.key === "Escape") {
+      setShowSuggest(false);
+      setActiveIdx(-1);
+    }
+  }
+
+  function pickSuggestion(code: string) {
+    setQuery(code);
+    runSearch(code);
+  }
+
+  function removeFromHistory(code: string) {
+    const next = readHistory().filter((c) => c.toUpperCase() !== code.toUpperCase());
+    try { localStorage.setItem(LS_HISTORY, JSON.stringify(next)); } catch {}
+    setHistory(next);
+  }
+
+  function clearHistory() {
+    try { localStorage.removeItem(LS_HISTORY); } catch {}
+    setHistory([]);
   }
 
   function clearSearch() {
@@ -275,6 +374,8 @@ export default function CertificadosVitrine() {
     }, { replace: true });
     try { localStorage.removeItem(LS_KEY); } catch {}
   }
+
+
 
 
 
@@ -392,16 +493,111 @@ export default function CertificadosVitrine() {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                 <Input
+                  ref={inputRef}
                   id="cert-code"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Digite o código (ex.: TROPA-ELITE-2026)"
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setShowSuggest(true);
+                    setActiveIdx(-1);
+                  }}
+                  onFocus={() => setShowSuggest(true)}
+                  onKeyDown={onKeyDown}
+                  placeholder="Digite ou escolha um código (ex.: TROPA-ELITE-2026)"
                   className="pl-9 h-11 font-mono text-sm tracking-wider"
                   autoComplete="off"
                   spellCheck={false}
                   aria-describedby="busca-cert-hint"
+                  aria-autocomplete="list"
+                  aria-expanded={showSuggest && suggestions.length > 0}
+                  aria-controls="cert-suggest"
+                  role="combobox"
                 />
+
+                <AnimatePresence>
+                  {showSuggest && suggestions.length > 0 && (
+                    <motion.div
+                      ref={suggestRef}
+                      id="cert-suggest"
+                      role="listbox"
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute z-30 left-0 right-0 top-[calc(100%+6px)] rounded-xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-2xl overflow-hidden"
+                    >
+                      {history.length > 0 && (
+                        <div className="flex items-center justify-between px-3 pt-2 pb-1">
+                          <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-muted-foreground">
+                            Histórico
+                          </span>
+                          <button
+                            type="button"
+                            onMouseDown={(e) => { e.preventDefault(); clearHistory(); }}
+                            className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+                          >
+                            Limpar
+                          </button>
+                        </div>
+                      )}
+                      <ul className="max-h-72 overflow-auto py-1">
+                        {suggestions.map((s, idx) => {
+                          const active = idx === activeIdx;
+                          return (
+                            <li key={s.code + s.source}>
+                              <button
+                                type="button"
+                                role="option"
+                                aria-selected={active}
+                                onMouseEnter={() => setActiveIdx(idx)}
+                                onMouseDown={(e) => { e.preventDefault(); pickSuggestion(s.code); }}
+                                className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
+                                  active ? "bg-muted/50" : "hover:bg-muted/30"
+                                }`}
+                              >
+                                {s.source === "history" ? (
+                                  <HistoryIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                                ) : (
+                                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                )}
+                                <div className="min-w-0 flex-1">
+                                  <div className="font-mono text-xs tracking-wider truncate">
+                                    {s.code}
+                                  </div>
+                                  {s.label && (
+                                    <div className="text-[11px] text-muted-foreground truncate">
+                                      {s.label}
+                                    </div>
+                                  )}
+                                </div>
+                                <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground/70">
+                                  {s.source === "history" ? "histórico" : "válido"}
+                                </span>
+                                {s.source === "history" && (
+                                  <span
+                                    role="button"
+                                    tabIndex={-1}
+                                    aria-label={`Remover ${s.code} do histórico`}
+                                    onMouseDown={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      removeFromHistory(s.code);
+                                    }}
+                                    className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-destructive transition-colors"
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </span>
+                                )}
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
+
               <Button
                 type="submit"
                 size="lg"
