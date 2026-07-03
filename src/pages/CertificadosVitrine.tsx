@@ -174,10 +174,14 @@ type SearchState =
   | { kind: "error"; code: string }
   | { kind: "found"; code: string; cert: any };
 
+const LS_KEY = "tropa:last-cert-code";
+
 export default function CertificadosVitrine() {
   const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState<SearchState>({ kind: "idle" });
+  const lastRunRef = useRef<string | null>(null);
 
   const q = useQuery({
     queryKey: ["public-certificates"],
@@ -190,31 +194,89 @@ export default function CertificadosVitrine() {
 
   const reais = (q.data ?? []).filter((c) => c.certificate_code !== "TROPA-DEMO-2026");
 
-  async function onSearch(e: FormEvent) {
+  const runSearch = useCallback(
+    async (raw: string, opts: { persist?: boolean } = { persist: true }) => {
+      const code = raw.trim();
+      if (!code) return;
+      if (code.toLowerCase() === "demo") {
+        navigate("/certificado/demo");
+        return;
+      }
+      if (!/^[A-Za-z0-9-]{6,64}$/.test(code)) {
+        setSearch({ kind: "invalid", code });
+        if (opts.persist) {
+          setParams((p) => {
+            const np = new URLSearchParams(p);
+            np.set("codigo", code);
+            return np;
+          }, { replace: true });
+          try { localStorage.setItem(LS_KEY, code); } catch {}
+        }
+        return;
+      }
+      setSearch({ kind: "loading", code });
+      const { data, error } = await supabase.rpc("verify_certificate", { _code: code });
+      if (error) {
+        setSearch({ kind: "error", code });
+      } else {
+        const cert = (data as any)?.[0] ?? null;
+        setSearch(cert ? { kind: "found", code, cert } : { kind: "not_found", code });
+      }
+      if (opts.persist) {
+        setParams((p) => {
+          const np = new URLSearchParams(p);
+          np.set("codigo", code);
+          return np;
+        }, { replace: true });
+        try { localStorage.setItem(LS_KEY, code); } catch {}
+      }
+    },
+    [navigate, setParams],
+  );
+
+  // Hydrate from URL (?codigo=…) or localStorage on first mount
+  useEffect(() => {
+    const fromUrl = params.get("codigo")?.trim() ?? "";
+    let initial = fromUrl;
+    if (!initial) {
+      try { initial = localStorage.getItem(LS_KEY)?.trim() ?? ""; } catch {}
+    }
+    if (initial && lastRunRef.current !== initial) {
+      lastRunRef.current = initial;
+      setQuery(initial);
+      // don't rewrite URL if it wasn't there; do write if it was
+      runSearch(initial, { persist: !!fromUrl });
+      if (!fromUrl) {
+        // sync URL for shareability
+        setParams((p) => {
+          const np = new URLSearchParams(p);
+          np.set("codigo", initial);
+          return np;
+        }, { replace: true });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function onSearch(e: FormEvent) {
     e.preventDefault();
-    const raw = query.trim();
-    if (!raw) return;
-    if (raw.toLowerCase() === "demo") {
-      navigate("/certificado/demo");
-      return;
-    }
-    if (!/^[A-Za-z0-9-]{6,64}$/.test(raw)) {
-      setSearch({ kind: "invalid", code: raw });
-      return;
-    }
-    setSearch({ kind: "loading", code: raw });
-    const { data, error } = await supabase.rpc("verify_certificate", { _code: raw });
-    if (error) {
-      setSearch({ kind: "error", code: raw });
-      return;
-    }
-    const cert = (data as any)?.[0] ?? null;
-    if (!cert) {
-      setSearch({ kind: "not_found", code: raw });
-      return;
-    }
-    setSearch({ kind: "found", code: raw, cert });
+    lastRunRef.current = query.trim();
+    runSearch(query);
   }
+
+  function clearSearch() {
+    setQuery("");
+    setSearch({ kind: "idle" });
+    lastRunRef.current = null;
+    setParams((p) => {
+      const np = new URLSearchParams(p);
+      np.delete("codigo");
+      return np;
+    }, { replace: true });
+    try { localStorage.removeItem(LS_KEY); } catch {}
+  }
+
+
 
 
   return (
