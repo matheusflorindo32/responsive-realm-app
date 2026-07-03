@@ -8,6 +8,7 @@ import { TrailCard } from "@/components/app/TrailCard";
 import { ContinueWatching } from "@/components/app/ContinueWatching";
 import { CertificateHighlight } from "@/components/app/CertificateHighlight";
 import { DashboardStats } from "@/components/app/DashboardStats";
+import { DashboardSkeleton } from "@/components/skeletons";
 
 export default function Dashboard() {
   const me = useQuery({
