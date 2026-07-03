@@ -412,6 +412,18 @@ export default function CertificadoPublico() {
               </div>
             )}
 
+            {isDemo && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 grid place-items-center overflow-hidden"
+              >
+                <div className="rotate-[-14deg] border-2 border-primary/40 text-primary/30 text-5xl md:text-7xl font-black tracking-[0.35em] px-8 py-3 select-none">
+                  MODELO
+                </div>
+              </div>
+            )}
+
+
             <div className="relative grid md:grid-cols-[1fr_auto] gap-10 items-start">
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
