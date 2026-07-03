@@ -38,7 +38,7 @@ export default function CertificadosAdmin() {
       if (error) throw error;
     },
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-certs"] }); toast.success("Certificado revogado"); setTarget(null); setReason(""); },
-    onError: toastError,
+    onError: (e) => toastError(e),
   });
 
   const filtered = (list.data ?? []).filter((c: any) => {

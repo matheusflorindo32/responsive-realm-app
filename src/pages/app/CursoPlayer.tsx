@@ -79,7 +79,7 @@ export default function CursoPlayer() {
       qc.invalidateQueries({ queryKey: ["my-progress"] });
       toast.success("Progresso salvo");
     },
-    onError: toastError,
+    onError: (e) => toastError(e),
   });
 
   const modules = useMemo(
