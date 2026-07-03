@@ -69,6 +69,8 @@ export default function Dashboard() {
 
   const continueItem = lessonProgress.data?.[0] as any;
 
+  if (enrollments.isLoading || me.isLoading) return <DashboardSkeleton />;
+
   return (
     <div className="space-y-10">
       {/* Header */}
