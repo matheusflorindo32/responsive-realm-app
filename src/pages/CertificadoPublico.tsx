@@ -2,16 +2,21 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { QRCodeSVG } from "qrcode.react";
-import { Award, CheckCircle2, XCircle, Calendar, Clock, Hash, Route as RouteIcon, AlertTriangle } from "lucide-react";
+import { Award, CheckCircle2, XCircle, Calendar, Clock, Hash, Route as RouteIcon, AlertTriangle, ShieldAlert, Loader2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 export default function CertificadoPublico() {
   const { code } = useParams<{ code: string }>();
   const url = typeof window !== "undefined" ? `${window.location.origin}/certificado/${code}` : "";
 
+  const codeFormatValid = !!code && /^[A-Za-z0-9-]{6,64}$/.test(code);
+
   const cert = useQuery({
     queryKey: ["verify-cert", code],
+    enabled: codeFormatValid,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("verify_certificate", { _code: code! });
       if (error) throw error;
@@ -19,19 +24,120 @@ export default function CertificadoPublico() {
     },
   });
 
+  const ErrorLayout = ({
+    icon: Icon,
+    iconClass,
+    title,
+    description,
+    hint,
+    metaTitle,
+  }: {
+    icon: LucideIcon;
+    iconClass: string;
+    title: string;
+    description: ReactNode;
+    hint?: ReactNode;
+    metaTitle: string;
+  }) => (
+    <>
+      <Helmet>
+        <title>{metaTitle}</title>
+        <meta name="description" content={typeof description === "string" ? description : title} />
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-destructive/5 grid place-items-center px-4 py-12">
+        <div className="max-w-lg w-full text-center space-y-6" role="alert" aria-live="polite">
+          <div className={`w-20 h-20 mx-auto rounded-full grid place-items-center border ${iconClass}`}>
+            <Icon className="w-10 h-10" />
+          </div>
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <ShieldAlert className="w-3.5 h-3.5" />
+              Validação de certificado
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h1>
+            <div className="text-muted-foreground text-sm leading-relaxed">{description}</div>
+          </div>
+          {hint && (
+            <div className="rounded-lg border border-border/60 bg-card/50 p-4 text-left text-sm text-muted-foreground">
+              {hint}
+            </div>
+          )}
+          <div className="flex flex-wrap justify-center gap-2 pt-2">
+            <Button variant="outline" size="sm" onClick={() => window.history.back()}>Voltar</Button>
+            <Button size="sm" onClick={() => (window.location.href = "/")}>Ir para o início</Button>
+          </div>
+          <p className="text-xs text-muted-foreground/70">
+            Verificado em {new Date().toLocaleString("pt-BR")}
+          </p>
+        </div>
+      </div>
+    </>
+  );
+
+  if (!codeFormatValid) {
+    return (
+      <ErrorLayout
+        icon={AlertTriangle}
+        iconClass="border-amber-500/40 bg-amber-500/10 text-amber-400"
+        metaTitle="Código de certificado inválido — Tropa Científica"
+        title="Código com formato inválido"
+        description={
+          <>
+            O código informado{" "}
+            {code ? (
+              <code className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded break-all">{code}</code>
+            ) : (
+              "está ausente"
+            )}{" "}
+            não segue o padrão esperado.
+          </>
+        }
+        hint={<>Códigos válidos contêm apenas letras, números e hífens (6 a 64 caracteres). Verifique se copiou o código completo, sem espaços ou caracteres extras.</>}
+      />
+    );
+  }
+
   if (cert.isLoading) {
-    return <div className="min-h-screen grid place-items-center bg-background text-muted-foreground">Verificando…</div>;
+    return (
+      <div className="min-h-screen grid place-items-center bg-background text-muted-foreground">
+        <div className="flex items-center gap-3 text-sm">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          Verificando certificado…
+        </div>
+      </div>
+    );
+  }
+
+  if (cert.isError) {
+    return (
+      <ErrorLayout
+        icon={XCircle}
+        iconClass="border-destructive/40 bg-destructive/10 text-destructive"
+        metaTitle="Erro na validação — Tropa Científica"
+        title="Não foi possível validar agora"
+        description="Ocorreu um erro ao consultar o certificado. Verifique sua conexão e tente novamente em instantes."
+        hint={<>Se o problema persistir, entre em contato com o suporte informando o código.</>}
+      />
+    );
   }
 
   if (!cert.data) {
     return (
-      <div className="min-h-screen grid place-items-center bg-background text-foreground p-6">
-        <div className="max-w-md text-center space-y-4">
-          <XCircle className="w-16 h-16 text-destructive mx-auto" />
-          <h1 className="text-2xl font-bold">Certificado não encontrado</h1>
-          <p className="text-muted-foreground">O código <code className="font-mono text-sm">{code}</code> não corresponde a nenhum certificado emitido.</p>
-        </div>
-      </div>
+      <ErrorLayout
+        icon={XCircle}
+        iconClass="border-destructive/40 bg-destructive/10 text-destructive"
+        metaTitle="Certificado não encontrado — Tropa Científica"
+        title="Certificado não encontrado"
+        description={
+          <>
+            O código{" "}
+            <code className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded break-all">{code}</code>{" "}
+            não corresponde a nenhum certificado emitido pela Tropa Científica.
+          </>
+        }
+        hint={<>Confirme com quem enviou o certificado se o código está correto. Certificados também podem ter sido cancelados antes da emissão oficial.</>}
+      />
     );
   }
 
