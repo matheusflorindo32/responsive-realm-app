@@ -869,6 +869,18 @@ export type Database = {
         Args: { _payment_id: string }
         Returns: string
       }
+      list_public_certificates: {
+        Args: { _limit?: number }
+        Returns: {
+          certificate_code: string
+          course_title: string
+          hours: number
+          issued_at: string
+          issuer: string
+          student_name: string
+          trail_name: string
+        }[]
+      }
       revoke_enrollment_from_payment: {
         Args: { _payment_id: string }
         Returns: number
