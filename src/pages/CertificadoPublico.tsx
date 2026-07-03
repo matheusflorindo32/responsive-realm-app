@@ -10,15 +10,31 @@ import { toast } from "sonner";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+const DEMO_CERT = {
+  certificate_code: "TROPA-DEMO-2026",
+  student_name: "Matheus Florindo de Deus",
+  course_title: "Formação Premium Elite em Ciência, Tecnologia e Operações",
+  trail_name: "Tropa Científica — Inteligência Aplicada à Segurança Pública",
+  issuer: "Tropa Científica",
+  hours: 40,
+  issued_at: "2026-07-03T12:00:00-03:00",
+  status: "valid" as const,
+  revoked_at: null as string | null,
+};
+
 export default function CertificadoPublico() {
   const { code } = useParams<{ code: string }>();
-  const url = typeof window !== "undefined" ? `${window.location.origin}/certificado/${code}` : "";
+  const isDemo = !!code && code.toLowerCase() === "demo";
+  const url =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/certificado/${isDemo ? "demo" : code}`
+      : "";
 
   const codeFormatValid = !!code && /^[A-Za-z0-9-]{6,64}$/.test(code);
 
   const cert = useQuery({
     queryKey: ["verify-cert", code],
-    enabled: codeFormatValid,
+    enabled: !isDemo && codeFormatValid,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("verify_certificate", { _code: code! });
       if (error) throw error;
@@ -226,7 +242,7 @@ export default function CertificadoPublico() {
     </code>
   );
 
-  if (!codeFormatValid) {
+  if (!isDemo && !codeFormatValid) {
     return (
       <ErrorLayout
         icon={AlertTriangle}
@@ -291,7 +307,7 @@ export default function CertificadoPublico() {
     );
   }
 
-  if (!cert.data) {
+  if (!isDemo && !cert.data) {
     return (
       <ErrorLayout
         icon={XCircle}
@@ -324,7 +340,7 @@ export default function CertificadoPublico() {
   }
 
 
-  const c = cert.data as any;
+  const c = isDemo ? DEMO_CERT : (cert.data as any);
   const valid = c.status === "valid";
   const issuer = c.issuer || "Tropa Científica";
 
@@ -343,13 +359,24 @@ export default function CertificadoPublico() {
           <div className="text-center space-y-2" role="status" aria-live="polite">
             <div
               className={`inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] ${
-                valid ? "text-muted-foreground" : "text-destructive"
+                isDemo ? "text-primary" : valid ? "text-muted-foreground" : "text-destructive"
               }`}
             >
-              {valid ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <XCircle className="w-4 h-4" />}
-              {valid ? "Certificado válido" : "Certificado revogado"}
+              {isDemo ? (
+                <Award className="w-4 h-4 text-primary" />
+              ) : valid ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              ) : (
+                <XCircle className="w-4 h-4" />
+              )}
+              {isDemo
+                ? "Certificado demonstrativo — modelo público"
+                : valid
+                ? "Certificado válido"
+                : "Certificado revogado"}
             </div>
           </div>
+
 
           {!valid && (
             <div className="rounded-lg border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 flex items-start gap-3">
@@ -384,6 +411,18 @@ export default function CertificadoPublico() {
                 </div>
               </div>
             )}
+
+            {isDemo && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 grid place-items-center overflow-hidden"
+              >
+                <div className="rotate-[-14deg] border-2 border-primary/40 text-primary/30 text-5xl md:text-7xl font-black tracking-[0.35em] px-8 py-3 select-none">
+                  MODELO
+                </div>
+              </div>
+            )}
+
 
             <div className="relative grid md:grid-cols-[1fr_auto] gap-10 items-start">
               <div className="space-y-6">
@@ -447,8 +486,11 @@ export default function CertificadoPublico() {
           </div>
 
           <p className="text-center text-xs text-muted-foreground max-w-lg mx-auto">
-            Validação oficial. Este documento foi verificado no banco de dados da {issuer} em {new Date().toLocaleString("pt-BR")}.
+            {isDemo
+              ? "Certificado demonstrativo criado para validação pública, testes de QR Code e apresentação visual da plataforma Tropa Científica. Não representa uma formação real concluída por aluno."
+              : `Validação oficial. Este documento foi verificado no banco de dados da ${issuer} em ${new Date().toLocaleString("pt-BR")}.`}
           </p>
+
         </div>
       </div>
     </>
