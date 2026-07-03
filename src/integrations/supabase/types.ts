@@ -14,31 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          metadata: Json
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           certificate_code: string
           course_id: string | null
+          course_title: string | null
+          hours: number | null
           id: string
           issued_at: string
           pdf_url: string | null
+          revoked_at: string | null
+          revoked_reason: string | null
+          status: Database["public"]["Enums"]["certificate_status"]
+          student_name: string | null
           trail_id: string | null
           user_id: string
         }
         Insert: {
           certificate_code?: string
           course_id?: string | null
+          course_title?: string | null
+          hours?: number | null
           id?: string
           issued_at?: string
           pdf_url?: string | null
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          status?: Database["public"]["Enums"]["certificate_status"]
+          student_name?: string | null
           trail_id?: string | null
           user_id: string
         }
         Update: {
           certificate_code?: string
           course_id?: string | null
+          course_title?: string | null
+          hours?: number | null
           id?: string
           issued_at?: string
           pdf_url?: string | null
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          status?: Database["public"]["Enums"]["certificate_status"]
+          student_name?: string | null
           trail_id?: string | null
           user_id?: string
         }
@@ -108,15 +159,21 @@ export type Database = {
           duration_min: number | null
           id: string
           instructor_id: string | null
+          instructor_name: string | null
           is_free: boolean
+          learning_objectives: string[] | null
           level: string | null
+          materials: Json | null
           order_index: number
           price_cents: number
+          requirements: string[] | null
           slug: string
           status: Database["public"]["Enums"]["content_status"]
           summary: string | null
+          target_audience: string[] | null
           title: string
           trail_id: string
+          trailer_url: string | null
           updated_at: string
         }
         Insert: {
@@ -126,15 +183,21 @@ export type Database = {
           duration_min?: number | null
           id?: string
           instructor_id?: string | null
+          instructor_name?: string | null
           is_free?: boolean
+          learning_objectives?: string[] | null
           level?: string | null
+          materials?: Json | null
           order_index?: number
           price_cents?: number
+          requirements?: string[] | null
           slug: string
           status?: Database["public"]["Enums"]["content_status"]
           summary?: string | null
+          target_audience?: string[] | null
           title: string
           trail_id: string
+          trailer_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -144,15 +207,21 @@ export type Database = {
           duration_min?: number | null
           id?: string
           instructor_id?: string | null
+          instructor_name?: string | null
           is_free?: boolean
+          learning_objectives?: string[] | null
           level?: string | null
+          materials?: Json | null
           order_index?: number
           price_cents?: number
+          requirements?: string[] | null
           slug?: string
           status?: Database["public"]["Enums"]["content_status"]
           summary?: string | null
+          target_audience?: string[] | null
           title?: string
           trail_id?: string
+          trailer_url?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -379,44 +448,77 @@ export type Database = {
       payments: {
         Row: {
           amount_cents: number
+          course_id: string | null
           created_at: string
           currency: string
           id: string
           paid_at: string | null
+          processed_at: string | null
           provider: Database["public"]["Enums"]["payment_provider"]
+          provider_event_id: string | null
+          provider_payment_id: string | null
           provider_ref: string | null
           raw: Json | null
+          raw_payload: Json | null
           status: Database["public"]["Enums"]["payment_status"]
+          trail_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           amount_cents?: number
+          course_id?: string | null
           created_at?: string
           currency?: string
           id?: string
           paid_at?: string | null
+          processed_at?: string | null
           provider?: Database["public"]["Enums"]["payment_provider"]
+          provider_event_id?: string | null
+          provider_payment_id?: string | null
           provider_ref?: string | null
           raw?: Json | null
+          raw_payload?: Json | null
           status?: Database["public"]["Enums"]["payment_status"]
+          trail_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           amount_cents?: number
+          course_id?: string | null
           created_at?: string
           currency?: string
           id?: string
           paid_at?: string | null
+          processed_at?: string | null
           provider?: Database["public"]["Enums"]["payment_provider"]
+          provider_event_id?: string | null
+          provider_payment_id?: string | null
           provider_ref?: string | null
           raw?: Json | null
+          raw_payload?: Json | null
           status?: Database["public"]["Enums"]["payment_status"]
+          trail_id?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "payments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_trail_id_fkey"
+            columns: ["trail_id"]
+            isOneToOne: false
+            referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -709,11 +811,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      grant_enrollment_from_payment: {
+        Args: { _payment_id: string }
+        Returns: string
+      }
+      verify_certificate: {
+        Args: { _code: string }
+        Returns: {
+          certificate_code: string
+          course_title: string
+          hours: number
+          issued_at: string
+          revoked_at: string
+          status: Database["public"]["Enums"]["certificate_status"]
+          student_name: string
+        }[]
+      }
     }
     Enums: {
       access_type: "manual" | "purchase" | "gift" | "trial" | "scholarship"
       app_role: "admin" | "editor" | "viewer"
+      certificate_status: "valid" | "revoked"
       content_status: "draft" | "published" | "archived"
       enrollment_scope: "course" | "trail"
       enrollment_status:
@@ -856,6 +974,7 @@ export const Constants = {
     Enums: {
       access_type: ["manual", "purchase", "gift", "trial", "scholarship"],
       app_role: ["admin", "editor", "viewer"],
+      certificate_status: ["valid", "revoked"],
       content_status: ["draft", "published", "archived"],
       enrollment_scope: ["course", "trail"],
       enrollment_status: [
