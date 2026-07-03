@@ -528,15 +528,26 @@ export default function CertificadosVitrine() {
                     setActiveIdx(-1);
                   }}
                   onFocus={() => setShowSuggest(true)}
+                  onBlur={(e) => {
+                    // Only close if focus moves outside the suggestion panel
+                    if (!suggestRef.current?.contains(e.relatedTarget as Node | null)) {
+                      setShowSuggest(false);
+                      setActiveIdx(-1);
+                    }
+                  }}
                   onKeyDown={onKeyDown}
                   placeholder="Digite ou escolha um código (ex.: TROPA-ELITE-2026)"
                   className="pl-9 h-11 font-mono text-sm tracking-wider"
                   autoComplete="off"
                   spellCheck={false}
                   aria-describedby="busca-cert-hint"
-                  aria-autocomplete="list"
                   aria-expanded={showSuggest && suggestions.length > 0}
-                  aria-controls="cert-suggest"
+                  aria-controls={SUGGEST_ID}
+                  aria-autocomplete="list"
+                  aria-haspopup="listbox"
+                  aria-activedescendant={
+                    showSuggest && activeIdx >= 0 ? optionId(activeIdx) : undefined
+                  }
                   role="combobox"
                 />
 
@@ -544,8 +555,6 @@ export default function CertificadosVitrine() {
                   {showSuggest && suggestions.length > 0 && (
                     <motion.div
                       ref={suggestRef}
-                      id="cert-suggest"
-                      role="listbox"
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
@@ -560,61 +569,72 @@ export default function CertificadosVitrine() {
                           <button
                             type="button"
                             onMouseDown={(e) => { e.preventDefault(); clearHistory(); }}
-                            className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+                            className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
                           >
                             Limpar
                           </button>
                         </div>
                       )}
-                      <ul className="max-h-72 overflow-auto py-1">
+                      <ul
+                        id={SUGGEST_ID}
+                        role="listbox"
+                        aria-label="Sugestões de códigos de certificado"
+                        className="max-h-72 overflow-auto py-1"
+                      >
                         {suggestions.map((s, idx) => {
                           const active = idx === activeIdx;
                           return (
-                            <li key={s.code + s.source}>
-                              <button
-                                type="button"
-                                role="option"
-                                aria-selected={active}
-                                onMouseEnter={() => setActiveIdx(idx)}
-                                onMouseDown={(e) => { e.preventDefault(); pickSuggestion(s.code); }}
-                                className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
-                                  active ? "bg-muted/50" : "hover:bg-muted/30"
-                                }`}
-                              >
-                                {s.source === "history" ? (
-                                  <HistoryIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                                ) : (
-                                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                                )}
-                                <div className="min-w-0 flex-1">
-                                  <div className="font-mono text-xs tracking-wider truncate">
-                                    {s.code}
-                                  </div>
-                                  {s.label && (
-                                    <div className="text-[11px] text-muted-foreground truncate">
-                                      {s.label}
-                                    </div>
-                                  )}
+                            <li
+                              key={s.code + s.source}
+                              id={optionId(idx)}
+                              role="option"
+                              aria-selected={active}
+                              onMouseEnter={() => setActiveIdx(idx)}
+                              onMouseDown={(e) => {
+                                // Prevent input blur; ignore clicks on the remove control
+                                if ((e.target as HTMLElement).closest("[data-remove-history]")) return;
+                                e.preventDefault();
+                                pickSuggestion(s.code);
+                              }}
+                              className={`flex items-center gap-3 px-3 py-2.5 text-left cursor-pointer transition-colors ${
+                                active ? "bg-muted/50" : "hover:bg-muted/30"
+                              }`}
+                            >
+                              {s.source === "history" ? (
+                                <HistoryIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" aria-hidden />
+                              ) : (
+                                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" aria-hidden />
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <div className="font-mono text-xs tracking-wider truncate">
+                                  {s.code}
                                 </div>
-                                <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground/70">
-                                  {s.source === "history" ? "histórico" : "válido"}
-                                </span>
-                                {s.source === "history" && (
-                                  <span
-                                    role="button"
-                                    tabIndex={-1}
-                                    aria-label={`Remover ${s.code} do histórico`}
-                                    onMouseDown={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      removeFromHistory(s.code);
-                                    }}
-                                    className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-destructive transition-colors"
-                                  >
-                                    <X className="w-3 h-3" />
-                                  </span>
+                                {s.label && (
+                                  <div className="text-[11px] text-muted-foreground truncate">
+                                    {s.label}
+                                  </div>
                                 )}
-                              </button>
+                              </div>
+                              <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground/70">
+                                {s.source === "history" ? "histórico" : "válido"}
+                              </span>
+                              {s.source === "history" && (
+                                <button
+                                  type="button"
+                                  data-remove-history
+                                  tabIndex={-1}
+                                  aria-label={`Remover ${s.code} do histórico`}
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    removeFromHistory(s.code);
+                                    inputRef.current?.focus();
+                                  }}
+                                  className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-destructive transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                >
+                                  <X className="w-3 h-3" aria-hidden />
+                                </button>
+                              )}
                             </li>
                           );
                         })}
@@ -631,9 +651,9 @@ export default function CertificadosVitrine() {
                 disabled={search.kind === "loading"}
               >
                 {search.kind === "loading" ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" aria-hidden />
                 ) : (
-                  <Search className="w-4 h-4" />
+                  <Search className="w-4 h-4" aria-hidden />
                 )}
                 Validar
               </Button>
@@ -647,7 +667,7 @@ export default function CertificadosVitrine() {
                 <button
                   type="button"
                   onClick={clearSearch}
-                  className="text-[11px] font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-[11px] font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
                 >
                   Limpar
                 </button>
