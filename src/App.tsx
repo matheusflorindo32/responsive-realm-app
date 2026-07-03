@@ -88,6 +88,7 @@ const App = () => (
               <Route path="/admin/ensino/matriculas" element={<Matriculas />} />
               <Route path="/admin/ensino/auditoria" element={<Auditoria />} />
               <Route path="/admin/ensino/alunos/:userId" element={<AlunoDetalhe />} />
+              <Route path="/admin/ensino/certificados" element={<CertificadosAdmin />} />
             </Route>
 
             {/* Validação pública de certificado */}
