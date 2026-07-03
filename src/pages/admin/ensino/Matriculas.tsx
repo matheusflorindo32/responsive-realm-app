@@ -81,6 +81,14 @@ export default function Matriculas() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["enrollments-admin"] }),
   });
 
+  const filtered = (enrollments.data ?? []).filter((e: any) => {
+    if (filterUser && !e.user_id.toLowerCase().includes(filterUser.toLowerCase())) return false;
+    if (filterStatus !== "all" && e.status !== filterStatus) return false;
+    if (filterType !== "all" && e.access_type !== filterType) return false;
+    if (filterScope !== "all" && e.scope !== filterScope) return false;
+    return true;
+  });
+
   return (
     <div className="space-y-6">
       <div>
