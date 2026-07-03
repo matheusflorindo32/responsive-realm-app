@@ -127,6 +127,35 @@ export default function Matriculas() {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader><CardTitle>Filtros</CardTitle></CardHeader>
+        <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <Input placeholder="ID do aluno" value={filterUser} onChange={(e) => setFilterUser(e.target.value)} />
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos os status</SelectItem>
+              {["active","pending","expired","revoked","refunded"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={filterType} onValueChange={setFilterType}>
+            <SelectTrigger><SelectValue placeholder="Tipo" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos os tipos</SelectItem>
+              {["manual","purchase","gift","trial","scholarship"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={filterScope} onValueChange={setFilterScope}>
+            <SelectTrigger><SelectValue placeholder="Escopo" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Curso e trilha</SelectItem>
+              <SelectItem value="course">Só cursos</SelectItem>
+              <SelectItem value="trail">Só trilhas</SelectItem>
+            </SelectContent>
+          </Select>
+        </CardContent>
+      </Card>
+
       <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
@@ -140,9 +169,11 @@ export default function Matriculas() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {enrollments.data?.map((e: any) => (
+            {filtered.map((e: any) => (
               <TableRow key={e.id}>
-                <TableCell className="font-mono text-xs">{e.user_id.slice(0, 8)}</TableCell>
+                <TableCell className="font-mono text-xs">
+                  <a href={`/admin/ensino/alunos/${e.user_id}`} className="hover:underline">{e.user_id.slice(0, 8)}</a>
+                </TableCell>
                 <TableCell>{e.courses?.title ?? e.trails?.name ?? "?"}</TableCell>
                 <TableCell><Badge variant="outline">{e.access_type}</Badge></TableCell>
                 <TableCell><Badge variant={e.status === "active" ? "default" : "secondary"}>{e.status}</Badge></TableCell>
@@ -154,8 +185,8 @@ export default function Matriculas() {
                 </TableCell>
               </TableRow>
             ))}
-            {enrollments.data?.length === 0 && (
-              <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">Nenhuma matrícula ainda.</TableCell></TableRow>
+            {filtered.length === 0 && (
+              <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">Nenhuma matrícula com esses filtros.</TableCell></TableRow>
             )}
           </TableBody>
         </Table>
