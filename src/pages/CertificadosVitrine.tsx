@@ -305,6 +305,179 @@ export default function CertificadosVitrine() {
             </div>
           </motion.div>
 
+          {/* Busca por código */}
+          <motion.section
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-12 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-xl p-5 md:p-6 shadow-lg"
+            aria-labelledby="busca-cert-title"
+          >
+            <div className="flex items-baseline justify-between gap-4 mb-4">
+              <h2
+                id="busca-cert-title"
+                className="text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground"
+              >
+                Validar por código
+              </h2>
+              <div className="flex-1 h-px bg-border/60" />
+            </div>
+
+            <form onSubmit={onSearch} className="flex flex-col sm:flex-row gap-3">
+              <label htmlFor="cert-code" className="sr-only">
+                Código do certificado
+              </label>
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                <Input
+                  id="cert-code"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Digite o código (ex.: TROPA-ELITE-2026)"
+                  className="pl-9 h-11 font-mono text-sm tracking-wider"
+                  autoComplete="off"
+                  spellCheck={false}
+                  aria-describedby="busca-cert-hint"
+                />
+              </div>
+              <Button
+                type="submit"
+                size="lg"
+                className="gap-2 sm:min-w-[140px]"
+                disabled={search.kind === "loading"}
+              >
+                {search.kind === "loading" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Search className="w-4 h-4" />
+                )}
+                Validar
+              </Button>
+            </form>
+
+            <p id="busca-cert-hint" className="mt-2.5 text-xs text-muted-foreground">
+              Letras, números e hífens · 6 a 64 caracteres. Digite <code className="font-mono text-[11px] px-1 py-0.5 rounded bg-muted/40 border border-border/60">demo</code> para ver o modelo público.
+            </p>
+
+            {/* Resultado inline */}
+            <AnimatePresence mode="wait">
+              {search.kind !== "idle" && (
+                <motion.div
+                  key={search.kind + search.code}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-5"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {search.kind === "loading" && (
+                    <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Verificando <span className="font-mono">{search.code}</span>…
+                    </div>
+                  )}
+
+                  {search.kind === "invalid" && (
+                    <div className="flex items-start gap-3 rounded-xl border border-amber-500/40 bg-amber-500/[0.06] px-4 py-3 text-sm">
+                      <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground">Formato inválido</p>
+                        <p className="text-muted-foreground text-xs mt-1">
+                          <span className="font-mono break-all">{search.code}</span> não segue o padrão de códigos da Tropa Científica.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {search.kind === "not_found" && (
+                    <div className="flex items-start gap-3 rounded-xl border border-destructive/40 bg-destructive/[0.06] px-4 py-3 text-sm">
+                      <XCircle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground">Certificado não encontrado</p>
+                        <p className="text-muted-foreground text-xs mt-1">
+                          Nenhum registro para <span className="font-mono break-all">{search.code}</span>. Confirme o código com quem enviou.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {search.kind === "error" && (
+                    <div className="flex items-start gap-3 rounded-xl border border-destructive/40 bg-destructive/[0.06] px-4 py-3 text-sm">
+                      <XCircle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground">Falha ao validar</p>
+                        <p className="text-muted-foreground text-xs mt-1">
+                          O serviço de validação não respondeu. Tente novamente em instantes.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {search.kind === "found" && (() => {
+                    const c = search.cert;
+                    const valid = c.status === "valid";
+                    return (
+                      <div
+                        className={`rounded-xl border ${
+                          valid ? "border-emerald-500/40 bg-emerald-500/[0.05]" : "border-destructive/50 bg-destructive/[0.06]"
+                        } px-4 py-4`}
+                      >
+                        <div className="flex items-start gap-3">
+                          {valid ? (
+                            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                          ) : (
+                            <XCircle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+                          )}
+                          <div className="flex-1 min-w-0 space-y-2">
+                            <div className="flex items-center justify-between gap-3 flex-wrap">
+                              <p className={`text-[10px] font-mono uppercase tracking-[0.24em] ${valid ? "text-emerald-400" : "text-destructive"}`}>
+                                {valid ? "Certificado válido" : "Certificado revogado"}
+                              </p>
+                              <span className="font-mono text-[11px] text-muted-foreground break-all">
+                                {c.certificate_code}
+                              </span>
+                            </div>
+                            <p className="font-serif text-xl leading-tight">
+                              {c.student_name}
+                            </p>
+                            <p className="text-sm text-primary">{c.course_title}</p>
+                            {c.trail_name && (
+                              <p className="text-xs text-muted-foreground">Trilha: {c.trail_name}</p>
+                            )}
+                            <div className="flex flex-wrap gap-4 pt-1 text-xs text-muted-foreground">
+                              {c.hours != null && (
+                                <span className="flex items-center gap-1.5">
+                                  <Clock className="w-3.5 h-3.5" />
+                                  <strong className="tabular-nums text-foreground">{c.hours}h</strong>
+                                </span>
+                              )}
+                              <span className="flex items-center gap-1.5">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {new Date(c.issued_at).toLocaleDateString("pt-BR")}
+                              </span>
+                            </div>
+                            <div className="pt-2">
+                              <Button asChild size="sm" variant={valid ? "default" : "outline"} className="gap-2">
+                                <Link to={`/certificado/${c.certificate_code}`}>
+                                  Abrir página oficial
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                </Link>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.section>
+
+
+
           {/* Demo em destaque */}
           <section className="mt-16 space-y-4">
             <div className="flex items-baseline justify-between gap-4">
