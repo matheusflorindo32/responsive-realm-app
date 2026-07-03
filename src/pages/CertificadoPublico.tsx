@@ -486,8 +486,11 @@ export default function CertificadoPublico() {
           </div>
 
           <p className="text-center text-xs text-muted-foreground max-w-lg mx-auto">
-            Validação oficial. Este documento foi verificado no banco de dados da {issuer} em {new Date().toLocaleString("pt-BR")}.
+            {isDemo
+              ? "Certificado demonstrativo criado para validação pública, testes de QR Code e apresentação visual da plataforma Tropa Científica. Não representa uma formação real concluída por aluno."
+              : `Validação oficial. Este documento foi verificado no banco de dados da ${issuer} em ${new Date().toLocaleString("pt-BR")}.`}
           </p>
+
         </div>
       </div>
     </>
