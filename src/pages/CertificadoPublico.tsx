@@ -242,7 +242,7 @@ export default function CertificadoPublico() {
     </code>
   );
 
-  if (!codeFormatValid) {
+  if (!isDemo && !codeFormatValid) {
     return (
       <ErrorLayout
         icon={AlertTriangle}
