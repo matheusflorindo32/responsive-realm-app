@@ -8,6 +8,7 @@ const nav = [
   { to: "/admin/ensino/trilhas", label: "Trilhas" },
   { to: "/admin/ensino/cursos", label: "Cursos" },
   { to: "/admin/ensino/matriculas", label: "Matrículas" },
+  { to: "/admin/ensino/auditoria", label: "Auditoria" },
   { to: "/admin/sync", label: "Sync" },
 ];
 
