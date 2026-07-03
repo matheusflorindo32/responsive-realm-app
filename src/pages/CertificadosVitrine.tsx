@@ -417,9 +417,21 @@ export default function CertificadosVitrine() {
               </Button>
             </form>
 
-            <p id="busca-cert-hint" className="mt-2.5 text-xs text-muted-foreground">
-              Letras, números e hífens · 6 a 64 caracteres. Digite <code className="font-mono text-[11px] px-1 py-0.5 rounded bg-muted/40 border border-border/60">demo</code> para ver o modelo público.
-            </p>
+            <div className="mt-2.5 flex items-center justify-between gap-3 flex-wrap">
+              <p id="busca-cert-hint" className="text-xs text-muted-foreground">
+                Letras, números e hífens · 6 a 64 caracteres. Digite <code className="font-mono text-[11px] px-1 py-0.5 rounded bg-muted/40 border border-border/60">demo</code> para ver o modelo público.
+              </p>
+              {search.kind !== "idle" && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="text-[11px] font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Limpar
+                </button>
+              )}
+            </div>
+
 
             {/* Resultado inline */}
             <AnimatePresence mode="wait">
