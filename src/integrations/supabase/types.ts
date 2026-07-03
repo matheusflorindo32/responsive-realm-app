@@ -14,6 +14,204 @@ export type Database = {
   }
   public: {
     Tables: {
+      courses: {
+        Row: {
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          duration_min: number | null
+          id: string
+          instructor_id: string | null
+          is_free: boolean
+          level: string | null
+          order_index: number
+          price_cents: number
+          slug: string
+          status: Database["public"]["Enums"]["content_status"]
+          summary: string | null
+          title: string
+          trail_id: string
+          updated_at: string
+        }
+        Insert: {
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          duration_min?: number | null
+          id?: string
+          instructor_id?: string | null
+          is_free?: boolean
+          level?: string | null
+          order_index?: number
+          price_cents?: number
+          slug: string
+          status?: Database["public"]["Enums"]["content_status"]
+          summary?: string | null
+          title: string
+          trail_id: string
+          updated_at?: string
+        }
+        Update: {
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          duration_min?: number | null
+          id?: string
+          instructor_id?: string | null
+          is_free?: boolean
+          level?: string | null
+          order_index?: number
+          price_cents?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["content_status"]
+          summary?: string | null
+          title?: string
+          trail_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "courses_trail_id_fkey"
+            columns: ["trail_id"]
+            isOneToOne: false
+            referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lessons: {
+        Row: {
+          attachments: Json
+          content_md: string | null
+          content_type: Database["public"]["Enums"]["lesson_content_type"]
+          created_at: string
+          duration_sec: number | null
+          id: string
+          is_preview: boolean
+          module_id: string
+          order_index: number
+          slug: string
+          title: string
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          attachments?: Json
+          content_md?: string | null
+          content_type?: Database["public"]["Enums"]["lesson_content_type"]
+          created_at?: string
+          duration_sec?: number | null
+          id?: string
+          is_preview?: boolean
+          module_id: string
+          order_index?: number
+          slug: string
+          title: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          attachments?: Json
+          content_md?: string | null
+          content_type?: Database["public"]["Enums"]["lesson_content_type"]
+          created_at?: string
+          duration_sec?: number | null
+          id?: string
+          is_preview?: boolean
+          module_id?: string
+          order_index?: number
+          slug?: string
+          title?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lessons_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modules: {
+        Row: {
+          course_id: string
+          created_at: string
+          description: string | null
+          id: string
+          order_index: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          order_index?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          order_index?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modules_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          city: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          is_public: boolean
+          public_slug: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          is_public?: boolean
+          public_slug?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          is_public?: boolean
+          public_slug?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sheet_rows: {
         Row: {
           conflict_payload: Json | null
@@ -163,6 +361,83 @@ export type Database = {
         }
         Relationships: []
       }
+      trail_memberships: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["trail_role"]
+          trail_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["trail_role"]
+          trail_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["trail_role"]
+          trail_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trail_memberships_trail_id_fkey"
+            columns: ["trail_id"]
+            isOneToOne: false
+            referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trails: {
+        Row: {
+          color: string | null
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_free: boolean
+          name: string
+          order_index: number
+          price_cents: number
+          slug: string
+          status: Database["public"]["Enums"]["content_status"]
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_free?: boolean
+          name: string
+          order_index?: number
+          price_cents?: number
+          slug: string
+          status?: Database["public"]["Enums"]["content_status"]
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_free?: boolean
+          name?: string
+          order_index?: number
+          price_cents?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["content_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -193,6 +468,9 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "editor" | "viewer"
+      content_status: "draft" | "published" | "archived"
+      lesson_content_type: "video" | "text" | "quiz" | "file"
+      trail_role: "instructor" | "moderator" | "student"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -321,6 +599,9 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor", "viewer"],
+      content_status: ["draft", "published", "archived"],
+      lesson_content_type: ["video", "text", "quiz", "file"],
+      trail_role: ["instructor", "moderator", "student"],
     },
   },
 } as const
