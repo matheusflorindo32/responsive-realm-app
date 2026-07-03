@@ -93,6 +93,7 @@ const App = () => (
             </Route>
 
             {/* Validação pública de certificado */}
+            <Route path="/certificados" element={<CertificadosVitrine />} />
             <Route path="/certificado/:code" element={<CertificadoPublico />} />
 
             {/* Aluno */}
