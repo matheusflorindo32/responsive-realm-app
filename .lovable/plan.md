@@ -1,156 +1,115 @@
 
-# Upgrade Premium — Área de Ensino Tropa Científica
+# Elevação Premium — Fases 3, 5, 7 + reforços em 1/2/4/6
 
-Mantém toda a arquitetura atual (trails → courses → modules → lessons, enrollments, progress, certificates, payments). Nada será quebrado — só adição de colunas, novas tabelas auxiliares e refinamento de UI/RLS.
+Muito do escopo já foi entregue no turno anterior (auditoria, dashboard premium, certificados públicos, schema de pagamento idempotente, RLS por trilha). Este plano cobre **apenas as lacunas restantes**, incremental e sem quebrar nada.
 
-## 1. Banco de dados (Migração única, aditiva)
+## Fase 1 — Reforços de segurança e governança
 
-### 1.1 Enriquecer `courses`
-Colunas opcionais novas:
-- `trailer_url` text
-- `requirements` text[] (lista)
-- `target_audience` text[]
-- `learning_objectives` text[]
-- `materials` jsonb (links/anexos complementares)
-- `instructor_name` text (fallback quando não há user)
-- (já existem: `level`, `duration_min`, `cover_url`, `status` draft/published — adicionar `archived` ao enum)
+**Backend (1 migração aditiva):**
+- **Bloquear progresso sem matrícula ativa** — trigger `BEFORE INSERT/UPDATE` em `lesson_progress` que rejeita se `private.has_course_access(user_id, course_id)` retornar false. Hoje só a RLS protege leitura; falta enforcement na escrita.
+- **Bloquear leitura de conteúdo real** — reafirmar policy em `lessons` para que `video_url/content_md/attachments` só apareçam a quem tem enrollment ativo, admin, instrutor ou `is_preview=true`. (Metadados como título/ordem seguem públicos para o catálogo.)
+- **Enriquecer `admin_audit_log`** — adicionar `ip_address inet`, `user_agent text`, `old_data jsonb`, `new_data jsonb`. Ajustar `tg_audit_row` para gravar snapshots antigos/novos separados (INSERT: só new; UPDATE: old+new; DELETE: só old).
+- **Auditoria de certificados** — trigger de auditoria em `certificates` para registrar emissão e revogação.
 
-### 1.2 Certificados públicos
-Alterar `certificates`:
-- garantir `certificate_code` unique NOT NULL com default `encode(gen_random_bytes(9),'hex')`
-- `hours` int (carga horária snapshot)
-- `student_name` text (snapshot do nome no momento da emissão)
-- `course_title` text (snapshot)
-- `status` enum `valid|revoked` default `valid`
-- `revoked_at`, `revoked_reason`
+## Fase 3 — Player de aulas premium (novo, principal entrega)
 
-Nova função pública **SECURITY DEFINER** `public.verify_certificate(code text)` que retorna JSON com dados de exibição (sem expor tabela). RLS mantém tabela fechada; validação pública passa só pela função.
+Redesign completo de `/app/curso/:slug` mantendo API atual:
 
-### 1.3 Auditoria administrativa
-Nova tabela `admin_audit_log`:
-- `actor_id` (FK auth.users)
-- `action` text (`enrollment.granted`, `enrollment.revoked`, `enrollment.expiration_changed`, `course.created`, `course.updated`, `course.deleted`, `trail.*`, `lesson.*`)
-- `entity_type` text, `entity_id` uuid
-- `target_user_id` (para ações sobre alunos)
-- `metadata` jsonb (diff/detalhes)
-- `created_at`
-
-Triggers em `enrollments`, `courses`, `trails`, `lessons` que gravam auditoria automaticamente quando o autor for admin.
-
-RLS: só admin lê. `service_role` full.
-
-### 1.4 Pagamentos idempotentes (Stripe + Mercado Pago)
-Alterar `payments`:
-- garantir `provider` enum já cobre `stripe|mercadopago|manual`
-- `provider_payment_id` text (id do PaymentIntent/preference)
-- `provider_event_id` text UNIQUE (id do webhook — chave de idempotência)
-- `raw_payload` jsonb
-- `processed_at` timestamptz
-- `status` enum `pending|paid|failed|refunded|chargeback`
-- Índice único parcial em `(provider, provider_event_id)` para bloquear reprocessamento
-
-Função `public.grant_enrollment_from_payment(payment_id uuid)` SECURITY DEFINER — cria enrollment se ainda não existir para (user, course/trail) com `access_type='purchase'`. Idempotente. Chamada pelo webhook futuro.
-
-### 1.5 Revisão de RLS
-Auditar e reafirmar em uma passada:
-- `enrollments`: aluno SELECT próprio; instrutor SELECT por trilha via `private.has_trail_role`; admin ALL.
-- `lesson_progress`: aluno ALL próprio; instrutor SELECT por trilha; admin SELECT.
-- `certificates`: dono SELECT próprio; admin ALL. **Validação pública SOMENTE via função** `verify_certificate`.
-- `courses/modules/lessons`: SELECT público apenas para linhas com `status='published'` e apenas metadados; conteúdo real (`video_url`, `content_md`, `attachments`) liberado por policy condicional exigindo enrollment ativo OR `is_preview` OR admin/instrutor.
-- `payments`: dono SELECT próprio; admin ALL. Sem INSERT do client.
-- `admin_audit_log`: admin SELECT; sem INSERT/UPDATE/DELETE do client (só triggers/service_role).
-- `REVOKE EXECUTE ... FROM public, anon` em toda função SECURITY DEFINER interna; `GRANT EXECUTE` apenas ao papel certo (`authenticated` para `verify_certificate`).
-
-## 2. Frontend — Dashboard do aluno premium (`/app`)
-
-Redesign inspirado em padrões de LMS premium (Maven, Podia, MagicUI/Aceternity — bento + cards com progresso, hairlines finas, glow sutil no accent).
-
-Componentes novos em `src/components/app/`:
-- **`ContinueWatching.tsx`** — bloco de destaque no topo: última aula com progresso >0 e <100%. Botão "Continuar aula" grande, thumbnail, curso, aula, barra de progresso.
-- **`AccessStatusBadge.tsx`** — badge derivada de `expires_at`: `Ativo`, `Expirando em N dias` (<15d), `Expirado`.
-- **`CourseCard.tsx`** — card premium com cover, trilha (eyebrow), título, progresso circular + linear, badge de status, CTA "Continuar".
-- **`TrailCard.tsx`** — variante para trilhas completas (destaque com borda accent).
-- **`CertificateHighlight.tsx`** — carousel/faixa com últimos certificados emitidos, link para página pública.
-- **`DashboardStats.tsx`** — mini bento: cursos ativos, aulas concluídas, certificados, horas estudadas (soma de `watch_time_sec`).
-
-Layout `/app`:
+**Layout desktop** (2 colunas):
 ```
-┌─ Header saudação + stats bento (4 cards) ─┐
-├─ Continue de onde parou (destaque) ───────┤
-├─ Meus cursos (grid CourseCard) ───────────┤
-├─ Minhas trilhas ───────────────────────────┤
-└─ Certificados recentes ───────────────────┘
+┌── vídeo/conteúdo ──────────────┬── sidebar ──┐
+│  [player 16:9]                  │ Módulo 1    │
+│  [breadcrumb curso > aula]      │  ✓ Aula 1   │
+│  [título + descrição]           │  ▶ Aula 2   │
+│  [progresso curso + módulo]     │  🔒 Aula 3  │
+│  [tabs: sobre / materiais /     │ Módulo 2    │
+│         anotações]              │  ○ Aula 4   │
+│  [botão marcar concluída]       │             │
+│  [próxima aula ▶]               │             │
+└─────────────────────────────────┴─────────────┘
 ```
-Responsivo (1/2/3 colunas), Framer Motion em entrada, hover lift.
+Mobile: sidebar vira sheet lateral com trigger no header.
 
-## 3. Certificados premium
+**Componentes novos em `src/components/player/`:**
+- `LessonSidebar.tsx` — módulos colapsáveis, ícone por estado (concluída, em andamento, disponível, bloqueada), progresso por módulo.
+- `VideoPlayer.tsx` — detecta YouTube/Vimeo/URL direta; fallback elegante ("Não foi possível carregar o vídeo — tente recarregar"); aspect-ratio 16:9.
+- `LessonTabs.tsx` — três abas: **Sobre** (descrição + duração + instrutor), **Materiais** (lista de `attachments` com download), **Minhas anotações** (textarea salva no banco).
+- `LessonActions.tsx` — botão principal "Marcar como concluída" (verde quando feito) + "Próxima aula" navegando para próxima em ordem.
+- `LessonLocked.tsx` — quando aluno acessa aula sem enrollment (curso expirado), mostra estado bloqueado com CTA "Solicitar acesso".
 
-### 3.1 Página pública `/certificado/:code`
-Rota pública (sem auth). Consome `verify_certificate(code)`.
-- Layout tipo diploma: nome do aluno, curso, carga horária, data, código, status (Válido/Revogado).
-- QR Code (biblioteca `qrcode.react`) apontando para a própria URL — pronto para impressão.
-- Botão "Baixar PDF" (placeholder — futuro edge function `render-certificate`).
-- SEO: `<title>` e og com nome+curso.
+**Nova tabela `lesson_notes`** (anotações privadas):
+- `user_id`, `lesson_id`, `content text`, `updated_at`
+- RLS: dono ALL próprio; admin SELECT.
+- Único por (user_id, lesson_id).
 
-### 3.2 Área do aluno `/app/certificados`
-Refinar cards: mostrar carga horária, código, botão "Ver página pública" e "Copiar link de validação".
+**Enforcement no player:** carrega enrollment do curso; se `status != active` ou `expires_at < now()`, esconde `video_url/content_md` e renderiza `LessonLocked`.
 
-## 4. Admin — Auditoria e visão detalhada
+## Fase 4 — Certificados: complementos
 
-### 4.1 `/admin/ensino/auditoria` (novo)
-- Tabela paginada de `admin_audit_log` com filtros: ator, ação, entidade, aluno-alvo, período.
-- Badges coloridos por tipo de ação.
-- Drawer com JSON detalhado do `metadata`.
+- Adicionar campo `issuer text` em `certificates` (default "Tropa Científica").
+- Adicionar `trail_name` snapshot.
+- Estender `verify_certificate` para incluir issuer e trail_name.
+- **Página admin `/admin/ensino/certificados`** — tabela paginada, filtro por curso/aluno/status, botão **Revogar** com motivo (input) → grava `revoked_at`, `revoked_reason`, dispara auditoria.
 
-### 4.2 Filtros em `/admin/ensino/matriculas`
-Adicionar filtros por: aluno (busca), curso, trilha, status (`pending|active|expired|revoked|refunded`), tipo (`manual|purchase|gift|trial|scholarship`), período.
+## Fase 5 — Admin premium (complementos)
 
-### 4.3 Visão detalhada de aluno `/admin/ensino/alunos/:userId`
-- Perfil resumo.
-- Matrículas com status/expiração + ações (revogar, estender).
-- Progresso por curso (barra + aulas concluídas/total).
-- Certificados emitidos.
-- Histórico de auditoria filtrado por esse aluno.
+**Hub com métricas** (`/admin/ensino`): substituir Hub atual por dashboard bento com:
+- Total de alunos únicos (COUNT DISTINCT profiles)
+- Matrículas ativas / expiradas / expirando (< 15d)
+- Cursos publicados / rascunho
+- Trilhas publicadas
+- Certificados emitidos (30d / total)
+- Alunos com progresso ≥ 50% em algum curso
+- Alunos inativos (sem lesson_progress em 30d)
 
-### 4.4 Ações no admin passam a gravar auditoria
-Onde já há mutação (criar/editar curso, trilha, lesson, liberar matrícula, revogar, alterar expiração) — chamada extra ao insert em `admin_audit_log` OU coberto por trigger no banco (preferência: trigger, para não depender do client).
+Query única via RPC `admin_metrics()` (SECURITY DEFINER, restrita a admin).
 
-## 5. Pagamentos — Preparação (sem integração ativa)
+**Gestão de cursos enriquecida** — refatorar `/admin/ensino/cursos/:id` com formulário completo dos novos campos:
+- level (select: iniciante/intermediário/avançado)
+- duration_min, instructor_name, cover_url, trailer_url
+- requirements[], target_audience[], learning_objectives[] (input tags)
+- materials (jsonb — array de {label, url})
+- status (draft/published/archived)
+- Ordem manual de módulos e lições via botões ▲▼ (drag-and-drop fica para depois).
 
-- Schema pronto (item 1.4).
-- Doc curto em `.lovable/payments.md` descrevendo o fluxo esperado do webhook futuro:
-  1. Webhook recebe evento → verifica assinatura.
-  2. Upsert em `payments` usando `(provider, provider_event_id)` como chave.
-  3. Se `status='paid'` e ainda não processado, chama `grant_enrollment_from_payment`.
-  4. Marca `processed_at`.
-- **Nenhuma edge function nova agora** — só a base. Liberação manual continua funcionando exatamente como está.
+## Fase 6 — Pagamentos: complementos
 
-## 6. Segurança (checklist final)
+- Adicionar valores ao enum `payment_status`: `chargeback`, `cancelled`.
+- Adicionar `access_type` valor `subscription`, `partnership` ao enum `access_type`.
+- Estender `grant_enrollment_from_payment` para: se pagamento vira `refunded/chargeback/cancelled`, marcar enrollment relacionado como `revoked` (função `revoke_enrollment_from_payment`).
 
-- Rodar `security--run_security_scan` após a migração.
-- Confirmar `REVOKE EXECUTE ... FROM public, anon` em todas security definer internas (`has_trail_role`, `recalc_course_progress`, `grant_enrollment_from_payment`).
-- `verify_certificate` é a única exposta a `anon`.
-- Todas as novas policies escritas no padrão: `USING (auth.uid() = user_id OR has_role(auth.uid(),'admin'))`.
-- Atualizar `security-memory` com o modelo de acesso: aluno vê próprio, instrutor vê por trilha, admin vê tudo, público só valida certificado por código.
+## Fase 7 — Qualidade técnica (leve, sem overengineering)
 
-## 7. Ordem de execução
+**Frontend:**
+- **ErrorBoundary global** em `src/components/ErrorBoundary.tsx`; envolve `<App>` em `main.tsx`.
+- **ErrorBoundary específico 3D** em `TropaLogo3D` para não derrubar a home se WebGL falhar.
+- **Lazy loading** com `React.lazy` + `Suspense` para páginas pesadas: rotas admin, área do aluno, player, certificado público. Fallback com skeleton.
+- **Skeleton loaders** — `src/components/app/DashboardSkeleton.tsx`, `PlayerSkeleton.tsx`, `TableSkeleton.tsx`. Aplicar nas queries com `isLoading`.
+- **Toast unificado de erro Supabase** — util `handleSupabaseError(error)` que mostra mensagem legível em pt-BR.
 
-1. **Migração** (aditiva, tudo em um único arquivo): novas colunas + `admin_audit_log` + triggers de auditoria + função `verify_certificate` + função `grant_enrollment_from_payment` + endurecer RLS/GRANTs.
-2. **Componentes de dashboard premium** + refactor de `/app` Dashboard.
-3. **Página pública** `/certificado/:code` + refino de `/app/certificados` com QR.
-4. **Admin**: auditoria, filtros em matrículas, tela de aluno detalhado.
-5. **Scan de segurança** + `update_memory`.
+**Testes (setup mínimo):**
+- Configurar Vitest + Testing Library conforme o guia (`vitest.config.ts`, `src/test/setup.ts`).
+- Testes iniciais:
+  - `AccessStatusBadge.test.tsx` — renderiza cada estado corretamente.
+  - `CourseCard.test.tsx` — mostra progresso e status.
+  - `verify_certificate.test.tsx` — página pública renderiza dados válidos e mostra "não encontrado" quando nulo.
+- Sem CI para não sair do escopo; rodar localmente.
 
-## Detalhes técnicos (referência)
+## Ordem de execução (incremental, cada etapa deploy-safe)
 
-- Bibliotecas novas: `qrcode.react` (client-side QR, ~5KB gz).
-- Sem mudança em rotas existentes; adições: `/certificado/:code`, `/admin/ensino/auditoria`, `/admin/ensino/alunos/:userId`.
-- Nenhuma quebra em `types.ts` — tudo adição.
-- Design tokens: mantidos (dark futuristic, Orbitron/Inter, cyan glow, glassmorphism). CourseCards com hairline `border-white/5`, hover glow `shadow-[0_0_40px_-15px_hsl(var(--primary)/0.5)]`.
-- Motion: `framer-motion` stagger nos grids do dashboard.
+1. **Migração de reforços** — trigger de progresso, auditoria enriquecida, `lesson_notes`, campo `issuer`, enums de pagamento, RPC `admin_metrics`.
+2. **Player premium** — sidebar, tabs, anotações, materiais, bloqueio.
+3. **Admin Hub com métricas** + tela de **Certificados admin** com revogação.
+4. **Gestão de cursos enriquecida** — formulário completo.
+5. **Qualidade** — ErrorBoundary, lazy loading, skeletons, util de erro.
+6. **Testes iniciais** — setup + 3 suites.
 
-## Perguntas rápidas (opcional, posso assumir defaults)
+## Fora de escopo (confirmado)
 
-1. **QR Code no certificado público** — ok usar `qrcode.react` client-side agora e deixar geração de PDF server-side para depois? (assumo sim)
-2. **Auditoria** — quer que ações de instrutor também sejam logadas, ou só admin? (assumo só admin agora)
-3. **Cursos arquivados** — devem sumir para o aluno matriculado ou continuar acessíveis? (assumo continuar acessíveis, só somem do catálogo)
+Backend Node.js separado, JWT próprio, Next.js, Redis, Docker, Swagger, refatoração total, drag-and-drop de módulos, geração real de PDF (fica visual/print), CI/CD novo.
+
+## Perguntas rápidas
+
+1. **Anotações do aluno** — texto simples com autosave (debounce 1s) ou botão "salvar" explícito? *(assumo autosave — mais premium)*
+2. **Bloqueio quando expirado** — o aluno perde acesso a **certificado já emitido** também? *(assumo NÃO — certificado é vitalício mesmo com enrollment expirado)*
+3. **Métricas admin** — período fixo "últimos 30 dias" para inativos/emitidos, ou filtro por range? *(assumo fixo 30d agora, filtro depois)*

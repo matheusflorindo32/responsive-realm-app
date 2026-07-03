@@ -22,8 +22,12 @@ export type Database = {
           entity_id: string | null
           entity_type: string
           id: string
+          ip_address: unknown
           metadata: Json
+          new_data: Json | null
+          old_data: Json | null
           target_user_id: string | null
+          user_agent: string | null
         }
         Insert: {
           action: string
@@ -32,8 +36,12 @@ export type Database = {
           entity_id?: string | null
           entity_type: string
           id?: string
+          ip_address?: unknown
           metadata?: Json
+          new_data?: Json | null
+          old_data?: Json | null
           target_user_id?: string | null
+          user_agent?: string | null
         }
         Update: {
           action?: string
@@ -42,8 +50,12 @@ export type Database = {
           entity_id?: string | null
           entity_type?: string
           id?: string
+          ip_address?: unknown
           metadata?: Json
+          new_data?: Json | null
+          old_data?: Json | null
           target_user_id?: string | null
+          user_agent?: string | null
         }
         Relationships: []
       }
@@ -55,12 +67,14 @@ export type Database = {
           hours: number | null
           id: string
           issued_at: string
+          issuer: string | null
           pdf_url: string | null
           revoked_at: string | null
           revoked_reason: string | null
           status: Database["public"]["Enums"]["certificate_status"]
           student_name: string | null
           trail_id: string | null
+          trail_name: string | null
           user_id: string
         }
         Insert: {
@@ -70,12 +84,14 @@ export type Database = {
           hours?: number | null
           id?: string
           issued_at?: string
+          issuer?: string | null
           pdf_url?: string | null
           revoked_at?: string | null
           revoked_reason?: string | null
           status?: Database["public"]["Enums"]["certificate_status"]
           student_name?: string | null
           trail_id?: string | null
+          trail_name?: string | null
           user_id: string
         }
         Update: {
@@ -85,12 +101,14 @@ export type Database = {
           hours?: number | null
           id?: string
           issued_at?: string
+          issuer?: string | null
           pdf_url?: string | null
           revoked_at?: string | null
           revoked_reason?: string | null
           status?: Database["public"]["Enums"]["certificate_status"]
           student_name?: string | null
           trail_id?: string | null
+          trail_name?: string | null
           user_id?: string
         }
         Relationships: [
@@ -306,6 +324,41 @@ export type Database = {
             columns: ["trail_id"]
             isOneToOne: false
             referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          lesson_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          lesson_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_notes_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
             referencedColumns: ["id"]
           },
         ]
@@ -811,9 +864,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_metrics: { Args: never; Returns: Json }
       grant_enrollment_from_payment: {
         Args: { _payment_id: string }
         Returns: string
+      }
+      revoke_enrollment_from_payment: {
+        Args: { _payment_id: string }
+        Returns: number
       }
       verify_certificate: {
         Args: { _code: string }
@@ -822,14 +880,23 @@ export type Database = {
           course_title: string
           hours: number
           issued_at: string
+          issuer: string
           revoked_at: string
           status: Database["public"]["Enums"]["certificate_status"]
           student_name: string
+          trail_name: string
         }[]
       }
     }
     Enums: {
-      access_type: "manual" | "purchase" | "gift" | "trial" | "scholarship"
+      access_type:
+        | "manual"
+        | "purchase"
+        | "gift"
+        | "trial"
+        | "scholarship"
+        | "subscription"
+        | "partnership"
       app_role: "admin" | "editor" | "viewer"
       certificate_status: "valid" | "revoked"
       content_status: "draft" | "published" | "archived"
@@ -843,7 +910,13 @@ export type Database = {
       lesson_content_type: "video" | "text" | "quiz" | "file"
       lesson_status: "not_started" | "in_progress" | "completed"
       payment_provider: "manual" | "stripe" | "mercadopago"
-      payment_status: "pending" | "paid" | "failed" | "refunded"
+      payment_status:
+        | "pending"
+        | "paid"
+        | "failed"
+        | "refunded"
+        | "chargeback"
+        | "cancelled"
       trail_role: "instructor" | "moderator" | "student"
     }
     CompositeTypes: {
@@ -972,7 +1045,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      access_type: ["manual", "purchase", "gift", "trial", "scholarship"],
+      access_type: [
+        "manual",
+        "purchase",
+        "gift",
+        "trial",
+        "scholarship",
+        "subscription",
+        "partnership",
+      ],
       app_role: ["admin", "editor", "viewer"],
       certificate_status: ["valid", "revoked"],
       content_status: ["draft", "published", "archived"],
@@ -987,7 +1068,14 @@ export const Constants = {
       lesson_content_type: ["video", "text", "quiz", "file"],
       lesson_status: ["not_started", "in_progress", "completed"],
       payment_provider: ["manual", "stripe", "mercadopago"],
-      payment_status: ["pending", "paid", "failed", "refunded"],
+      payment_status: [
+        "pending",
+        "paid",
+        "failed",
+        "refunded",
+        "chargeback",
+        "cancelled",
+      ],
       trail_role: ["instructor", "moderator", "student"],
     },
   },
