@@ -14,6 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
+      certificates: {
+        Row: {
+          certificate_code: string
+          course_id: string | null
+          id: string
+          issued_at: string
+          pdf_url: string | null
+          trail_id: string | null
+          user_id: string
+        }
+        Insert: {
+          certificate_code?: string
+          course_id?: string | null
+          id?: string
+          issued_at?: string
+          pdf_url?: string | null
+          trail_id?: string | null
+          user_id: string
+        }
+        Update: {
+          certificate_code?: string
+          course_id?: string | null
+          id?: string
+          issued_at?: string
+          pdf_url?: string | null
+          trail_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certificates_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "certificates_trail_id_fkey"
+            columns: ["trail_id"]
+            isOneToOne: false
+            referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_progress: {
+        Row: {
+          completed_at: string | null
+          course_id: string
+          id: string
+          lessons_completed: number
+          lessons_total: number
+          pct_complete: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          course_id: string
+          id?: string
+          lessons_completed?: number
+          lessons_total?: number
+          pct_complete?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          course_id?: string
+          id?: string
+          lessons_completed?: number
+          lessons_total?: number
+          pct_complete?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_progress_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           cover_url: string | null
@@ -75,6 +161,123 @@ export type Database = {
             columns: ["trail_id"]
             isOneToOne: false
             referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enrollments: {
+        Row: {
+          access_type: Database["public"]["Enums"]["access_type"]
+          course_id: string | null
+          created_at: string
+          expires_at: string | null
+          granted_at: string
+          granted_by: string | null
+          id: string
+          payment_id: string | null
+          scope: Database["public"]["Enums"]["enrollment_scope"]
+          source: string | null
+          starts_at: string
+          status: Database["public"]["Enums"]["enrollment_status"]
+          trail_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_type?: Database["public"]["Enums"]["access_type"]
+          course_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          payment_id?: string | null
+          scope: Database["public"]["Enums"]["enrollment_scope"]
+          source?: string | null
+          starts_at?: string
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          trail_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_type?: Database["public"]["Enums"]["access_type"]
+          course_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          payment_id?: string | null
+          scope?: Database["public"]["Enums"]["enrollment_scope"]
+          source?: string | null
+          starts_at?: string
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          trail_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enrollments_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enrollments_trail_id_fkey"
+            columns: ["trail_id"]
+            isOneToOne: false
+            referencedRelation: "trails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_progress: {
+        Row: {
+          completed_at: string | null
+          id: string
+          lesson_id: string
+          progress_pct: number
+          status: Database["public"]["Enums"]["lesson_status"]
+          updated_at: string
+          user_id: string
+          watch_time_sec: number
+        }
+        Insert: {
+          completed_at?: string | null
+          id?: string
+          lesson_id: string
+          progress_pct?: number
+          status?: Database["public"]["Enums"]["lesson_status"]
+          updated_at?: string
+          user_id: string
+          watch_time_sec?: number
+        }
+        Update: {
+          completed_at?: string | null
+          id?: string
+          lesson_id?: string
+          progress_pct?: number
+          status?: Database["public"]["Enums"]["lesson_status"]
+          updated_at?: string
+          user_id?: string
+          watch_time_sec?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_progress_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
             referencedColumns: ["id"]
           },
         ]
@@ -172,6 +375,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      payments: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          id: string
+          paid_at: string | null
+          provider: Database["public"]["Enums"]["payment_provider"]
+          provider_ref: string | null
+          raw: Json | null
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          provider?: Database["public"]["Enums"]["payment_provider"]
+          provider_ref?: string | null
+          raw?: Json | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          provider?: Database["public"]["Enums"]["payment_provider"]
+          provider_ref?: string | null
+          raw?: Json | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -467,9 +712,20 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      access_type: "manual" | "purchase" | "gift" | "trial" | "scholarship"
       app_role: "admin" | "editor" | "viewer"
       content_status: "draft" | "published" | "archived"
+      enrollment_scope: "course" | "trail"
+      enrollment_status:
+        | "pending"
+        | "active"
+        | "expired"
+        | "revoked"
+        | "refunded"
       lesson_content_type: "video" | "text" | "quiz" | "file"
+      lesson_status: "not_started" | "in_progress" | "completed"
+      payment_provider: "manual" | "stripe" | "mercadopago"
+      payment_status: "pending" | "paid" | "failed" | "refunded"
       trail_role: "instructor" | "moderator" | "student"
     }
     CompositeTypes: {
@@ -598,9 +854,21 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      access_type: ["manual", "purchase", "gift", "trial", "scholarship"],
       app_role: ["admin", "editor", "viewer"],
       content_status: ["draft", "published", "archived"],
+      enrollment_scope: ["course", "trail"],
+      enrollment_status: [
+        "pending",
+        "active",
+        "expired",
+        "revoked",
+        "refunded",
+      ],
       lesson_content_type: ["video", "text", "quiz", "file"],
+      lesson_status: ["not_started", "in_progress", "completed"],
+      payment_provider: ["manual", "stripe", "mercadopago"],
+      payment_status: ["pending", "paid", "failed", "refunded"],
       trail_role: ["instructor", "moderator", "student"],
     },
   },
