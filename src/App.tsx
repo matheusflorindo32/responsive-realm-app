@@ -23,6 +23,18 @@ import TropaProjetos from "./pages/tropa/Projetos";
 import NotFound from "./pages/NotFound";
 import AdminAuth from "./pages/admin/AdminAuth";
 import AdminSync from "./pages/admin/AdminSync";
+import AdminLayout from "@/components/admin/AdminLayout";
+import EnsinoHub from "./pages/admin/ensino/Hub";
+import Trilhas from "./pages/admin/ensino/Trilhas";
+import Cursos from "./pages/admin/ensino/Cursos";
+import CursoDetalhe from "./pages/admin/ensino/CursoDetalhe";
+import Matriculas from "./pages/admin/ensino/Matriculas";
+import Entrar from "./pages/app/Entrar";
+import AppLayout from "./pages/app/AppLayout";
+import Dashboard from "./pages/app/Dashboard";
+import CursoPlayer from "./pages/app/CursoPlayer";
+import Perfil from "./pages/app/Perfil";
+import Certificados from "./pages/app/Certificados";
 
 const queryClient = new QueryClient();
 
@@ -61,9 +73,25 @@ const App = () => (
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
 
-            {/* Admin sync panel */}
+            {/* Admin */}
             <Route path="/admin" element={<AdminAuth />} />
-            <Route path="/admin/sync" element={<AdminSync />} />
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/sync" element={<AdminSync />} />
+              <Route path="/admin/ensino" element={<EnsinoHub />} />
+              <Route path="/admin/ensino/trilhas" element={<Trilhas />} />
+              <Route path="/admin/ensino/cursos" element={<Cursos />} />
+              <Route path="/admin/ensino/cursos/:id" element={<CursoDetalhe />} />
+              <Route path="/admin/ensino/matriculas" element={<Matriculas />} />
+            </Route>
+
+            {/* Aluno */}
+            <Route path="/entrar" element={<Entrar />} />
+            <Route element={<AppLayout />}>
+              <Route path="/app" element={<Dashboard />} />
+              <Route path="/app/curso/:slug" element={<CursoPlayer />} />
+              <Route path="/app/perfil" element={<Perfil />} />
+              <Route path="/app/certificados" element={<Certificados />} />
+            </Route>
 
             <Route path="*" element={<NotFound />} />
           </Routes>
