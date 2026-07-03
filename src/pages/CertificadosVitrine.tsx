@@ -556,7 +556,7 @@ export default function CertificadosVitrine() {
                                 }`}
                               >
                                 {s.source === "history" ? (
-                                  <History className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                                  <HistoryIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                                 ) : (
                                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                                 )}
