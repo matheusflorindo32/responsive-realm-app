@@ -16,6 +16,10 @@ export default function Matriculas() {
   const [targetId, setTargetId] = useState("");
   const [profileId, setProfileId] = useState("");
   const [expiresAt, setExpiresAt] = useState("");
+  const [filterUser, setFilterUser] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterType, setFilterType] = useState("all");
+  const [filterScope, setFilterScope] = useState("all");
 
   const trails = useQuery({
     queryKey: ["trails-select-m"],
