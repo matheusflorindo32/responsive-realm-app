@@ -328,28 +328,54 @@ export default function CertificadosVitrine() {
     runSearch(query);
   }
 
+  const SUGGEST_ID = "cert-suggest";
+  const optionId = (idx: number) => `cert-suggest-opt-${idx}`;
+
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (!showSuggest || suggestions.length === 0) return;
+    const open = showSuggest && suggestions.length > 0;
     if (e.key === "ArrowDown") {
+      if (!open) { setShowSuggest(true); return; }
       e.preventDefault();
       setActiveIdx((i) => (i + 1) % suggestions.length);
     } else if (e.key === "ArrowUp") {
+      if (!open) return;
       e.preventDefault();
       setActiveIdx((i) => (i <= 0 ? suggestions.length - 1 : i - 1));
-    } else if (e.key === "Enter" && activeIdx >= 0) {
+    } else if (e.key === "Home" && open) {
+      e.preventDefault();
+      setActiveIdx(0);
+    } else if (e.key === "End" && open) {
+      e.preventDefault();
+      setActiveIdx(suggestions.length - 1);
+    } else if (e.key === "Enter" && open && activeIdx >= 0) {
       e.preventDefault();
       const pick = suggestions[activeIdx].code;
       setQuery(pick);
       runSearch(pick);
     } else if (e.key === "Escape") {
+      if (open) {
+        e.preventDefault();
+        setShowSuggest(false);
+        setActiveIdx(-1);
+        inputRef.current?.focus();
+      }
+    } else if (e.key === "Tab") {
       setShowSuggest(false);
       setActiveIdx(-1);
     }
   }
 
+  // Scroll active option into view whenever it changes
+  useEffect(() => {
+    if (activeIdx < 0) return;
+    const el = document.getElementById(optionId(activeIdx));
+    el?.scrollIntoView({ block: "nearest" });
+  }, [activeIdx]);
+
   function pickSuggestion(code: string) {
     setQuery(code);
     runSearch(code);
+    inputRef.current?.focus();
   }
 
   function removeFromHistory(code: string) {
