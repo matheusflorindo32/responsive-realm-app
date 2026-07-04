@@ -16,6 +16,11 @@ const nav = [
 export function TropaNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isAuthenticated, isAdmin, loading } = useAuthSession();
+  const ctaTo = !isAuthenticated ? "/login" : isAdmin ? "/admin" : "/app";
+  const ctaLabel = !isAuthenticated ? "Entrar" : isAdmin ? "Painel Admin" : "Minha Área";
+  const CtaIcon = !isAuthenticated ? LogIn : isAdmin ? ShieldCheck : LayoutDashboard;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
