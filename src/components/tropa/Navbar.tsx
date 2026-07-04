@@ -76,6 +76,17 @@ export function TropaNavbar() {
             Sobre o fundador
             <ArrowUpRight size={14} />
           </Link>
+          <Link
+            to={ctaTo}
+            className={cn(
+              "ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-semibold rounded-md bg-primary text-primary-foreground hover:brightness-110 transition-all shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.6)]",
+              loading && "opacity-70",
+            )}
+          >
+            <CtaIcon size={14} />
+            {ctaLabel}
+          </Link>
+
         </nav>
 
         <button
@@ -112,6 +123,15 @@ export function TropaNavbar() {
             >
               Sobre o fundador →
             </Link>
+            <Link
+              to={ctaTo}
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold rounded-md bg-primary text-primary-foreground"
+            >
+              <CtaIcon size={14} />
+              {ctaLabel}
+            </Link>
+
           </div>
         </div>
       )}
