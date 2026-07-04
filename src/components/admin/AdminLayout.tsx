@@ -44,8 +44,9 @@ export default function AdminLayout() {
             size="sm"
             onClick={async () => {
               await supabase.auth.signOut();
-              navigate("/admin");
+              navigate("/login");
             }}
+
           >
             Sair
           </Button>

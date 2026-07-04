@@ -1,8 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, LogIn, LayoutDashboard, ShieldCheck } from "lucide-react";
 import iconUrl from "@/assets/tropa-icon.png";
+import { useAuthSession } from "@/hooks/useAuthSession";
+
 
 const nav = [
   { to: "/", label: "Início" },
