@@ -1,8 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, LogIn, LayoutDashboard, ShieldCheck } from "lucide-react";
 import iconUrl from "@/assets/tropa-icon.png";
+import { useAuthSession } from "@/hooks/useAuthSession";
+
 
 const nav = [
   { to: "/", label: "Início" },
@@ -14,6 +16,11 @@ const nav = [
 export function TropaNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isAuthenticated, isAdmin, loading } = useAuthSession();
+  const ctaTo = !isAuthenticated ? "/login" : isAdmin ? "/admin" : "/app";
+  const ctaLabel = !isAuthenticated ? "Entrar" : isAdmin ? "Painel Admin" : "Minha Área";
+  const CtaIcon = !isAuthenticated ? LogIn : isAdmin ? ShieldCheck : LayoutDashboard;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -69,6 +76,17 @@ export function TropaNavbar() {
             Sobre o fundador
             <ArrowUpRight size={14} />
           </Link>
+          <Link
+            to={ctaTo}
+            className={cn(
+              "ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-semibold rounded-md bg-primary text-primary-foreground hover:brightness-110 transition-all shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.6)]",
+              loading && "opacity-70",
+            )}
+          >
+            <CtaIcon size={14} />
+            {ctaLabel}
+          </Link>
+
         </nav>
 
         <button
@@ -105,6 +123,15 @@ export function TropaNavbar() {
             >
               Sobre o fundador →
             </Link>
+            <Link
+              to={ctaTo}
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold rounded-md bg-primary text-primary-foreground"
+            >
+              <CtaIcon size={14} />
+              {ctaLabel}
+            </Link>
+
           </div>
         </div>
       )}

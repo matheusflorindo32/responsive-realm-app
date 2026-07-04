@@ -21,7 +21,7 @@ import TropaConteudos from "./pages/tropa/Conteudos";
 import TropaProjetos from "./pages/tropa/Projetos";
 
 import NotFound from "./pages/NotFound";
-import AdminAuth from "./pages/admin/AdminAuth";
+// AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
 import AdminSync from "./pages/admin/AdminSync";
 import AdminLayout from "@/components/admin/AdminLayout";
 import EnsinoHub from "./pages/admin/ensino/Hub";
@@ -34,12 +34,21 @@ import AlunoDetalhe from "./pages/admin/ensino/AlunoDetalhe";
 import CertificadosAdmin from "./pages/admin/ensino/CertificadosAdmin";
 import CertificadoPublico from "./pages/CertificadoPublico";
 import CertificadosVitrine from "./pages/CertificadosVitrine";
-import Entrar from "./pages/app/Entrar";
+// legacy /entrar now redirects to /login
 import AppLayout from "./pages/app/AppLayout";
 import Dashboard from "./pages/app/Dashboard";
 import CursoPlayer from "./pages/app/CursoPlayer";
 import Perfil from "./pages/app/Perfil";
 import Certificados from "./pages/app/Certificados";
+
+import Login from "./pages/auth/Login";
+import Cadastro from "./pages/auth/Cadastro";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import MfaSetup from "./pages/auth/MfaSetup";
+import MfaVerify from "./pages/auth/MfaVerify";
+import AuthCallback from "./pages/auth/AuthCallback";
+
 
 const queryClient = new QueryClient();
 
@@ -78,9 +87,10 @@ const App = () => (
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
 
-            {/* Admin */}
-            <Route path="/admin" element={<AdminAuth />} />
+            {/* Admin — /admin passa direto pelo guard (redireciona ao login se preciso) */}
             <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<Navigate to="/admin/ensino" replace />} />
+
               <Route path="/admin/sync" element={<AdminSync />} />
               <Route path="/admin/ensino" element={<EnsinoHub />} />
               <Route path="/admin/ensino/trilhas" element={<Trilhas />} />
@@ -96,14 +106,24 @@ const App = () => (
             <Route path="/certificados" element={<CertificadosVitrine />} />
             <Route path="/certificado/:code" element={<CertificadoPublico />} />
 
+            {/* Autenticação unificada */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/mfa/setup" element={<MfaSetup />} />
+            <Route path="/mfa/verify" element={<MfaVerify />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/entrar" element={<Navigate to="/login" replace />} />
+
             {/* Aluno */}
-            <Route path="/entrar" element={<Entrar />} />
             <Route element={<AppLayout />}>
               <Route path="/app" element={<Dashboard />} />
               <Route path="/app/curso/:slug" element={<CursoPlayer />} />
               <Route path="/app/perfil" element={<Perfil />} />
               <Route path="/app/certificados" element={<Certificados />} />
             </Route>
+
 
             <Route path="*" element={<NotFound />} />
           </Routes>

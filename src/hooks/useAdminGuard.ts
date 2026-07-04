@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 export function useAdminGuard() {
   const nav = useNavigate();
+  const loc = useLocation();
   const [ready, setReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -11,7 +12,7 @@ export function useAdminGuard() {
     (async () => {
       const { data } = await supabase.auth.getUser();
       if (!data.user) {
-        nav("/admin", { replace: true });
+        nav("/login?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
         return;
       }
       const { data: roles } = await supabase
@@ -19,17 +20,34 @@ export function useAdminGuard() {
         .select("role")
         .eq("user_id", data.user.id);
       const admin = !!roles?.some((r) => r.role === "admin");
-      setIsAdmin(admin);
+      if (!admin) {
+        nav("/app", { replace: true });
+        return;
+      }
+      // MFA enforcement for admins
+      const factors = await supabase.auth.mfa.listFactors();
+      const verified = factors.data?.totp?.find((f) => f.status === "verified");
+      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      const nextParam = encodeURIComponent(loc.pathname + loc.search);
+      if (!verified) {
+        nav("/mfa/setup?next=" + nextParam, { replace: true });
+        return;
+      }
+      if (aal?.currentLevel !== "aal2") {
+        nav("/mfa/verify?next=" + nextParam, { replace: true });
+        return;
+      }
+      setIsAdmin(true);
       setReady(true);
-      if (!admin) nav("/admin", { replace: true });
     })();
-  }, [nav]);
+  }, [nav, loc.pathname, loc.search]);
 
   return { ready, isAdmin };
 }
 
 export function useAuthGuard() {
   const nav = useNavigate();
+  const loc = useLocation();
   const [ready, setReady] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -37,13 +55,13 @@ export function useAuthGuard() {
     (async () => {
       const { data } = await supabase.auth.getUser();
       if (!data.user) {
-        nav("/entrar", { replace: true });
+        nav("/login?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
         return;
       }
       setUserId(data.user.id);
       setReady(true);
     })();
-  }, [nav]);
+  }, [nav, loc.pathname, loc.search]);
 
   return { ready, userId };
 }
