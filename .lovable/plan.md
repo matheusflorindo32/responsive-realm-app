@@ -1,111 +1,109 @@
-# Plano — Certificado público (demo + exemplo real verificável)
 
-## Objetivo
-Permitir que qualquer pessoa visualize o diploma premium da Tropa Científica em duas frentes:
-1. Uma rota pública **puramente demonstrativa** (`/certificado/demo`) sem tocar no banco.
-2. Um certificado **real e verificável** com código fixo `TROPA-ELITE-2026`, validado pelo mesmo RPC de produção.
+# Plataforma de Autenticação Premium — Tropa Científica
 
-Manter intactas todas as rotas de erro premium já existentes (formato inválido / não encontrado / revogado / falha de RPC).
-
----
+Consolidar toda a autenticação em uma experiência única, visualmente premium e segura, sem alterar RLS, papéis ou lógica de negócio existente.
 
 ## 1. Arquitetura de rotas
 
+Rotas públicas novas / renomeadas:
+
 ```text
-/certificado/demo              → renderiza o diploma com dados mock (sem fetch)
-/certificado/TROPA-ELITE-2026  → passa pelo verify_certificate normal (válido)
-/certificado/:code             → fluxo real já existente
+/login              → login único (aluno + admin)
+/cadastro           → criar conta (aluno)
+/forgot-password    → solicitar reset
+/reset-password     → definir nova senha (via link do email)
+/mfa/setup          → configurar TOTP (após login admin sem MFA)
+/mfa/verify         → validar código TOTP (admins)
+/auth/callback      → landing pós-OAuth (decide destino por papel)
 ```
 
-A detecção de "demo" acontece **antes** do regex e do `useQuery`: se `code === "demo"`, pulamos validação e RPC e renderizamos direto o `<CertificadoDiploma />` com props fictícias e uma faixa discreta "Certificado demonstrativo — modelo público da Tropa Científica."
+Compatibilidade e redirects:
 
-## 2. Refatoração de `CertificadoPublico.tsx`
+- `/entrar` → `Navigate replace` para `/login`
+- `/admin` (GET não autenticado) → `Navigate` para `/login?next=/admin`
+- Preservar `?next=` em todos os fluxos (login, cadastro, Google OAuth via state em `localStorage` sanitizado como path same-origin).
 
-Hoje o arquivo mistura fetch + layout + estados de erro. Vou extrair o corpo visual do diploma em um componente reutilizável para que demo e real compartilhem 100% do visual:
+Roteamento pós-login (feito em `/auth/callback` e no submit dos formulários):
 
-- `src/components/certificado/CertificadoDiploma.tsx` — recebe props tipadas (`studentName`, `courseTitle`, `trailName`, `issuer`, `hours`, `issuedAt`, `status`, `revokedAt`, `code`, `verifyUrl`, `isDemo?`) e desenha:
-  - Backdrop grid + radial glow (mesmo tratamento premium)
-  - Cabeçalho editorial "Tropa Científica · Certificado"
-  - Bloco principal com serifa display para o nome do aluno
-  - Metadados em `dl` com mono/tabular-nums
-  - Selo de autenticidade + status pill (válido / revogado / demonstrativo)
-  - QR Code (`QRCodeSVG`) apontando para `verifyUrl`, texto "Escaneie para validar"
-  - Ações: **Copiar código**, **Voltar ao início**, **Imprimir / Salvar PDF** (`window.print()`)
-  - Se `isDemo`, badge discreta no topo e watermark sutil "MODELO DEMONSTRATIVO"
-  - `@media print` limpo (esconde header/actions, mantém diploma A4 paisagem)
-- `src/pages/CertificadoPublico.tsx` passa a orquestrar apenas: parse do `code` → branch demo | branch real → estados de erro premium (mantidos como estão).
-
-## 3. Ajuste do regex de formato
-
-Atual: `/^[A-Za-z0-9-]{6,64}$/`
-Novo: `/^[A-Z0-9-]{6,40}$/` aplicado sobre `code.toUpperCase()` para permitir `TROPA-ELITE-2026` e demais códigos institucionais mantendo defesa contra entrada maliciosa.
-
-O caminho `demo` é reconhecido antes do regex (case-insensitive) e não passa por validação.
-
-## 4. QR Code contextual
-
-- Demo → `${origin}/certificado/demo`
-- Real → `${origin}/certificado/${code}`
-- Erro (não encontrado / inválido) → **sem QR** (mantido como está)
-
-## 5. Semear certificado real de exemplo
-
-Migração para garantir um usuário-modelo (não usa `auth.users`, apenas `profiles` como snapshot) e inserir o certificado fixo:
-
-```sql
--- perfil sintético apenas para snapshot (user_id fixo, sem auth)
-INSERT INTO public.certificates (
-  user_id, certificate_code, student_name, course_title,
-  trail_name, hours, issuer, status, issued_at
-) VALUES (
-  '00000000-0000-0000-0000-000000000001',
-  'TROPA-ELITE-2026',
-  'Modelo Elite Tropa Científica',
-  'Certificado Demonstrativo Premium Elite',
-  'Tropa Científica — Formação Modelo',
-  40,
-  'Tropa Científica',
-  'valid',
-  '2026-07-03 12:00:00-03'
-) ON CONFLICT (certificate_code) DO NOTHING;
+```text
+sessão válida
+ ├─ tem papel admin  → se MFA não verificado nesta sessão → /mfa/verify → /admin
+ │                     senão → /admin
+ └─ caso contrário   → /app  (ou ?next=)
 ```
 
-Observações:
-- `certificate_code` já tem UNIQUE (verifico no migration; se não tiver, adiciono).
-- `user_id` é NOT NULL mas sem FK para `auth.users` (confirmado pelo schema atual — coluna `uuid NOT NULL` sem referência), então o UUID sintético é aceito.
-- Nenhum dado pessoal, CPF ou e-mail é inserido.
-- O trigger `snapshot_certificate_data` respeita valores já preenchidos (usa `COALESCE`), então os dados fictícios são mantidos.
-- O certificado aparece automaticamente no admin (`/admin/ensino/certificados`) porque a listagem lê a mesma tabela.
+## 2. Navbar reativa (Tropa pública)
 
-## 6. Critérios de aceite
+Editar `src/components/tropa/Navbar.tsx` para consumir o estado de auth via um novo hook `useAuthSession` (listener `onAuthStateChange` + `getUser`), exibindo:
 
-- [ ] `/certificado/demo` abre o diploma premium sem chamar o backend e sem erro.
-- [ ] `/certificado/TROPA-ELITE-2026` retorna válido via `verify_certificate` RPC.
-- [ ] QR da demo aponta para `/certificado/demo`; QR do real aponta para `/certificado/TROPA-ELITE-2026`.
-- [ ] Códigos inválidos (`/certificado/abc`, caracteres proibidos) → tela premium `MALFORMED`.
-- [ ] Códigos válidos mas inexistentes → tela premium `NOT_FOUND`.
-- [ ] Certificado revogado continua exibindo o estado revogado.
-- [ ] Botões: copiar código (toast), voltar ao início, imprimir.
-- [ ] Certificado-exemplo visível em `/admin/ensino/certificados`.
-- [ ] Responsivo (mobile 375px → desktop 1440px) e `@media print` limpo.
-- [ ] `tsgo` compila limpo. Nenhuma rota existente afetada.
+- Deslogado: botão CTA **Entrar** (link `/login`)
+- Aluno logado: botão **Minha Área** (link `/app`)
+- Admin logado: botão **Painel Admin** (link `/admin`)
 
----
+Admin nunca aparece como item de menu público — apenas via CTA condicional após login.
 
-## Detalhes técnicos
+## 3. Design system das telas de auth
 
-**Arquivos criados**
-- `src/components/certificado/CertificadoDiploma.tsx`
-- `src/lib/certificado-demo.ts` (constante com os dados fictícios do Matheus/demo)
-- `supabase/migrations/<timestamp>_seed_certificate_elite.sql`
+Layout compartilhado `AuthShell` (novo, `src/components/auth/AuthShell.tsx`) split-screen responsivo:
 
-**Arquivos editados**
-- `src/pages/CertificadoPublico.tsx` — extrai diploma, adiciona branch `demo`, ajusta regex, mantém estados de erro.
+- **Esquerda (≥lg):** painel de marca — logo Tropa Científica, headline curta ("Acesso seguro à sua jornada científica"), 3 trust badges (Ambiente seguro / Certificados digitais / Acesso protegido), gradiente dark sutil + grade geométrica discreta, sem partículas pesadas.
+- **Direita:** card glassmorphism (`backdrop-blur`, borda cyan 1px com glow suave), largura máx 420px, Orbitron nos títulos, Inter no corpo, botão primário cyan neon controlado, botão Google secundário outline.
+- Mobile: painel de marca colapsa em header compacto acima do card.
+- Estados: loading (spinner + botão disabled), erro (alert vermelho acessível), sucesso (toast + transição), skeletons quando aplicável.
+- Todas as cores via tokens semânticos em `index.css` (sem hex hardcoded nos componentes).
 
-**Design tokens**
-- Reuso do sistema semântico do projeto (`bg-background`, `border-border`, `text-foreground`, `primary`, etc.) — sem hex hardcoded.
-- Tipografia: Orbitron (display do nome do curso/aluno) + Inter (metadados). Coerente com a memory Core.
-- Motion via `framer-motion` já instalado (entrada suave do diploma, hover no selo).
+Aplicar o mesmo `AuthShell` a: `/login`, `/cadastro`, `/forgot-password`, `/reset-password`, `/mfa/setup`, `/mfa/verify`.
 
-**Inspiração (21st.dev)**
-Padrões editoriais de "certificate / award / credential" — layout central com hairline borders, corner ticks, selo com glow radial, metadados em mono/small-caps, QR integrado à margem direita. Referências: kokonutui (cards com corner marks), aceternity (gradient border + glow), motion-primitives (entrada em fade+rise).
+## 4. Segurança nível elite
+
+- **Reset de senha:** `supabase.auth.resetPasswordForEmail(email, { redirectTo: origin + '/reset-password' })`. Página `/reset-password` detecta `type=recovery` no hash e chama `updateUser({ password })`. Mensagem genérica em `/forgot-password` ("Se existir uma conta com este email, enviaremos um link") para não vazar existência.
+- **HIBP (senhas vazadas):** ativar `password_hibp_enabled: true` via `supabase--configure_auth`.
+- **Validação forte no cliente:** Zod schema — mín 12 chars, maiúscula, minúscula, número, símbolo. Checklist visual em tempo real no cadastro e reset.
+- **MFA/TOTP para admins:**
+  - Após login, se `user_roles` contém `admin` e `factors` não tem TOTP verificado → força `/mfa/setup`.
+  - Se já tem factor mas sessão atual sem AAL2 → `/mfa/verify` antes de liberar `/admin/*`.
+  - Componente `AdminLayout` (já existe) recebe guard adicional que checa `supabase.auth.mfa.getAuthenticatorAssuranceLevel()` ≥ `aal2`.
+  - Telas usam `supabase.auth.mfa.enroll/challenge/verify` (nativo). QR renderizado via biblioteca leve (`qrcode` já usado no projeto se disponível; senão fetch de data URL).
+- **Rate limiting client-side simples:** contador local por email (5 tentativas em 5min) exibindo cooldown — não substitui proteções do provider, mas melhora UX e freia scripts triviais. Documentar no chat que rate-limit real fica no Supabase.
+- **Google OAuth:** manter `lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/auth/callback" })` em todas as telas.
+- **Não alterar** RLS, `user_roles`, `has_role`, triggers ou edge functions existentes.
+
+## 5. Ajustes técnicos
+
+Arquivos criados:
+
+- `src/components/auth/AuthShell.tsx`
+- `src/components/auth/PasswordStrength.tsx`
+- `src/hooks/useAuthSession.ts` (session + role reativo, `onAuthStateChange`)
+- `src/lib/auth/redirects.ts` (sanitiza `next`, resolve destino por papel)
+- `src/lib/auth/schemas.ts` (Zod: login, signup, reset)
+- `src/pages/auth/Login.tsx`
+- `src/pages/auth/Cadastro.tsx`
+- `src/pages/auth/ForgotPassword.tsx`
+- `src/pages/auth/ResetPassword.tsx`
+- `src/pages/auth/MfaSetup.tsx`
+- `src/pages/auth/MfaVerify.tsx`
+- `src/pages/auth/AuthCallback.tsx`
+
+Arquivos editados:
+
+- `src/App.tsx` — novas rotas + redirect `/entrar` → `/login`
+- `src/components/tropa/Navbar.tsx` — CTA reativo
+- `src/components/admin/AdminLayout.tsx` — guard AAL2 para admins
+- `src/hooks/useAdminGuard.ts` — usar `useAuthSession` e checar MFA
+- `src/pages/app/Entrar.tsx` — remover ou redirecionar (mantido só como redirect)
+- `src/pages/admin/AdminAuth.tsx` — redirecionar para `/login?next=/admin` (mantém compat)
+- `src/index.css` — tokens de glow/glass já existentes reutilizados; adicionar variáveis se faltar
+
+Configuração backend (sem tocar schema):
+
+- `supabase--configure_auth` → `password_hibp_enabled: true`, `disable_signup: false`, `auto_confirm_email: false`, `external_anonymous_users_enabled: false`.
+
+## 6. Fora de escopo (confirmado)
+
+- Sem mudanças em RLS, tabelas, triggers, matrículas, progresso, certificados.
+- Sem novos provedores OAuth além do Google já ativo.
+- Sem captcha externo nesta iteração (pode ser adicionado depois se necessário).
+- MFA apenas para admins (alunos podem ganhar em fase futura).
+
+Ao aprovar, implemento tudo em sequência: migração de config de auth → shell + hooks → páginas → integração no navbar/guards → verificação visual das telas.
