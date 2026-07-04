@@ -21,7 +21,7 @@ import TropaConteudos from "./pages/tropa/Conteudos";
 import TropaProjetos from "./pages/tropa/Projetos";
 
 import NotFound from "./pages/NotFound";
-import AdminAuth from "./pages/admin/AdminAuth";
+// AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
 import AdminSync from "./pages/admin/AdminSync";
 import AdminLayout from "@/components/admin/AdminLayout";
 import EnsinoHub from "./pages/admin/ensino/Hub";
@@ -34,7 +34,7 @@ import AlunoDetalhe from "./pages/admin/ensino/AlunoDetalhe";
 import CertificadosAdmin from "./pages/admin/ensino/CertificadosAdmin";
 import CertificadoPublico from "./pages/CertificadoPublico";
 import CertificadosVitrine from "./pages/CertificadosVitrine";
-import Entrar from "./pages/app/Entrar";
+// legacy /entrar now redirects to /login
 import AppLayout from "./pages/app/AppLayout";
 import Dashboard from "./pages/app/Dashboard";
 import CursoPlayer from "./pages/app/CursoPlayer";
@@ -87,9 +87,10 @@ const App = () => (
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
 
-            {/* Admin */}
-            <Route path="/admin" element={<AdminAuth />} />
+            {/* Admin — /admin passa direto pelo guard (redireciona ao login se preciso) */}
             <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<Navigate to="/admin/ensino" replace />} />
+
               <Route path="/admin/sync" element={<AdminSync />} />
               <Route path="/admin/ensino" element={<EnsinoHub />} />
               <Route path="/admin/ensino/trilhas" element={<Trilhas />} />
