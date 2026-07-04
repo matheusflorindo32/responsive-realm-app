@@ -59,6 +59,10 @@ export default function Login() {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data }) => {
       if (!data.session) return;
+      if (!data.session.user.email_confirmed_at) {
+        nav("/verify-email", { replace: true });
+        return;
+      }
       const { data: roles } = await supabase
         .from("user_roles")
         .select("role")
@@ -89,6 +93,10 @@ export default function Login() {
       if (error) {
         bumpRateLimit(email);
         setErrors({ form: "Email ou senha incorretos." });
+        return;
+      }
+      if (!data.user?.email_confirmed_at) {
+        nav("/verify-email", { replace: true });
         return;
       }
       const { data: roles } = await supabase
