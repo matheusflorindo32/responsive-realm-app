@@ -105,14 +105,24 @@ const App = () => (
             <Route path="/certificados" element={<CertificadosVitrine />} />
             <Route path="/certificado/:code" element={<CertificadoPublico />} />
 
+            {/* Autenticação unificada */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/mfa/setup" element={<MfaSetup />} />
+            <Route path="/mfa/verify" element={<MfaVerify />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/entrar" element={<Navigate to="/login" replace />} />
+
             {/* Aluno */}
-            <Route path="/entrar" element={<Entrar />} />
             <Route element={<AppLayout />}>
               <Route path="/app" element={<Dashboard />} />
               <Route path="/app/curso/:slug" element={<CursoPlayer />} />
               <Route path="/app/perfil" element={<Perfil />} />
               <Route path="/app/certificados" element={<Certificados />} />
             </Route>
+
 
             <Route path="*" element={<NotFound />} />
           </Routes>
