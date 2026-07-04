@@ -41,6 +41,15 @@ import CursoPlayer from "./pages/app/CursoPlayer";
 import Perfil from "./pages/app/Perfil";
 import Certificados from "./pages/app/Certificados";
 
+import Login from "./pages/auth/Login";
+import Cadastro from "./pages/auth/Cadastro";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import MfaSetup from "./pages/auth/MfaSetup";
+import MfaVerify from "./pages/auth/MfaVerify";
+import AuthCallback from "./pages/auth/AuthCallback";
+
+
 const queryClient = new QueryClient();
 
 const App = () => (
