@@ -48,6 +48,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import MfaSetup from "./pages/auth/MfaSetup";
 import MfaVerify from "./pages/auth/MfaVerify";
 import AuthCallback from "./pages/auth/AuthCallback";
+import VerifyEmail from "./pages/auth/VerifyEmail";
 
 
 const queryClient = new QueryClient();
@@ -114,6 +115,7 @@ const App = () => (
             <Route path="/mfa/setup" element={<MfaSetup />} />
             <Route path="/mfa/verify" element={<MfaVerify />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/entrar" element={<Navigate to="/login" replace />} />
 
             {/* Aluno */}

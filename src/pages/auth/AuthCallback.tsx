@@ -15,6 +15,10 @@ export default function AuthCallback() {
         nav("/login", { replace: true });
         return;
       }
+      if (!data.session.user.email_confirmed_at) {
+        nav("/verify-email", { replace: true });
+        return;
+      }
       const { data: roles } = await supabase
         .from("user_roles")
         .select("role")
