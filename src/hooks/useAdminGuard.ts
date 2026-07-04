@@ -15,6 +15,10 @@ export function useAdminGuard() {
         nav("/login?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
         return;
       }
+      if (!data.user.email_confirmed_at) {
+        nav("/verify-email?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
+        return;
+      }
       const { data: roles } = await supabase
         .from("user_roles")
         .select("role")
@@ -56,6 +60,10 @@ export function useAuthGuard() {
       const { data } = await supabase.auth.getUser();
       if (!data.user) {
         nav("/login?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
+        return;
+      }
+      if (!data.user.email_confirmed_at) {
+        nav("/verify-email?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
         return;
       }
       setUserId(data.user.id);
