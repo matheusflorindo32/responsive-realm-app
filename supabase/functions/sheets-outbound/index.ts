@@ -6,9 +6,13 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
 
-  // Auth: require signed-in user (any role) OR service_role (cron calls)
+  // Auth: require signed-in user OR cron shared secret
   const authHeader = req.headers.get("Authorization");
+  const cronSecret = req.headers.get("x-cron-secret");
+  const expectedCronSecret = Deno.env.get("SHEETS_WEBHOOK_SECRET");
   let userId: string | undefined;
+  let isCron = false;
+
   if (authHeader?.startsWith("Bearer ")) {
     const token = authHeader.slice(7);
     const client = createClient(
@@ -18,6 +22,13 @@ Deno.serve(async (req) => {
     );
     const { data } = await client.auth.getClaims(token);
     userId = data?.claims?.sub as string | undefined;
+  } else if (cronSecret && expectedCronSecret && cronSecret === expectedCronSecret) {
+    isCron = true;
+  }
+
+  if (!userId && !isCron) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }),
+      { status: 401, headers: { ...cors, "Content-Type": "application/json" } });
   }
 
   let body: { sheet?: string; sheets?: string[] } = {};
