@@ -7,8 +7,11 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
 
   const authHeader = req.headers.get("Authorization");
+  const cronSecret = req.headers.get("x-cron-secret");
+  const expectedCronSecret = Deno.env.get("SHEETS_WEBHOOK_SECRET");
   let userId: string | undefined;
   let trigger: "cron" | "manual" = "cron";
+  let authorized = false;
 
   if (authHeader?.startsWith("Bearer ")) {
     const token = authHeader.slice(7);
@@ -21,14 +24,21 @@ Deno.serve(async (req) => {
     if (data?.claims?.sub) {
       userId = data.claims.sub as string;
       trigger = "manual";
-      // Verify admin
       const sbSvc = svc();
       const { data: isAdmin } = await sbSvc.rpc("has_role", { _user_id: userId, _role: "admin" });
       if (!isAdmin) {
         return new Response(JSON.stringify({ error: "admin required" }),
           { status: 403, headers: { ...cors, "Content-Type": "application/json" } });
       }
+      authorized = true;
     }
+  } else if (cronSecret && expectedCronSecret && cronSecret === expectedCronSecret) {
+    authorized = true;
+  }
+
+  if (!authorized) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }),
+      { status: 401, headers: { ...cors, "Content-Type": "application/json" } });
   }
 
   const sb = svc();
