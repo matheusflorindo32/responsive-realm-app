@@ -39,9 +39,9 @@ export default function AdminLayout() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate("/admin/ensino")}
-              aria-label="Hub do admin"
-              title="Hub do admin"
+              onClick={() => navigate("/")}
+              aria-label="Ir para o início do site"
+              title="Início do site"
             >
               <Home className="h-4 w-4" />
             </Button>
