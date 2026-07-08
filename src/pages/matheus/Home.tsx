@@ -128,38 +128,38 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:sticky lg:top-24"
             >
-              <div className="card-surface p-6 md:p-7 space-y-6">
-                <div>
-                  <div className="eyebrow mb-2">Identidade acadêmica</div>
-                  <div className="mono text-[13px] text-primary break-all">
-                    {profile.citationNames.split(";")[0]}
-                  </div>
-                </div>
-                <div className="space-y-3 text-[13px]">
-                  {[
-                    { l: "Afiliação", v: profile.affiliationMain },
-                    { l: "Grupo de pesquisa", v: profile.researchGroup },
-                    { l: "Localização", v: profile.cityState },
-                  ].map((r) => (
-                    <div key={r.l} className="flex flex-col gap-0.5 pb-3 border-b border-border/60 last:border-0 last:pb-0">
-                      <span className="eyebrow">{r.l}</span>
-                      <span className="text-foreground">{r.v}</span>
+              <div className="space-y-4">
+                <InstitutionalCard
+                  role="Membro Pesquisador"
+                  group="Grupo de Fisiologia Translacional"
+                  university="Universidade Federal do Espírito Santo — UFES"
+                  center="Centro de Educação Física e Desportos — CEFD"
+                />
+
+                <div className="card-surface p-5 space-y-4">
+                  <div>
+                    <div className="eyebrow mb-1.5">Identidade acadêmica</div>
+                    <div className="mono text-[12.5px] text-primary break-all">
+                      {profile.citationNames.split(";")[0]}
                     </div>
-                  ))}
-                </div>
-                <div className="pt-2 grid grid-cols-2 gap-2">
-                  {links.slice(0, 4).map((l) => (
-                    <a
-                      key={l.id}
-                      href={l.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center justify-between rounded-md border border-border/70 px-3 py-2 hover:border-accent/60 hover:bg-accent/[0.03] transition-colors"
-                    >
-                      <span className="text-[12px] font-semibold text-primary">{l.platform}</span>
-                      <ArrowUpRight size={13} className="text-muted-foreground group-hover:text-accent" />
-                    </a>
-                  ))}
+                  </div>
+                  <div className="flex items-center gap-2 text-[11.5px] mono text-muted-foreground pt-3 border-t border-border/60">
+                    <span>{profile.cityState}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {links.slice(0, 4).map((l) => (
+                      <a
+                        key={l.id}
+                        href={l.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center justify-between rounded-md border border-border/70 px-3 py-2 hover:border-accent/60 hover:bg-accent/[0.03] transition-colors"
+                      >
+                        <span className="text-[12px] font-semibold text-primary">{l.platform}</span>
+                        <ArrowUpRight size={13} className="text-muted-foreground group-hover:text-accent" />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.aside>
