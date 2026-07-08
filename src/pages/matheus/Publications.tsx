@@ -124,16 +124,47 @@ export default function Publications() {
             )}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-5">
-            {filteredProc.map((p, i) => (
-              <ProceedingCard key={p.id} proceeding={p} index={i} />
-            ))}
-            {filteredProc.length === 0 && (
-              <p className="text-muted-foreground col-span-full text-center py-16">
-                Nenhum resumo encontrado com estes filtros.
-              </p>
-            )}
-          </div>
+          <>
+            <aside className="card-surface mb-6 p-5 md:p-6 border-l-2 border-gold/70">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="flex-1">
+                  <div className="eyebrow text-gold mb-1.5">Plataforma oficial</div>
+                  <h3 className="display-title text-lg text-primary leading-snug">
+                    Anais hospedados no site oficial do CONACIPS 2025
+                  </h3>
+                  <p className="text-[13px] text-muted-foreground mt-1.5 leading-relaxed">
+                    Concebi e desenvolvi a plataforma completa do congresso — inscrições, programação, submissão de resumos e publicação dos anais digitais.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 md:flex-col md:items-end">
+                  <a
+                    href="https://www.conacips2025.com/proceedings"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-gold/60 bg-gold/10 px-3 py-1.5 text-[12px] font-medium mono text-gold hover:bg-gold/20 transition-colors"
+                  >
+                    Ver anais oficiais →
+                  </a>
+                  <a
+                    href="/matheus/projetos#conacips"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-border/70 px-3 py-1.5 text-[12px] font-medium mono text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
+                  >
+                    Sobre o projeto →
+                  </a>
+                </div>
+              </div>
+            </aside>
+            <div className="grid md:grid-cols-2 gap-5">
+              {filteredProc.map((p, i) => (
+                <ProceedingCard key={p.id} proceeding={p} index={i} />
+              ))}
+              {filteredProc.length === 0 && (
+                <p className="text-muted-foreground col-span-full text-center py-16">
+                  Nenhum resumo encontrado com estes filtros.
+                </p>
+              )}
+            </div>
+          </>
         )}
       </section>
     </>
