@@ -171,12 +171,9 @@ function cleanTitle(s: string): string {
     .replace(/\s{2,}/g, " ")
     .trim();
   // Junta letra isolada seguida de continuação: "S oldados" → "Soldados", "GENERA TIVE" → "GENERATIVE".
-  // Regra: [3+ letras][espaço][1-4 letras minúsculas/maiúsculas] onde o segundo bloco começa em letra
-  // e é seguido por espaço ou fim (evita colar palavras válidas).
   out = out.replace(/([A-Za-zÀ-ÿ]{2,})\s([A-Za-zÀ-ÿ]{1,4})(?=\s|$|[.,;:])/g, (m, a, b) => {
-    // Não colar se o segundo bloco parece palavra independente (artigo/preposição comum)
-    const stop = /^(de|da|do|das|dos|em|no|na|os|as|para|com|por|sem|the|and|of|to|in|on|at|for)$/i;
-    if (stop.test(b)) return m;
+    const stop = /^(de|da|do|das|dos|em|no|na|os|as|um|uma|para|com|por|sem|the|and|of|to|in|on|at|for|al|ao|aos|à|às|se|te|me|nos|vos|ou|ao|ao)$/i;
+    if (stop.test(a) || stop.test(b)) return m;
     return a + b;
   });
   return out.replace(/\s{2,}/g, " ").trim();
