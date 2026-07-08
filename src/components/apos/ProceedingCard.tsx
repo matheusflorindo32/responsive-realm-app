@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Copy, Check, FileText } from "lucide-react";
+import { Copy, Check, FileText, ExternalLink, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
 import type { Proceeding } from "@/data/types";
 import { generateProceedingsCitation } from "@/lib/citations";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { TagBadge, AccentTag } from "./TagBadge";
 import { toast } from "sonner";
+
+const CONACIPS_URL = "https://www.conacips2025.com";
+const CONACIPS_PROCEEDINGS_URL = "https://www.conacips2025.com/proceedings";
 
 export function ProceedingCard({ proceeding: p, index = 0 }: { proceeding: Proceeding; index?: number }) {
   const [copied, setCopied] = useState(false);
