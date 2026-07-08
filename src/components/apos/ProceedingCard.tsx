@@ -72,7 +72,6 @@ export function ProceedingCard({ proceeding: p, index = 0 }: { proceeding: Proce
           </span>
         )}
         <button
-        <button
           onClick={doCopy}
           className={cn(
             "ml-auto inline-flex items-center gap-1 rounded-md border border-border/70 px-2 py-1 text-[10.5px] font-medium uppercase tracking-wider mono transition-colors",
