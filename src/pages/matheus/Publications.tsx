@@ -138,7 +138,7 @@ export default function Publications() {
                 </div>
                 <div className="flex flex-wrap gap-2 md:flex-col md:items-end">
                   <a
-                    href="https://www.conacips2025.com/proceedings"
+                    href="https://drive.google.com/file/d/1ce_AqVCMNF7sYvNc1jFZJBR7TE6TpEk-/view"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-md border border-gold/60 bg-gold/10 px-3 py-1.5 text-[12px] font-medium mono text-gold hover:bg-gold/20 transition-colors"
