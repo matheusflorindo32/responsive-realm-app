@@ -1,14 +1,11 @@
 import { useMemo, useState } from "react";
 import { SEOHead } from "@/components/apos/SEOHead";
 import { SectionHeader } from "@/components/apos/SectionHeader";
-import { FilterBar } from "@/components/apos/FilterBar";
 import { EducationTimeline } from "@/components/apos/EducationTimeline";
 import { CertificationCard } from "@/components/apos/CertificationCard";
-import { TagBadge, AccentTag, GoldTag } from "@/components/apos/TagBadge";
+import { CompetencyAccordion } from "@/components/apos/CompetencyAccordion";
 import { getEducation, getCourses, getCertifications } from "@/data/adapters/localMockAdapter";
-import { Clock, Building2 } from "lucide-react";
-
-const PAGE = 20;
+import { Search } from "lucide-react";
 
 export default function Education() {
   const education = useMemo(() => getEducation(), []);
