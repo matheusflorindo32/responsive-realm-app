@@ -27,6 +27,10 @@ export default function Home() {
   const skills = getSkills().filter((s) => s.featured);
   const links = getLinks().filter((l) => l.featured);
   const badges = ["UFES · CEFD", "PMES", "ORCID", "Lattes", "IFES"];
+  const coursesCount = getCourses().length;
+  const educationCount = getEducation().length;
+  const certificationsCount = getCertifications().length;
+  const projectsCount = getProjects().length;
 
   return (
     <>
