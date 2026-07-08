@@ -269,10 +269,10 @@ export default function Home() {
           <SectionHeader eyebrow="Formação resumida" title="Trajetória acadêmica e operacional" />
           <div className="mt-10 grid md:grid-cols-4 gap-4">
             {[
-              { icon: GraduationCap, label: "Formações acadêmicas", value: 10, to: "/matheus/formacao" },
-              { icon: BookMarked, label: "Cursos importados", value: 53, to: "/matheus/formacao" },
-              { icon: Award, label: "Certificações destaque", value: 4, to: "/matheus/formacao" },
-              { icon: FolderGit2, label: "Projetos públicos", value: 5, to: "/matheus/projetos" },
+              { icon: GraduationCap, label: "Formações acadêmicas", value: educationCount, to: "/matheus/formacao" },
+              { icon: BookMarked, label: "Cursos & capacitações", value: coursesCount, to: "/matheus/formacao" },
+              { icon: Award, label: "Certificações destaque", value: certificationsCount, to: "/matheus/formacao" },
+              { icon: FolderGit2, label: "Projetos públicos", value: projectsCount, to: "/matheus/projetos" },
             ].map((c) => (
               <Link
                 key={c.label}
