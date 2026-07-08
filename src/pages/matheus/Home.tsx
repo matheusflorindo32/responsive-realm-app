@@ -8,10 +8,11 @@ import { PublicationCard } from "@/components/apos/PublicationCard";
 import { ProjectCard } from "@/components/apos/ProjectCard";
 import { AcademicLinks } from "@/components/apos/AcademicLinks";
 import { ExpertiseGrid } from "@/components/apos/ExpertiseGrid";
+import { InstitutionalCard } from "@/components/apos/InstitutionalCard";
 import { Button } from "@/components/ui/button";
 import {
   getProfile, getBio, getDashboard, getPublications, getProjects,
-  getSkills, getLinks,
+  getSkills, getLinks, getCourses, getEducation, getCertifications,
 } from "@/data/adapters/localMockAdapter";
 import { personJsonLd, websiteJsonLd } from "@/lib/seo";
 import { CLIENT_CONFIG } from "@/config/client";
