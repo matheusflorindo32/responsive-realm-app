@@ -8,7 +8,7 @@ import { TagBadge, AccentTag } from "./TagBadge";
 import { toast } from "sonner";
 
 const CONACIPS_URL = "https://www.conacips2025.com";
-const CONACIPS_PROCEEDINGS_URL = "https://www.conacips2025.com/proceedings";
+const CONACIPS_PROCEEDINGS_URL = "https://drive.google.com/file/d/1ce_AqVCMNF7sYvNc1jFZJBR7TE6TpEk-/view";
 
 export function ProceedingCard({ proceeding: p, index = 0 }: { proceeding: Proceeding; index?: number }) {
   const [copied, setCopied] = useState(false);
