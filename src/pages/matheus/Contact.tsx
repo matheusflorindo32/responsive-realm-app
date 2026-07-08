@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SEOHead } from "@/components/apos/SEOHead";
 import { SectionHeader } from "@/components/apos/SectionHeader";
 import { AcademicLinks } from "@/components/apos/AcademicLinks";
+import { InstitutionalCard } from "@/components/apos/InstitutionalCard";
 import { Button } from "@/components/ui/button";
 import { getLinks } from "@/data/adapters/localMockAdapter";
 import { CLIENT_CONFIG } from "@/config/client";
