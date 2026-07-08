@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SEOHead } from "@/components/apos/SEOHead";
 import { SectionHeader } from "@/components/apos/SectionHeader";
 import { AcademicLinks } from "@/components/apos/AcademicLinks";
+import { InstitutionalCard } from "@/components/apos/InstitutionalCard";
 import { Button } from "@/components/ui/button";
 import { getLinks } from "@/data/adapters/localMockAdapter";
 import { CLIENT_CONFIG } from "@/config/client";
@@ -87,25 +88,33 @@ export default function Contact() {
           </Button>
         </form>
 
-        <aside className="space-y-6">
-          <div className="card-surface p-6 space-y-4">
+        <aside className="space-y-4">
+          <InstitutionalCard
+            role="Contato institucional"
+            group="Grupo de Fisiologia Translacional"
+            university="Universidade Federal do Espírito Santo — UFES"
+            center="Centro de Educação Física e Desportos — CEFD"
+          />
+
+          <div className="card-surface p-5 space-y-4">
             <div>
-              <div className="eyebrow mb-2">Contato direto</div>
-              <div className="flex items-start gap-3">
-                <Mail size={16} className="text-accent mt-0.5" />
-                <a href={`mailto:${CLIENT_CONFIG.publicEmail}`} className="text-sm text-primary hover:text-accent break-all">
+              <div className="eyebrow mb-2">E-mail</div>
+              <div className="flex items-start gap-2.5">
+                <Mail size={15} className="text-accent mt-0.5 shrink-0" />
+                <a href={`mailto:${CLIENT_CONFIG.publicEmail}`} className="text-[13.5px] text-primary hover:text-accent break-all">
                   {CLIENT_CONFIG.publicEmail}
                 </a>
               </div>
             </div>
-            <div>
+            <div className="pt-4 border-t border-border/60">
               <div className="eyebrow mb-2">Localização</div>
-              <div className="flex items-start gap-3 text-sm text-foreground">
-                <MapPin size={16} className="text-accent mt-0.5" />
+              <div className="flex items-start gap-2.5 text-[13.5px] text-foreground">
+                <MapPin size={15} className="text-accent mt-0.5 shrink-0" />
                 Serra, Espírito Santo — Brasil
               </div>
             </div>
           </div>
+
           <div>
             <div className="eyebrow mb-3">Perfis oficiais</div>
             <AcademicLinks links={links.filter((l) => l.category === "Acadêmico" || l.category === "Tecnologia")} />

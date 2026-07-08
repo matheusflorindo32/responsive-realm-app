@@ -160,16 +160,23 @@ export function CompetencyAccordion({ courses, search = "" }: Props) {
   );
 }
 
-// Higienização leve: os títulos vindos do Lattes têm espaços quebrados no OCR
-// ("Formação de S oldados"). Remove espaços simples entre letras minúsculas isoladas.
+// Higienização dos títulos vindos do Lattes (OCR quebrado: "GENERA TIVE", "Formação de S oldados").
+// Estratégia: normaliza espaços, extrai "(Carga horária: Xh)" para tag, e junta letras isoladas
+// quando um espaço solitário separa fragmentos de uma mesma palavra.
 function cleanTitle(s: string): string {
   if (!s) return s;
-  return s
-    .replace(/\s+\./g, ".")
+  let out = s
+    .replace(/\s+([.,;:])/g, "$1")
+    .replace(/\(Carga hor[aá]ria:\s*[^)]+\)/i, "")
     .replace(/\s{2,}/g, " ")
-    .replace(/([a-zà-ú])\s([a-zà-ú])(?=\s)/gi, "$1$2")
-    .replace(/\(Carga hor[aá]ria:\s*(\d+h?)\)/i, "· $1")
     .trim();
+  // Junta letra isolada seguida de continuação: "S oldados" → "Soldados", "GENERA TIVE" → "GENERATIVE".
+  out = out.replace(/([A-Za-zÀ-ÿ]{2,})\s([A-Za-zÀ-ÿ]{1,4})(?=\s|$|[.,;:])/g, (m, a, b) => {
+    const stop = /^(de|da|do|das|dos|em|no|na|os|as|um|uma|para|com|por|sem|the|and|of|to|in|on|at|for|al|ao|aos|à|às|se|te|me|nos|vos|ou|ao|ao)$/i;
+    if (stop.test(a) || stop.test(b)) return m;
+    return a + b;
+  });
+  return out.replace(/\s{2,}/g, " ").trim();
 }
 function cleanText(s: string | null | undefined): string {
   if (!s) return "";
