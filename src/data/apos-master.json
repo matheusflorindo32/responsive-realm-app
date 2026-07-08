@@ -1643,9 +1643,9 @@
     },
     {
       "id": "PROJ003",
-      "project": "CONACIPS",
-      "type": "Evento científico",
-      "description": "Congresso Nacional de Ciências Policiais, Saúde, Desempenho Físico e Operacional.",
+      "project": "CONACIPS 2025 — Plataforma oficial",
+      "type": "Plataforma web / Evento científico",
+      "description": "Concebi e desenvolvi a plataforma oficial do I Congresso Nacional de Ciências Policiais, Saúde, Desempenho Físico e Operacional (CONACIPS). O sistema hospedou inscrições, programação, submissão de resumos, área restrita de palestrantes e a publicação dos anais digitais do evento (06–08 nov 2025, Vitória/ES).",
       "status": "Ativo",
       "start_year": 2025,
       "end_year": null,
@@ -1653,10 +1653,10 @@
       "repository": null,
       "visibility": "public",
       "featured": true,
-      "tags": "congresso; ciências policiais; saúde",
-      "related_publications": null,
+      "tags": "plataforma web; React; congresso científico; anais digitais; submissões; ciências policiais",
+      "related_publications": "05_Anais_CONACIPS",
       "seo_slug": "conacips",
-      "notes": null
+      "notes": "Projeto pessoal — arquitetura, front-end, backend, deploy e operação do evento."
     },
     {
       "id": "PROJ004",
