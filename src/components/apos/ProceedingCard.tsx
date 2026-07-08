@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Copy, Check, FileText } from "lucide-react";
+import { Copy, Check, FileText, ExternalLink, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
 import type { Proceeding } from "@/data/types";
 import { generateProceedingsCitation } from "@/lib/citations";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { TagBadge, AccentTag } from "./TagBadge";
 import { toast } from "sonner";
+
+const CONACIPS_URL = "https://www.conacips2025.com";
+const CONACIPS_PROCEEDINGS_URL = "https://www.conacips2025.com/proceedings";
 
 export function ProceedingCard({ proceeding: p, index = 0 }: { proceeding: Proceeding; index?: number }) {
   const [copied, setCopied] = useState(false);
@@ -15,6 +18,8 @@ export function ProceedingCard({ proceeding: p, index = 0 }: { proceeding: Proce
     toast.success("Citação ABNT (anais) copiada");
     setTimeout(() => setCopied(false), 1600);
   };
+  const isConacips = /conacips/i.test(p.event || "") || /conacips/i.test((p.tags || []).join(" "));
+  const officialLink = p.link || (isConacips ? CONACIPS_PROCEEDINGS_URL : undefined);
   return (
     <motion.article
       initial={{ opacity: 0, y: 12 }}
@@ -39,7 +44,28 @@ export function ProceedingCard({ proceeding: p, index = 0 }: { proceeding: Proce
       {p.issnIsbn && (
         <div className="text-[11px] mono text-muted-foreground">{p.issnIsbn}</div>
       )}
-      <div className="flex items-center gap-2 pt-1">
+      {isConacips && (
+        <a
+          href={CONACIPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-1.5 self-start rounded-sm border border-gold/40 bg-gold/5 px-2 py-1 text-[10.5px] font-medium uppercase tracking-[0.08em] mono text-gold hover:bg-gold/10 transition-colors"
+          title="Plataforma oficial do CONACIPS 2025 — concebida e desenvolvida por Matheus Florindo"
+        >
+          <Code2 size={11} /> Plataforma desenvolvida por Matheus
+        </a>
+      )}
+      <div className="flex flex-wrap items-center gap-2 pt-1">
+        {officialLink && (
+          <a
+            href={officialLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[12px] text-primary hover:text-accent"
+          >
+            <ExternalLink size={13} /> Ver nos anais oficiais
+          </a>
+        )}
         {p.pdf && (
           <span className="inline-flex items-center gap-1.5 text-[12px] text-muted-foreground">
             <FileText size={13} /> {p.pdf}
