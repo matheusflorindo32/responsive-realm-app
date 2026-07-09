@@ -610,40 +610,6 @@
       "review_status": "Revisar OCR/importação"
     },
     {
-      "id": "CUR0002",
-      "category": "Formação Acadêmica",
-      "course": "Bacharelado em Educação Física (em andamento",
-      "institution": "",
-      "year_period": "2024",
-      "hours": null,
-      "source_lattes": "Formação Acadêmica",
-      "area": null,
-      "level": "Graduação",
-      "status": "Em andamento",
-      "certificate_url": null,
-      "visibility": "public",
-      "featured": false,
-      "tags": null,
-      "review_status": "Revisar OCR/importação"
-    },
-    {
-      "id": "CUR0003",
-      "category": "Formação Acadêmica",
-      "course": "Graduação em Gestão ambiental",
-      "institution": "Centro Universitário Leonardo da Vinci, UNIA SSELVI, Brasil",
-      "year_period": "2015 - 2017",
-      "hours": null,
-      "source_lattes": "Formação Acadêmica",
-      "area": null,
-      "level": null,
-      "status": "Concluído",
-      "certificate_url": null,
-      "visibility": "public",
-      "featured": false,
-      "tags": null,
-      "review_status": "Revisar OCR/importação"
-    },
-    {
       "id": "CUR0004",
       "category": "Formação Acadêmica",
       "course": "2° Congresso Brasileiro em Exercício para Grupos",
@@ -680,7 +646,7 @@
     {
       "id": "CUR0006",
       "category": "Formação Complementar",
-      "course": "Curso Introdutório à Geopolítica Aeroespacial 1°",
+      "course": "Curso Introdutório à Geopolítica Aeroespacial (1ª edição)",
       "institution": "Agência Espacial Brasileira (AEB)",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -748,7 +714,7 @@
     {
       "id": "CUR0010",
       "category": "Formação Complementar",
-      "course": "Business Intelligence: Inteligência Artificial para",
+      "course": "Business Intelligence: Inteligência Artificial para Negócios",
       "institution": "",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -799,7 +765,7 @@
     {
       "id": "CUR0013",
       "category": "Formação Complementar",
-      "course": "Congresso brasileiro de exercício para grupos especiais",
+      "course": "Congresso Brasileiro de Exercício para Grupos Especiais",
       "institution": "Centro Brasileiro de Educação Física (CBEFIS)",
       "year_period": "2025 - 2025",
       "hours": "10h",
@@ -816,7 +782,7 @@
     {
       "id": "CUR0014",
       "category": "Formação Complementar",
-      "course": "Corp As - Operações com Drones 9turma Jan 2025",
+      "course": "CORPAS - Operações com Drones (Turma Jan/2025)",
       "institution": "Escola Nacional de Administração Pública (ENAP)",
       "year_period": "2025 - 2025",
       "hours": "30h",
@@ -833,7 +799,7 @@
     {
       "id": "CUR0015",
       "category": "Formação Complementar",
-      "course": "Banco de dados",
+      "course": "Banco de Dados",
       "institution": "Instituto Federal do Rio Grande do Sul (IFRS)",
       "year_period": "2025 - 2025",
       "hours": "20h",
@@ -850,7 +816,7 @@
     {
       "id": "CUR0016",
       "category": "Formação Complementar",
-      "course": "Introdutório de pesquisa clínica (2° edição",
+      "course": "Curso Introdutório de Pesquisa Clínica (2ª edição)",
       "institution": null,
       "year_period": "2025 - 2025",
       "hours": null,
@@ -867,7 +833,7 @@
     {
       "id": "CUR0017",
       "category": "Formação Complementar",
-      "course": "Práticas Corporais no Meio Líquido Nas Aulas de",
+      "course": "Práticas Corporais no Meio Líquido nas Aulas de Educação Física",
       "institution": "",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -884,7 +850,7 @@
     {
       "id": "CUR0018",
       "category": "Formação Complementar",
-      "course": "Domine Ferramentas de IA para Turbinar a",
+      "course": "Domine Ferramentas de IA para Turbinar a Sua Produtividade",
       "institution": "",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -918,7 +884,7 @@
     {
       "id": "CUR0020",
       "category": "Formação Complementar",
-      "course": "Diabetes - a Global Challenge",
+      "course": "Diabetes - A Global Challenge",
       "institution": "",
       "year_period": "2025 - 2025",
       "hours": "17h",
@@ -969,7 +935,7 @@
     {
       "id": "CUR0023",
       "category": "Formação Complementar",
-      "course": "Usos e Possibilidades do Google Earth no Ensino",
+      "course": "Usos e Possibilidades do Google Earth no Ensino de Geografia",
       "institution": "",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -986,7 +952,7 @@
     {
       "id": "CUR0024",
       "category": "Formação Complementar",
-      "course": "Fisiologia e Esporte: o Corpo Humano Antes,",
+      "course": "Fisiologia e Esporte: o Corpo Humano Antes, Durante e Depois do Exercício",
       "institution": "Instituto Península",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -1054,7 +1020,7 @@
     {
       "id": "CUR0028",
       "category": "Formação Complementar",
-      "course": "Congresso Brasileiro de Fisiologia do",
+      "course": "Congresso Brasileiro de Fisiologia do Exercício",
       "institution": "Centro Brasileiro de Educação Física (CBEFIS)",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -1088,7 +1054,7 @@
     {
       "id": "CUR0030",
       "category": "Formação Complementar",
-      "course": "Domine As Ferramentas da OPENAI para Turbinar a",
+      "course": "Domine as Ferramentas da OpenAI para Turbinar a Sua Produtividade",
       "institution": "",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -1105,7 +1071,7 @@
     {
       "id": "CUR0031",
       "category": "Formação Complementar",
-      "course": "A Importância das Parcerias Internacionais na",
+      "course": "A Importância das Parcerias Internacionais na Área Espacial",
       "institution": "Agência Espacial Brasileira (AEB)",
       "year_period": "2025 - 2025",
       "hours": null,
@@ -1122,7 +1088,7 @@
     {
       "id": "CUR0032",
       "category": "Formação Complementar",
-      "course": "Técnico em análise do comportamento aplicada - aba liberta",
+      "course": "Curso Técnico em Análise do Comportamento Aplicada (ABA) - ABALiberta",
       "institution": "Universidade Federal de Mato Grosso (UFMT)",
       "year_period": "2025 - 2025",
       "hours": "40h",
@@ -1139,7 +1105,7 @@
     {
       "id": "CUR0033",
       "category": "Formação Complementar",
-      "course": "Formação de professores em neuroeducação",
+      "course": "Formação de Professores em Neuroeducação",
       "institution": null,
       "year_period": "2024 - 2025",
       "hours": null,
@@ -1156,7 +1122,7 @@
     {
       "id": "CUR0034",
       "category": "Formação Complementar",
-      "course": "Extensão Universitária em Tutoria de Educação a",
+      "course": "Extensão Universitária em Tutoria de Educação a Distância",
       "institution": null,
       "year_period": "2024 - 2024",
       "hours": null,
@@ -1190,7 +1156,7 @@
     {
       "id": "CUR0036",
       "category": "Formação Complementar",
-      "course": "Segurança Pública e Violência contra Mulheres e Meninas: do",
+      "course": "Segurança Pública e Violência contra Mulheres e Meninas: do Local ao Global",
       "institution": "Escola Nacional de Administração Pública (ENAP)",
       "year_period": "2024 - 2024",
       "hours": null,
@@ -1224,7 +1190,7 @@
     {
       "id": "CUR0038",
       "category": "Formação Complementar",
-      "course": "Curso A3P - Turma 2024",
+      "course": "Curso A3P (Agenda Ambiental na Administração Pública) - Turma 2024",
       "institution": null,
       "year_period": "2024 - 2024",
       "hours": "20h",
@@ -1275,7 +1241,7 @@
     {
       "id": "CUR0041",
       "category": "Formação Complementar",
-      "course": "Introdução a Inteligência Artificial na Educação",
+      "course": "Introdução à Inteligência Artificial na Educação",
       "institution": "Secretaria de Ciência, Tecnologia, Inovação e Educação Profissional do ES (SECTI-ES)",
       "year_period": "2024 - 2024",
       "hours": "240h",
@@ -1292,7 +1258,7 @@
     {
       "id": "CUR0042",
       "category": "Formação Complementar",
-      "course": "Curso de Ações Táticas Especiais PMES",
+      "course": "Curso de Ações Táticas Especiais (CATE) - PMES",
       "institution": "Polícia Militar do Estado do Espírito Santo (PMES)",
       "year_period": "2014 - 2014",
       "hours": "360h",
@@ -1309,7 +1275,7 @@
     {
       "id": "CUR0043",
       "category": "Formação Complementar",
-      "course": "Curso de Cinotecnia Policial PMES",
+      "course": "Curso de Cinotecnia Policial - PMES",
       "institution": "Polícia Militar do Estado do Espírito Santo (PMES)",
       "year_period": "2014 - 2014",
       "hours": "232h",
