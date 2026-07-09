@@ -386,7 +386,11 @@ def dedupe_militares(courses: list[dict]) -> tuple[list[dict], list[dict]]:
         s = re.sub(r"[^a-z0-9]+"," ", s).strip()
         # remove prefixos/sufixos comuns que causam falsos negativos
         s = re.sub(r"^(curso de|estagio de|seminario de|especializacao em)\s+", "", s)
-        s = re.sub(r"\s+(pmes|dpf|mb|policial)\s*$", "", s)
+        # strip múltiplos sufixos em loop
+        prev = None
+        while prev != s:
+            prev = s
+            s = re.sub(r"\s+(pmes|dpf|mb|policial|militar)\s*$", "", s)
         return s.strip()
     seen = {}
     result = []
