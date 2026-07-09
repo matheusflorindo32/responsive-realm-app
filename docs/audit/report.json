@@ -488,16 +488,23 @@
     }
   ],
   "formacao": [],
-  "dedupe": [],
+  "dedupe": [
+    {
+      "acao": "merge",
+      "chave": "cinotecnia",
+      "id_removido": "CUR0048",
+      "id_mantido": "CUR0043"
+    }
+  ],
   "resumo": {
     "cursos_total_antes": 51,
-    "cursos_total_depois": 51,
+    "cursos_total_depois": 50,
     "achados_por_categoria": {
       "campos_faltando": 54
     },
     "achados_por_acao": {
       "manual": 54
     },
-    "dedupe_operacoes": 0
+    "dedupe_operacoes": 1
   }
 }
