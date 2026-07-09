@@ -7,7 +7,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 0,
-      "course": "Especialização em CURSO DE FORMAÇÃO DE SOLDADOS"
+      "course": "Curso de Formação de Soldados Fuzileiros Navais"
     },
     {
       "categoria": "campos_faltando",
@@ -16,7 +16,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 1,
-      "course": "Graduação em andamento em Bacharelado em Educação"
+      "course": "Bacharelado em Educação Física (em andamento)"
     },
     {
       "categoria": "campos_faltando",
@@ -25,7 +25,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 1,
-      "course": "Graduação em andamento em Bacharelado em Educação"
+      "course": "Bacharelado em Educação Física (em andamento)"
     },
     {
       "categoria": "campos_faltando",
@@ -46,13 +46,33 @@
       "course": "2° Congresso Brasileiro em Exercício para Grupos"
     },
     {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Recursos Tecnológicos Digitais"
+      },
+      "idx": 4,
+      "course": "Recursos Tecnológicos Digitais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 4,
+      "course": "Recursos Tecnológicos Digitais"
+    },
+    {
       "categoria": "campos_faltando",
       "gravidade": "baixo",
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
       "idx": 4,
-      "course": "RECURSOS TECNOLÓGICOS DIGITAIS. (Carga horária:"
+      "course": "Recursos Tecnológicos Digitais"
     },
     {
       "categoria": "campos_faltando",
@@ -124,7 +144,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 15,
-      "course": "introdutório de pesquisa clínica (2° edição). (Carga horária:"
+      "course": "Introdutório de pesquisa clínica (2° edição)"
     },
     {
       "categoria": "campos_faltando",
@@ -133,7 +153,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 15,
-      "course": "introdutório de pesquisa clínica (2° edição). (Carga horária:"
+      "course": "Introdutório de pesquisa clínica (2° edição)"
     },
     {
       "categoria": "campos_faltando",
@@ -227,6 +247,15 @@
     },
     {
       "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 24,
+      "course": "Designer Gráfico"
+    },
+    {
+      "categoria": "campos_faltando",
       "gravidade": "baixo",
       "descricao": "Carga horária vazia",
       "acao": "manual",
@@ -304,7 +333,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 32,
-      "course": "formação de professores em neuroeducação. (Carga horária:"
+      "course": "Formação de professores em neuroeducação"
     },
     {
       "categoria": "campos_faltando",
@@ -313,7 +342,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 32,
-      "course": "formação de professores em neuroeducação. (Carga horária:"
+      "course": "Formação de professores em neuroeducação"
     },
     {
       "categoria": "campos_faltando",
@@ -340,7 +369,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 34,
-      "course": "Extensão universitária em TOPOGRAFIA. (Carga horária:"
+      "course": "Extensão universitária em TOPOGRAFIA"
     },
     {
       "categoria": "campos_faltando",
@@ -349,7 +378,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 34,
-      "course": "Extensão universitária em TOPOGRAFIA. (Carga horária:"
+      "course": "Extensão universitária em TOPOGRAFIA"
     },
     {
       "categoria": "campos_faltando",
@@ -359,6 +388,24 @@
       "payload": {},
       "idx": 35,
       "course": "Segurança Pública e Violência contra Mulheres e Meninas: do"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 36,
+      "course": "Política e Gestão Ambiental"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 37,
+      "course": "Curso A3P - Turma 2024"
     },
     {
       "categoria": "campos_faltando",
@@ -403,7 +450,7 @@
       "acao": "manual",
       "payload": {},
       "idx": 43,
-      "course": "Estágio de Qualificação Técnica Especial em"
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
     },
     {
       "categoria": "campos_faltando",
@@ -425,38 +472,11 @@
     },
     {
       "categoria": "campos_faltando",
-      "gravidade": "alto",
-      "descricao": "Instituição vazia — precisa preencher manualmente",
-      "acao": "manual",
-      "payload": {},
-      "idx": 46,
-      "course": "Curso de Cinotecnia Policial PMES"
-    },
-    {
-      "categoria": "campos_faltando",
-      "gravidade": "medio",
-      "descricao": "Período vazio — precisa preencher manualmente",
-      "acao": "manual",
-      "payload": {},
-      "idx": 46,
-      "course": "Curso de Cinotecnia Policial PMES"
-    },
-    {
-      "categoria": "campos_faltando",
       "gravidade": "baixo",
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
       "idx": 46,
-      "course": "Curso de Cinotecnia Policial PMES"
-    },
-    {
-      "categoria": "campos_faltando",
-      "gravidade": "baixo",
-      "descricao": "Carga horária vazia",
-      "acao": "manual",
-      "payload": {},
-      "idx": 47,
       "course": "Curso de Adestramento de Cães para Emprego Policial"
     },
     {
@@ -465,7 +485,7 @@
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
-      "idx": 48,
+      "idx": 47,
       "course": "Seminário de Faro de Explosivos"
     },
     {
@@ -474,7 +494,7 @@
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
-      "idx": 49,
+      "idx": 48,
       "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
     },
     {
@@ -483,7 +503,7 @@
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
-      "idx": 50,
+      "idx": 49,
       "course": "Estágio de Tiro de Fuzil M16 - 200 metros"
     }
   ],
@@ -491,20 +511,28 @@
   "dedupe": [
     {
       "acao": "merge",
-      "chave": "cinotecnia",
-      "id_removido": "CUR0048",
-      "id_mantido": "CUR0043"
+      "chave": "formacao de soldados fuzileiros navais",
+      "id_removido": "CUR0046",
+      "id_mantido": "CUR0001"
+    },
+    {
+      "acao": "merge",
+      "chave": "qualificacao tecnica especial em adestramento de caes de guerra",
+      "id_removido": "CUR0051",
+      "id_mantido": "CUR0044"
     }
   ],
   "resumo": {
-    "cursos_total_antes": 51,
-    "cursos_total_depois": 50,
+    "cursos_total_antes": 50,
+    "cursos_total_depois": 48,
     "achados_por_categoria": {
-      "campos_faltando": 54
+      "campos_faltando": 55,
+      "caixa_alta": 1
     },
     "achados_por_acao": {
-      "manual": 54
+      "manual": 55,
+      "auto_fix": 1
     },
-    "dedupe_operacoes": 1
+    "dedupe_operacoes": 2
   }
 }
