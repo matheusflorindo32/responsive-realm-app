@@ -1,17 +1,6 @@
 {
   "cursos": [
     {
-      "categoria": "caixa_alta",
-      "gravidade": "baixo",
-      "descricao": "Instituição em CAPS",
-      "acao": "auto_fix",
-      "payload": {
-        "institution": "Marinha do Brasil, MB, Brasil"
-      },
-      "idx": 0,
-      "course": "Especialização em CURSO DE FORMAÇÃO DE SOLDADOS"
-    },
-    {
       "categoria": "campos_faltando",
       "gravidade": "baixo",
       "descricao": "Carga horária vazia",
@@ -84,18 +73,6 @@
       "course": "CONGRESSO DE FISIOLOGIA DO EXERCÍCIO. (Carga"
     },
     {
-      "categoria": "ocr_split",
-      "gravidade": "alto",
-      "descricao": "Palavras quebradas por OCR (1 padrões)",
-      "acao": "auto_fix",
-      "payload": {
-        "course": "Introduction to Generative AI",
-        "institution": "Google Inc., Google, Estados Unidos"
-      },
-      "idx": 7,
-      "course": "Introduction to Generative AI"
-    },
-    {
       "categoria": "campos_faltando",
       "gravidade": "alto",
       "descricao": "Instituição vazia — precisa preencher manualmente",
@@ -139,18 +116,6 @@
       "payload": {},
       "idx": 11,
       "course": "INTELIGÊNCIA ARTIFICIAL NO MUNDO ACADÊMICO. (Carga"
-    },
-    {
-      "categoria": "ocr_split",
-      "gravidade": "alto",
-      "descricao": "Palavras quebradas por OCR (1 padrões)",
-      "acao": "auto_fix",
-      "payload": {
-        "course": "congresso brasileiro de exercício para grupos especiais",
-        "institution": "centro brasileiro de educação física, CBEFIS, Brasil"
-      },
-      "idx": 12,
-      "course": "congresso brasileiro de exercício para grupos especiais"
     },
     {
       "categoria": "campos_faltando",
@@ -252,17 +217,6 @@
       "course": "Usos e Possibilidades do Google Earth no Ensino"
     },
     {
-      "categoria": "caixa_alta",
-      "gravidade": "baixo",
-      "descricao": "Instituição em CAPS",
-      "acao": "auto_fix",
-      "payload": {
-        "institution": "Instituto Península, IP, Brasil"
-      },
-      "idx": 23,
-      "course": "Fisiologia e Esporte: o Corpo Humano Antes,"
-    },
-    {
       "categoria": "campos_faltando",
       "gravidade": "baixo",
       "descricao": "Carga horária vazia",
@@ -342,18 +296,6 @@
       "payload": {},
       "idx": 30,
       "course": "A Importância das Parcerias Internacionais na"
-    },
-    {
-      "categoria": "ocr_split",
-      "gravidade": "alto",
-      "descricao": "Palavras quebradas por OCR (1 padrões)",
-      "acao": "auto_fix",
-      "payload": {
-        "course": "técnico em análise do comportamento aplicada - aba liberta",
-        "institution": "Universidade Federal de Mato Grosso, UFMT, Brasil"
-      },
-      "idx": 31,
-      "course": "técnico em análise do comportamento aplicada - aba liberta"
     },
     {
       "categoria": "campos_faltando",
@@ -455,28 +397,6 @@
       "course": "Conceitos e Aplicações do Censo Demográfico"
     },
     {
-      "categoria": "caixa_alta",
-      "gravidade": "baixo",
-      "descricao": "Instituição em CAPS",
-      "acao": "auto_fix",
-      "payload": {
-        "institution": "Inovacao e Ed. Prof. Es, SECTI Es, Brasil"
-      },
-      "idx": 40,
-      "course": "Introdução a Inteligência Artificial na Educação"
-    },
-    {
-      "categoria": "caixa_alta",
-      "gravidade": "baixo",
-      "descricao": "Instituição em CAPS",
-      "acao": "auto_fix",
-      "payload": {
-        "institution": "Marinha do Brasil, MB, Brasil"
-      },
-      "idx": 43,
-      "course": "Estágio de Qualificação Técnica Especial em"
-    },
-    {
       "categoria": "campos_faltando",
       "gravidade": "baixo",
       "descricao": "Carga horária vazia",
@@ -510,33 +430,6 @@
       "acao": "manual",
       "payload": {},
       "idx": 46,
-      "course": "Curso de Ações Táticas Especiais PMES"
-    },
-    {
-      "categoria": "campos_faltando",
-      "gravidade": "medio",
-      "descricao": "Período vazio — precisa preencher manualmente",
-      "acao": "manual",
-      "payload": {},
-      "idx": 46,
-      "course": "Curso de Ações Táticas Especiais PMES"
-    },
-    {
-      "categoria": "campos_faltando",
-      "gravidade": "baixo",
-      "descricao": "Carga horária vazia",
-      "acao": "manual",
-      "payload": {},
-      "idx": 46,
-      "course": "Curso de Ações Táticas Especiais PMES"
-    },
-    {
-      "categoria": "campos_faltando",
-      "gravidade": "alto",
-      "descricao": "Instituição vazia — precisa preencher manualmente",
-      "acao": "manual",
-      "payload": {},
-      "idx": 47,
       "course": "Curso de Cinotecnia Policial PMES"
     },
     {
@@ -545,7 +438,16 @@
       "descricao": "Período vazio — precisa preencher manualmente",
       "acao": "manual",
       "payload": {},
-      "idx": 47,
+      "idx": 46,
+      "course": "Curso de Cinotecnia Policial PMES"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 46,
       "course": "Curso de Cinotecnia Policial PMES"
     },
     {
@@ -555,15 +457,6 @@
       "acao": "manual",
       "payload": {},
       "idx": 47,
-      "course": "Curso de Cinotecnia Policial PMES"
-    },
-    {
-      "categoria": "campos_faltando",
-      "gravidade": "baixo",
-      "descricao": "Carga horária vazia",
-      "acao": "manual",
-      "payload": {},
-      "idx": 48,
       "course": "Curso de Adestramento de Cães para Emprego Policial"
     },
     {
@@ -572,7 +465,7 @@
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
-      "idx": 49,
+      "idx": 48,
       "course": "Seminário de Faro de Explosivos"
     },
     {
@@ -581,7 +474,7 @@
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
-      "idx": 50,
+      "idx": 49,
       "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
     },
     {
@@ -590,31 +483,21 @@
       "descricao": "Carga horária vazia",
       "acao": "manual",
       "payload": {},
-      "idx": 51,
+      "idx": 50,
       "course": "Estágio de Tiro de Fuzil M16 - 200 metros"
     }
   ],
   "formacao": [],
-  "dedupe": [
-    {
-      "acao": "merge",
-      "chave": "acoes taticas especiais",
-      "id_removido": "CUR0047",
-      "id_mantido": "CUR0042"
-    }
-  ],
+  "dedupe": [],
   "resumo": {
-    "cursos_total_antes": 52,
+    "cursos_total_antes": 51,
     "cursos_total_depois": 51,
     "achados_por_categoria": {
-      "caixa_alta": 4,
-      "campos_faltando": 57,
-      "ocr_split": 3
+      "campos_faltando": 54
     },
     "achados_por_acao": {
-      "auto_fix": 7,
-      "manual": 57
+      "manual": 54
     },
-    "dedupe_operacoes": 1
+    "dedupe_operacoes": 0
   }
 }
