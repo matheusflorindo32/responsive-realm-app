@@ -1,0 +1,1502 @@
+{
+  "cursos": [
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Especialização em CURSO DE FORMAÇÃO DE SOLDADOS",
+        "institution": "MARINHA DO BRASIL, MB, Brasil"
+      },
+      "idx": 0,
+      "course": "Especialização em CURSO DE FORMAÇÃO DE SOLDADOS"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 0,
+      "course": "Especialização em CURSO DE FORMAÇÃO DE SOLDADOS"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Graduação em andamento em Bacharelado em Educação",
+        "institution": ""
+      },
+      "idx": 1,
+      "course": "Graduação em andamento em Bacharelado em Educação"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 1,
+      "course": "Graduação em andamento em Bacharelado em Educação"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 1,
+      "course": "Graduação em andamento em Bacharelado em Educação"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (3 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Graduação em Gestão ambiental",
+        "institution": "Centro Universitário Leonardo da Vinci, UNIA SSELVI, Brasil"
+      },
+      "idx": 2,
+      "course": "Graduação em Gestão ambiental"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 2,
+      "course": "Graduação em Gestão ambiental"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "2° CONGRESSO BRASILEIRO EM EXERCÍCIO PARA GRUPOS",
+        "institution": "centro brasileiro de educação física, CBEFIS, Brasil"
+      },
+      "idx": 3,
+      "course": "2° Congresso Brasileiro em Exercício para Grupos"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "2° Congresso Brasileiro em Exercício para Grupos"
+      },
+      "idx": 3,
+      "course": "2° Congresso Brasileiro em Exercício para Grupos"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 3,
+      "course": "2° Congresso Brasileiro em Exercício para Grupos"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "RECURSOS TECNOLÓGICOS DIGITAIS. (Carga horária:",
+        "institution": "Brasil"
+      },
+      "idx": 4,
+      "course": "RECURSOS TECNOLÓGICOS DIGITAIS. (Carga horária:"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 4,
+      "course": "RECURSOS TECNOLÓGICOS DIGITAIS. (Carga horária:"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (3 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CURSO INTRODUTÓRIO À GEOPOLÍTICA AEROESPACIAL 1°",
+        "institution": "Agência Espacial Brasileira, AEB, Brasil"
+      },
+      "idx": 5,
+      "course": "Curso Introdutório à Geopolítica Aeroespacial 1°"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Curso Introdutório à Geopolítica Aeroespacial 1°"
+      },
+      "idx": 5,
+      "course": "Curso Introdutório à Geopolítica Aeroespacial 1°"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 5,
+      "course": "Curso Introdutório à Geopolítica Aeroespacial 1°"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CONGRESSO DE FISIOLOGIA DO EXERCÍCIO. (Carga",
+        "institution": "centro brasileiro de educação física, CBEFIS, Brasil"
+      },
+      "idx": 6,
+      "course": "CONGRESSO DE FISIOLOGIA DO EXERCÍCIO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 6,
+      "course": "CONGRESSO DE FISIOLOGIA DO EXERCÍCIO. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "INTRODUCTION T O GENERATIVE AI. (Carga horária: 1h)",
+        "institution": "Google Inc., Google, Estados Unidos"
+      },
+      "idx": 7,
+      "course": "Introduction T o Generative AI"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 1h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "INTRODUCTION T O GENERATIVE AI",
+        "hours": "1h"
+      },
+      "idx": 7,
+      "course": "Introduction T o Generative AI"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Introduction T o Generative AI"
+      },
+      "idx": 7,
+      "course": "Introduction T o Generative AI"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "REALIDADE VIRTUAL. (Carga horária: 20h)",
+        "institution": "Espírito Santo, IFES, Brasil"
+      },
+      "idx": 8,
+      "course": "Realidade Virtual"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 20h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "REALIDADE VIRTUAL",
+        "hours": "20h"
+      },
+      "idx": 8,
+      "course": "Realidade Virtual"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Realidade Virtual"
+      },
+      "idx": 8,
+      "course": "Realidade Virtual"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "BUSINESS INTELLIGENCE: INTELIGÊNCIA ARTIFICIAL PARA",
+        "institution": ""
+      },
+      "idx": 9,
+      "course": "Business Intelligence: Inteligência Artificial para"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Business Intelligence: Inteligência Artificial para"
+      },
+      "idx": 9,
+      "course": "Business Intelligence: Inteligência Artificial para"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 9,
+      "course": "Business Intelligence: Inteligência Artificial para"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 9,
+      "course": "Business Intelligence: Inteligência Artificial para"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DOMINE AS FERRAMENTAS DE IA DA GOOGLE. (Carga",
+        "institution": ""
+      },
+      "idx": 10,
+      "course": "DOMINE AS FERRAMENTAS DE IA DA GOOGLE. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 10,
+      "course": "DOMINE AS FERRAMENTAS DE IA DA GOOGLE. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 10,
+      "course": "DOMINE AS FERRAMENTAS DE IA DA GOOGLE. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "INTELIGÊNCIA ARTIFICIAL NO MUNDO ACADÊMICO. (Carga",
+        "institution": "Universidade Estadual do Rio Grande do Sul, UERGS, Brasil"
+      },
+      "idx": 11,
+      "course": "INTELIGÊNCIA ARTIFICIAL NO MUNDO ACADÊMICO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 11,
+      "course": "INTELIGÊNCIA ARTIFICIAL NO MUNDO ACADÊMICO. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CORP AS - OPERAÇÕES COM DRONES 9TURMA JAN 2025)",
+        "institution": "Escola Nacional de Administração Pública, ENAP, Brasil"
+      },
+      "idx": 13,
+      "course": "Corp As - Operações com Drones 9turma Jan 2025)"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Corp As - Operações com Drones 9turma Jan 2025)"
+      },
+      "idx": 13,
+      "course": "Corp As - Operações com Drones 9turma Jan 2025)"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 20h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "banco de dados",
+        "hours": "20h"
+      },
+      "idx": 14,
+      "course": "banco de dados"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 15,
+      "course": "introdutório de pesquisa clínica (2° edição). (Carga horária:"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 15,
+      "course": "introdutório de pesquisa clínica (2° edição). (Carga horária:"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "PRÁTICAS CORPORAIS NO MEIO LÍQUIDO NAS AULAS DE",
+        "institution": ""
+      },
+      "idx": 16,
+      "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+      },
+      "idx": 16,
+      "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 16,
+      "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 16,
+      "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DOMINE FERRAMENTAS DE IA PARA TURBINAR A",
+        "institution": ""
+      },
+      "idx": 17,
+      "course": "Domine Ferramentas de IA para Turbinar a"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Domine Ferramentas de IA para Turbinar a"
+      },
+      "idx": 17,
+      "course": "Domine Ferramentas de IA para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 17,
+      "course": "Domine Ferramentas de IA para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 17,
+      "course": "Domine Ferramentas de IA para Turbinar a"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DOMINE TÉCNICAS DA OPENAI. (Carga horária: 2h)",
+        "institution": ""
+      },
+      "idx": 18,
+      "course": "Domine Técnicas da OPENAI"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 2h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DOMINE TÉCNICAS DA OPENAI",
+        "hours": "2h"
+      },
+      "idx": 18,
+      "course": "Domine Técnicas da OPENAI"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Domine Técnicas da OPENAI"
+      },
+      "idx": 18,
+      "course": "Domine Técnicas da OPENAI"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 18,
+      "course": "Domine Técnicas da OPENAI"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DIABETES - A GLOBAL CHALLENGE. (Carga horária: 17h)",
+        "institution": ""
+      },
+      "idx": 19,
+      "course": "Diabetes - a Global Challenge"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 17h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DIABETES - A GLOBAL CHALLENGE",
+        "hours": "17h"
+      },
+      "idx": 19,
+      "course": "Diabetes - a Global Challenge"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Diabetes - a Global Challenge"
+      },
+      "idx": 19,
+      "course": "Diabetes - a Global Challenge"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 19,
+      "course": "Diabetes - a Global Challenge"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 20h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "SUPORTE BÁSICO DE VIDA",
+        "hours": "20h"
+      },
+      "idx": 20,
+      "course": "Suporte Básico de Vida"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Suporte Básico de Vida"
+      },
+      "idx": 20,
+      "course": "Suporte Básico de Vida"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 21,
+      "course": "GEOGRAFIA E GEOPOLÍTICA NA ATUALIDADE. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "USOS E POSSIBILIDADES DO GOOGLE EARTH NO ENSINO",
+        "institution": ""
+      },
+      "idx": 22,
+      "course": "Usos e Possibilidades do Google Earth no Ensino"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Usos e Possibilidades do Google Earth no Ensino"
+      },
+      "idx": 22,
+      "course": "Usos e Possibilidades do Google Earth no Ensino"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 22,
+      "course": "Usos e Possibilidades do Google Earth no Ensino"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 22,
+      "course": "Usos e Possibilidades do Google Earth no Ensino"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (4 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "FISIOLOGIA E ESPORTE: O CORPO HUMANO ANTES,",
+        "institution": "INSTITUTO PENÍNSULA, IP, Brasil"
+      },
+      "idx": 23,
+      "course": "Fisiologia e Esporte: o Corpo Humano Antes,"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Fisiologia e Esporte: o Corpo Humano Antes,"
+      },
+      "idx": 23,
+      "course": "Fisiologia e Esporte: o Corpo Humano Antes,"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 23,
+      "course": "Fisiologia e Esporte: o Corpo Humano Antes,"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 120h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DESIGNER GRÁFICO",
+        "hours": "120h"
+      },
+      "idx": 24,
+      "course": "Designer Gráfico"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Designer Gráfico"
+      },
+      "idx": 24,
+      "course": "Designer Gráfico"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CURSO DE DIDÁTICA PARA INSTRUTORES DE FORMAÇÃO",
+        "institution": "Departamento de Polícia Federal, DPF, Brasil"
+      },
+      "idx": 25,
+      "course": "Curso de Didática para Instrutores de Formação"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Curso de Didática para Instrutores de Formação"
+      },
+      "idx": 25,
+      "course": "Curso de Didática para Instrutores de Formação"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 25,
+      "course": "Curso de Didática para Instrutores de Formação"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (3 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "USE GENERATIVE AI AS YOUR THOUGHT PARTNER. (Carga",
+        "institution": "Google Inc., Google, Estados Unidos"
+      },
+      "idx": 26,
+      "course": "USE GENERATIVE AI AS YOUR THOUGHT PARTNER. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 26,
+      "course": "USE GENERATIVE AI AS YOUR THOUGHT PARTNER. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CONGRESSO BRASILEIRO DE FISIOLOGIA DO",
+        "institution": "centro brasileiro de educação física, CBEFIS, Brasil"
+      },
+      "idx": 27,
+      "course": "Congresso Brasileiro de Fisiologia do"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Congresso Brasileiro de Fisiologia do"
+      },
+      "idx": 27,
+      "course": "Congresso Brasileiro de Fisiologia do"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 27,
+      "course": "Congresso Brasileiro de Fisiologia do"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 28,
+      "course": "INTELIGÊNCIA ARTIFICIAL HOJE E NO FUTURO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 28,
+      "course": "INTELIGÊNCIA ARTIFICIAL HOJE E NO FUTURO. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "DOMINE AS FERRAMENTAS DA OPENAI PARA TURBINAR A",
+        "institution": ""
+      },
+      "idx": 29,
+      "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+      },
+      "idx": 29,
+      "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 29,
+      "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 29,
+      "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (3 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "A IMPORTÂNCIA DAS PARCERIAS INTERNACIONAIS NA",
+        "institution": "Agência Espacial Brasileira, AEB, Brasil"
+      },
+      "idx": 30,
+      "course": "A Importância das Parcerias Internacionais na"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "A Importância das Parcerias Internacionais na"
+      },
+      "idx": 30,
+      "course": "A Importância das Parcerias Internacionais na"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 30,
+      "course": "A Importância das Parcerias Internacionais na"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 32,
+      "course": "formação de professores em neuroeducação. (Carga horária:"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 32,
+      "course": "formação de professores em neuroeducação. (Carga horária:"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 33,
+      "course": "Extensão universitária em TUTORIA DE EDUCAÇÃO A"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 33,
+      "course": "Extensão universitária em TUTORIA DE EDUCAÇÃO A"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 34,
+      "course": "Extensão universitária em TOPOGRAFIA. (Carga horária:"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 34,
+      "course": "Extensão universitária em TOPOGRAFIA. (Carga horária:"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (3 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Segurança Pública e Violência contra Mulheres e Meninas: do",
+        "institution": "Escola Nacional de Administração Pública, ENAP, Brasil"
+      },
+      "idx": 35,
+      "course": "Segurança Pública e Violência contra Mulheres e Meninas: do"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 35,
+      "course": "Segurança Pública e Violência contra Mulheres e Meninas: do"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "POLÍTICA E GESTÃO AMBIENTAL. (Carga horária: 280h)",
+        "institution": "Brasil"
+      },
+      "idx": 36,
+      "course": "Política e Gestão Ambiental"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 280h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "POLÍTICA E GESTÃO AMBIENTAL",
+        "hours": "280h"
+      },
+      "idx": 36,
+      "course": "Política e Gestão Ambiental"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Política e Gestão Ambiental"
+      },
+      "idx": 36,
+      "course": "Política e Gestão Ambiental"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 20h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CURSO A3P - TURMA 2024",
+        "hours": "20h"
+      },
+      "idx": 37,
+      "course": "Curso A3P - Turma 2024"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Curso A3P - Turma 2024"
+      },
+      "idx": 37,
+      "course": "Curso A3P - Turma 2024"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "INTRODUÇÃO AO PENSAMENTO COMPUTACIONAL. (Carga",
+        "institution": ""
+      },
+      "idx": 38,
+      "course": "INTRODUÇÃO AO PENSAMENTO COMPUTACIONAL. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 38,
+      "course": "INTRODUÇÃO AO PENSAMENTO COMPUTACIONAL. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 38,
+      "course": "INTRODUÇÃO AO PENSAMENTO COMPUTACIONAL. (Carga"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CONCEITOS E APLICAÇÕES DO CENSO DEMOGRÁFICO",
+        "institution": ""
+      },
+      "idx": 39,
+      "course": "Conceitos e Aplicações do Censo Demográfico"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Conceitos e Aplicações do Censo Demográfico"
+      },
+      "idx": 39,
+      "course": "Conceitos e Aplicações do Censo Demográfico"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 39,
+      "course": "Conceitos e Aplicações do Censo Demográfico"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 39,
+      "course": "Conceitos e Aplicações do Censo Demográfico"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Introdução a Inteligência Artificial na Educação"
+      },
+      "idx": 40,
+      "course": "Introdução a Inteligência Artificial na Educação"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "AÇÕES TÁTICAS ESPECIAIS. (Carga horária: 360h)",
+        "institution": "Polícia Militar do Estado do Espírito Santo, PMES, Brasil"
+      },
+      "idx": 41,
+      "course": "Ações Táticas Especiais"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 360h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "AÇÕES TÁTICAS ESPECIAIS",
+        "hours": "360h"
+      },
+      "idx": 41,
+      "course": "Ações Táticas Especiais"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Ações Táticas Especiais"
+      },
+      "idx": 41,
+      "course": "Ações Táticas Especiais"
+    },
+    {
+      "categoria": "hours_embed",
+      "gravidade": "medio",
+      "descricao": "Carga horária embutida no título: 232h",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "CURSO DE CINOTECNIA POLICIAL",
+        "hours": "232h"
+      },
+      "idx": 42,
+      "course": "Curso de Cinotecnia Policial"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Curso de Cinotecnia Policial"
+      },
+      "idx": 42,
+      "course": "Curso de Cinotecnia Policial"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "ESTÁGIO DE QUALIFICAÇÃO TÉCNICA ESPECIAL EM",
+        "institution": "MARINHA DO BRASIL, MB, Brasil"
+      },
+      "idx": 43,
+      "course": "Estágio de Qualificação Técnica Especial em"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Estágio de Qualificação Técnica Especial em"
+      },
+      "idx": 43,
+      "course": "Estágio de Qualificação Técnica Especial em"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 43,
+      "course": "Estágio de Qualificação Técnica Especial em"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição militar preenchida por regra determinística",
+      "acao": "auto_fix",
+      "payload": {
+        "institution": "Polícia Militar do Estado do Espírito Santo (PMES)"
+      },
+      "idx": 44,
+      "course": "Curso de Formação de Soldado da Polícia Militar do Espírito Santo"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Período militar estimado a partir do CV Lattes",
+      "acao": "auto_fix",
+      "payload": {
+        "year_period": "2013 - 2013"
+      },
+      "idx": 44,
+      "course": "Curso de Formação de Soldado da Polícia Militar do Espírito Santo"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 44,
+      "course": "Curso de Formação de Soldado da Polícia Militar do Espírito Santo"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição militar preenchida por regra determinística",
+      "acao": "auto_fix",
+      "payload": {
+        "institution": "Marinha do Brasil (MB)"
+      },
+      "idx": 45,
+      "course": "Curso de Formação de Soldados Fuzileiros Navais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Período militar estimado a partir do CV Lattes",
+      "acao": "auto_fix",
+      "payload": {
+        "year_period": "2010 - 2010"
+      },
+      "idx": 45,
+      "course": "Curso de Formação de Soldados Fuzileiros Navais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 45,
+      "course": "Curso de Formação de Soldados Fuzileiros Navais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 46,
+      "course": "Curso de Ações Táticas Especiais PMES"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "medio",
+      "descricao": "Período vazio — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 46,
+      "course": "Curso de Ações Táticas Especiais PMES"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 46,
+      "course": "Curso de Ações Táticas Especiais PMES"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 47,
+      "course": "Curso de Cinotecnia Policial PMES"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "medio",
+      "descricao": "Período vazio — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 47,
+      "course": "Curso de Cinotecnia Policial PMES"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 47,
+      "course": "Curso de Cinotecnia Policial PMES"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (1 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Curso de Adestramento de Cães para Emprego Policial",
+        "institution": ""
+      },
+      "idx": 48,
+      "course": "Curso de Adestramento de Cães para Emprego Policial"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição militar preenchida por regra determinística",
+      "acao": "auto_fix",
+      "payload": {
+        "institution": "Polícia Militar do Estado do Espírito Santo (PMES)"
+      },
+      "idx": 48,
+      "course": "Curso de Adestramento de Cães para Emprego Policial"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Período militar estimado a partir do CV Lattes",
+      "acao": "auto_fix",
+      "payload": {
+        "year_period": "2014 - 2014"
+      },
+      "idx": 48,
+      "course": "Curso de Adestramento de Cães para Emprego Policial"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 48,
+      "course": "Curso de Adestramento de Cães para Emprego Policial"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Seminário de Faro de Explosivos",
+        "institution": ""
+      },
+      "idx": 49,
+      "course": "Seminário de Faro de Explosivos"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição militar preenchida por regra determinística",
+      "acao": "auto_fix",
+      "payload": {
+        "institution": "Polícia Militar do Estado do Espírito Santo (PMES)"
+      },
+      "idx": 49,
+      "course": "Seminário de Faro de Explosivos"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Período militar estimado a partir do CV Lattes",
+      "acao": "auto_fix",
+      "payload": {
+        "year_period": "2015 - 2015"
+      },
+      "idx": 49,
+      "course": "Seminário de Faro de Explosivos"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 49,
+      "course": "Seminário de Faro de Explosivos"
+    },
+    {
+      "categoria": "ocr_split",
+      "gravidade": "alto",
+      "descricao": "Palavras quebradas por OCR (2 padrões)",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra",
+        "institution": ""
+      },
+      "idx": 50,
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição militar preenchida por regra determinística",
+      "acao": "auto_fix",
+      "payload": {
+        "institution": "Marinha do Brasil (MB)"
+      },
+      "idx": 50,
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Período militar estimado a partir do CV Lattes",
+      "acao": "auto_fix",
+      "payload": {
+        "year_period": "2012 - 2012"
+      },
+      "idx": 50,
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 50,
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição militar preenchida por regra determinística",
+      "acao": "auto_fix",
+      "payload": {
+        "institution": "Marinha do Brasil (MB)"
+      },
+      "idx": 51,
+      "course": "Estágio de Tiro de Fuzil M16 - 200 metros"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Período militar estimado a partir do CV Lattes",
+      "acao": "auto_fix",
+      "payload": {
+        "year_period": "2011 - 2011"
+      },
+      "idx": 51,
+      "course": "Estágio de Tiro de Fuzil M16 - 200 metros"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 51,
+      "course": "Estágio de Tiro de Fuzil M16 - 200 metros"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 52,
+      "course": ""
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "medio",
+      "descricao": "Período vazio — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 52,
+      "course": ""
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 52,
+      "course": ""
+    }
+  ],
+  "formacao": [],
+  "dedupe": [
+    {
+      "acao": "remove",
+      "motivo": "registro vazio",
+      "id": "CUR0053"
+    }
+  ],
+  "resumo": {
+    "cursos_total_antes": 53,
+    "cursos_total_depois": 52,
+    "achados_por_categoria": {
+      "ocr_split": 33,
+      "campos_faltando": 72,
+      "caixa_alta": 25,
+      "hours_embed": 11
+    },
+    "achados_por_acao": {
+      "auto_fix": 81,
+      "manual": 60
+    },
+    "dedupe_operacoes": 1
+  }
+}
