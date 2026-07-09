@@ -266,17 +266,21 @@ def audit_course(idx: int, c: dict) -> list[dict]:
         })
         course = tc
 
-    # instituição também
-    if is_all_caps(inst):
-        ti = smart_title(inst)
-        achados.append({
-            "categoria": "caixa_alta",
-            "gravidade": "baixo",
-            "descricao": "Instituição em CAPS",
-            "acao": "auto_fix",
-            "payload": {"institution": ti},
-        })
-        inst = ti
+    # instituição em CAPS (também detecta primeiro segmento: "MARINHA DO BRASIL, MB, Brasil")
+    first_seg = inst.split(",")[0].strip() if inst else ""
+    if is_all_caps(inst) or (first_seg and is_all_caps(first_seg)):
+        segs = [s.strip() for s in inst.split(",")]
+        new_segs = [smart_title(s) if is_all_caps(s) else s for s in segs]
+        ti = ", ".join(new_segs)
+        if ti != inst:
+            achados.append({
+                "categoria": "caixa_alta",
+                "gravidade": "baixo",
+                "descricao": "Instituição em CAPS",
+                "acao": "auto_fix",
+                "payload": {"institution": ti},
+            })
+            inst = ti
 
     # instituição militar faltando
     key = course.lower().strip()
