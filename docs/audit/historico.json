@@ -1,0 +1,41 @@
+[
+  {
+    "secao": "07_Cursos",
+    "idx": 4,
+    "id": "CUR0005",
+    "antes": {
+      "id": "CUR0005",
+      "category": "Formação Complementar",
+      "course": "RECURSOS TECNOLÓGICOS DIGITAIS",
+      "institution": null,
+      "year_period": "2025 - 2025",
+      "hours": null,
+      "source_lattes": "Formação Complementar",
+      "area": null,
+      "level": null,
+      "status": "Concluído",
+      "certificate_url": null,
+      "visibility": "public",
+      "featured": false,
+      "tags": null,
+      "review_status": "Revisar OCR/importação"
+    },
+    "depois": {
+      "id": "CUR0005",
+      "category": "Formação Complementar",
+      "course": "Recursos Tecnológicos Digitais",
+      "institution": null,
+      "year_period": "2025 - 2025",
+      "hours": null,
+      "source_lattes": "Formação Complementar",
+      "area": null,
+      "level": null,
+      "status": "Concluído",
+      "certificate_url": null,
+      "visibility": "public",
+      "featured": false,
+      "tags": null,
+      "review_status": "Revisar OCR/importação"
+    }
+  }
+]

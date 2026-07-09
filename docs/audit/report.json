@@ -1,0 +1,538 @@
+{
+  "cursos": [
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 0,
+      "course": "Curso de Formação de Soldados Fuzileiros Navais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 1,
+      "course": "Bacharelado em Educação Física (em andamento)"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 1,
+      "course": "Bacharelado em Educação Física (em andamento)"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 2,
+      "course": "Graduação em Gestão ambiental"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 3,
+      "course": "2° Congresso Brasileiro em Exercício para Grupos"
+    },
+    {
+      "categoria": "caixa_alta",
+      "gravidade": "medio",
+      "descricao": "Título 100% em CAPS",
+      "acao": "auto_fix",
+      "payload": {
+        "course": "Recursos Tecnológicos Digitais"
+      },
+      "idx": 4,
+      "course": "Recursos Tecnológicos Digitais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 4,
+      "course": "Recursos Tecnológicos Digitais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 4,
+      "course": "Recursos Tecnológicos Digitais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 5,
+      "course": "Curso Introdutório à Geopolítica Aeroespacial 1°"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 6,
+      "course": "CONGRESSO DE FISIOLOGIA DO EXERCÍCIO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 9,
+      "course": "Business Intelligence: Inteligência Artificial para"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 9,
+      "course": "Business Intelligence: Inteligência Artificial para"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 10,
+      "course": "DOMINE AS FERRAMENTAS DE IA DA GOOGLE. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 10,
+      "course": "DOMINE AS FERRAMENTAS DE IA DA GOOGLE. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 11,
+      "course": "INTELIGÊNCIA ARTIFICIAL NO MUNDO ACADÊMICO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 15,
+      "course": "Introdutório de pesquisa clínica (2° edição)"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 15,
+      "course": "Introdutório de pesquisa clínica (2° edição)"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 16,
+      "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 16,
+      "course": "Práticas Corporais no Meio Líquido Nas Aulas de"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 17,
+      "course": "Domine Ferramentas de IA para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 17,
+      "course": "Domine Ferramentas de IA para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 18,
+      "course": "Domine Técnicas da OPENAI"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 19,
+      "course": "Diabetes - a Global Challenge"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 21,
+      "course": "GEOGRAFIA E GEOPOLÍTICA NA ATUALIDADE. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 22,
+      "course": "Usos e Possibilidades do Google Earth no Ensino"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 22,
+      "course": "Usos e Possibilidades do Google Earth no Ensino"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 23,
+      "course": "Fisiologia e Esporte: o Corpo Humano Antes,"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 24,
+      "course": "Designer Gráfico"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 25,
+      "course": "Curso de Didática para Instrutores de Formação"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 26,
+      "course": "USE GENERATIVE AI AS YOUR THOUGHT PARTNER. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 27,
+      "course": "Congresso Brasileiro de Fisiologia do"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 28,
+      "course": "INTELIGÊNCIA ARTIFICIAL HOJE E NO FUTURO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 28,
+      "course": "INTELIGÊNCIA ARTIFICIAL HOJE E NO FUTURO. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 29,
+      "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 29,
+      "course": "Domine As Ferramentas da OPENAI para Turbinar a"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 30,
+      "course": "A Importância das Parcerias Internacionais na"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 32,
+      "course": "Formação de professores em neuroeducação"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 32,
+      "course": "Formação de professores em neuroeducação"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 33,
+      "course": "Extensão universitária em TUTORIA DE EDUCAÇÃO A"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 33,
+      "course": "Extensão universitária em TUTORIA DE EDUCAÇÃO A"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 34,
+      "course": "Extensão universitária em TOPOGRAFIA"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 34,
+      "course": "Extensão universitária em TOPOGRAFIA"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 35,
+      "course": "Segurança Pública e Violência contra Mulheres e Meninas: do"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 36,
+      "course": "Política e Gestão Ambiental"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 37,
+      "course": "Curso A3P - Turma 2024"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 38,
+      "course": "INTRODUÇÃO AO PENSAMENTO COMPUTACIONAL. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 38,
+      "course": "INTRODUÇÃO AO PENSAMENTO COMPUTACIONAL. (Carga"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "alto",
+      "descricao": "Instituição vazia — precisa preencher manualmente",
+      "acao": "manual",
+      "payload": {},
+      "idx": 39,
+      "course": "Conceitos e Aplicações do Censo Demográfico"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 39,
+      "course": "Conceitos e Aplicações do Censo Demográfico"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 43,
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 44,
+      "course": "Curso de Formação de Soldado da Polícia Militar do Espírito Santo"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 45,
+      "course": "Curso de Formação de Soldados Fuzileiros Navais"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 46,
+      "course": "Curso de Adestramento de Cães para Emprego Policial"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 47,
+      "course": "Seminário de Faro de Explosivos"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 48,
+      "course": "Estágio de Qualificação Técnica Especial em Adestramento de Cães de Guerra"
+    },
+    {
+      "categoria": "campos_faltando",
+      "gravidade": "baixo",
+      "descricao": "Carga horária vazia",
+      "acao": "manual",
+      "payload": {},
+      "idx": 49,
+      "course": "Estágio de Tiro de Fuzil M16 - 200 metros"
+    }
+  ],
+  "formacao": [],
+  "dedupe": [
+    {
+      "acao": "merge",
+      "chave": "formacao de soldados fuzileiros navais",
+      "id_removido": "CUR0046",
+      "id_mantido": "CUR0001"
+    },
+    {
+      "acao": "merge",
+      "chave": "qualificacao tecnica especial em adestramento de caes de guerra",
+      "id_removido": "CUR0051",
+      "id_mantido": "CUR0044"
+    }
+  ],
+  "resumo": {
+    "cursos_total_antes": 50,
+    "cursos_total_depois": 48,
+    "achados_por_categoria": {
+      "campos_faltando": 55,
+      "caixa_alta": 1
+    },
+    "achados_por_acao": {
+      "manual": 55,
+      "auto_fix": 1
+    },
+    "dedupe_operacoes": 2
+  }
+}
