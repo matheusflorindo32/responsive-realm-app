@@ -375,12 +375,15 @@ def dedupe_militares(courses: list[dict]) -> tuple[list[dict], list[dict]]:
             continue
         kept.append(c)
 
-    # detecta duplicatas por título normalizado
-    def norm(s): 
+    # detecta duplicatas por título normalizado (agressivo p/ militares)
+    def norm(s):
         s = unicodedata.normalize("NFKD", s.lower())
         s = "".join(ch for ch in s if not unicodedata.combining(ch))
         s = re.sub(r"[^a-z0-9]+"," ", s).strip()
-        return s
+        # remove prefixos/sufixos comuns que causam falsos negativos
+        s = re.sub(r"^(curso de|estagio de|seminario de|especializacao em)\s+", "", s)
+        s = re.sub(r"\s+(pmes|dpf|mb|policial)\s*$", "", s)
+        return s.strip()
     seen = {}
     result = []
     for c in kept:
