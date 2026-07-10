@@ -24,6 +24,8 @@ import NotFound from "./pages/NotFound";
 // AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
 import AdminSync from "./pages/admin/AdminSync";
 import AdminLayout from "@/components/admin/AdminLayout";
+import CommandCenter from "./pages/admin/CommandCenter";
+import ModulePlaceholder from "./pages/admin/ModulePlaceholder";
 import EnsinoHub from "./pages/admin/ensino/Hub";
 import Trilhas from "./pages/admin/ensino/Trilhas";
 import Cursos from "./pages/admin/ensino/Cursos";
@@ -90,7 +92,19 @@ const App = () => (
 
             {/* Admin — /admin passa direto pelo guard (redireciona ao login se preciso) */}
             <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<Navigate to="/admin/ensino" replace />} />
+              <Route path="/admin" element={<Navigate to="/admin/hoje" replace />} />
+              <Route path="/admin/hoje" element={<CommandCenter />} />
+              <Route path="/admin/projetos" element={<ModulePlaceholder module="projetos" />} />
+              <Route path="/admin/relacionamentos" element={<ModulePlaceholder module="relacionamentos" />} />
+              <Route path="/admin/conteudo" element={<ModulePlaceholder module="conteudo" />} />
+              <Route path="/admin/pesquisa" element={<ModulePlaceholder module="pesquisa" />} />
+              <Route path="/admin/agentes" element={<ModulePlaceholder module="agentes" />} />
+              <Route path="/admin/sistemas" element={<ModulePlaceholder module="sistemas" />} />
+              <Route path="/admin/agenda" element={<ModulePlaceholder module="agenda" />} />
+              <Route path="/admin/inbox" element={<ModulePlaceholder module="inbox" />} />
+              <Route path="/admin/vault" element={<ModulePlaceholder module="vault" />} />
+              <Route path="/admin/metricas" element={<ModulePlaceholder module="metricas" />} />
+              <Route path="/admin/riscos" element={<ModulePlaceholder module="riscos" />} />
 
               <Route path="/admin/sync" element={<AdminSync />} />
               <Route path="/admin/ensino" element={<EnsinoHub />} />
