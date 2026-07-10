@@ -861,7 +861,42 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_certificates: {
+        Row: {
+          certificate_code: string | null
+          course_title: string | null
+          hours: number | null
+          issued_at: string | null
+          issuer: string | null
+          revoked_at: string | null
+          status: Database["public"]["Enums"]["certificate_status"] | null
+          student_name: string | null
+          trail_name: string | null
+        }
+        Insert: {
+          certificate_code?: string | null
+          course_title?: string | null
+          hours?: number | null
+          issued_at?: string | null
+          issuer?: string | null
+          revoked_at?: string | null
+          status?: Database["public"]["Enums"]["certificate_status"] | null
+          student_name?: string | null
+          trail_name?: string | null
+        }
+        Update: {
+          certificate_code?: string | null
+          course_title?: string | null
+          hours?: number | null
+          issued_at?: string | null
+          issuer?: string | null
+          revoked_at?: string | null
+          status?: Database["public"]["Enums"]["certificate_status"] | null
+          student_name?: string | null
+          trail_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       admin_metrics: { Args: never; Returns: Json }
@@ -869,35 +904,9 @@ export type Database = {
         Args: { _payment_id: string }
         Returns: string
       }
-      list_public_certificates: {
-        Args: { _limit?: number }
-        Returns: {
-          certificate_code: string
-          course_title: string
-          hours: number
-          issued_at: string
-          issuer: string
-          student_name: string
-          trail_name: string
-        }[]
-      }
       revoke_enrollment_from_payment: {
         Args: { _payment_id: string }
         Returns: number
-      }
-      verify_certificate: {
-        Args: { _code: string }
-        Returns: {
-          certificate_code: string
-          course_title: string
-          hours: number
-          issued_at: string
-          issuer: string
-          revoked_at: string
-          status: Database["public"]["Enums"]["certificate_status"]
-          student_name: string
-          trail_name: string
-        }[]
       }
     }
     Enums: {
