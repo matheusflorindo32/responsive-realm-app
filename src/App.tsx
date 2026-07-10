@@ -25,6 +25,7 @@ import NotFound from "./pages/NotFound";
 import AdminSync from "./pages/admin/AdminSync";
 import AdminLayout from "@/components/admin/AdminLayout";
 import CommandCenter from "./pages/admin/CommandCenter";
+import AdminStart from "./pages/admin/AdminStart";
 import ModulePlaceholder from "./pages/admin/ModulePlaceholder";
 import EnsinoHub from "./pages/admin/ensino/Hub";
 import Trilhas from "./pages/admin/ensino/Trilhas";
@@ -94,6 +95,7 @@ const App = () => (
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<Navigate to="/admin/hoje" replace />} />
               <Route path="/admin/hoje" element={<CommandCenter />} />
+              <Route path="/admin/iniciar" element={<AdminStart />} />
               <Route path="/admin/projetos" element={<ModulePlaceholder module="projetos" />} />
               <Route path="/admin/relacionamentos" element={<ModulePlaceholder module="relacionamentos" />} />
               <Route path="/admin/conteudo" element={<ModulePlaceholder module="conteudo" />} />
