@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -15,6 +16,7 @@ import {
   Megaphone,
   Menu,
   MonitorCog,
+  PlayCircle,
   ShieldAlert,
   Users,
 } from "lucide-react";
@@ -31,6 +33,7 @@ const navGroups: NavGroup[] = [
     label: "Comando",
     items: [
       { to: "/admin/hoje", label: "Hoje", icon: Home, end: true },
+      { to: "/admin/iniciar", label: "Iniciar", icon: PlayCircle },
       { to: "/admin/inbox", label: "Caixa de entrada", icon: Inbox },
       { to: "/admin/agenda", label: "Agenda", icon: CalendarDays },
     ],
@@ -108,6 +111,19 @@ export default function AdminLayout() {
     item.end ? location.pathname === item.to : location.pathname.startsWith(item.to),
   );
 
+  useEffect(() => {
+    const handleShortcut = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const isTyping = Boolean(target?.closest("input, textarea, [contenteditable='true']"));
+      if (!isTyping && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        navigate("/admin/iniciar");
+      }
+    };
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, [navigate]);
+
   if (!ready) {
     return <div className="min-h-screen grid place-items-center bg-background text-muted-foreground">Verificando acesso seguro…</div>;
   }
@@ -119,6 +135,7 @@ export default function AdminLayout() {
 
   return (
     <div className="theme-tropa min-h-screen bg-background text-foreground lg:flex">
+      <a href="#conteudo-principal" className="sr-only z-50 rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Pular para o conteúdo</a>
       <aside className="hidden h-screen w-72 shrink-0 border-r border-border/70 bg-card/85 p-5 backdrop-blur lg:sticky lg:top-0 lg:flex lg:flex-col">
         <button type="button" onClick={() => navigate("/admin/hoje")} className="mb-7 flex items-center gap-3 rounded-xl text-left">
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm"><DatabaseZap className="h-5 w-5" /></div>
@@ -156,13 +173,14 @@ export default function AdminLayout() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <Button size="sm" onClick={() => navigate("/admin/iniciar")}><PlayCircle className="mr-2 h-4 w-4" /><span className="hidden sm:inline">Iniciar</span></Button>
               <Button variant="ghost" size="sm" onClick={() => navigate("/")}><Home className="mr-2 h-4 w-4" /><span className="hidden sm:inline">Site</span></Button>
               <Button variant="outline" size="sm" onClick={signOut}><LogOut className="mr-2 h-4 w-4" /><span className="hidden sm:inline">Sair</span></Button>
             </div>
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6 md:py-8">
+        <main id="conteudo-principal" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-4 py-6 outline-none md:px-6 md:py-8">
           <Outlet />
         </main>
       </div>
