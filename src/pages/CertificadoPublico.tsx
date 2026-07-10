@@ -36,9 +36,13 @@ export default function CertificadoPublico() {
     queryKey: ["verify-cert", code],
     enabled: !isDemo && codeFormatValid,
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("verify_certificate", { _code: code! });
+      const { data, error } = await supabase
+        .from("public_certificates")
+        .select("*")
+        .eq("certificate_code", code!)
+        .maybeSingle();
       if (error) throw error;
-      return (data as any)?.[0] ?? null;
+      return data ?? null;
     },
   });
 
