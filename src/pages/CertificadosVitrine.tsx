@@ -233,7 +233,11 @@ export default function CertificadosVitrine() {
   const q = useQuery({
     queryKey: ["public-certificates"],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("list_public_certificates", { _limit: 12 });
+      const { data, error } = await supabase
+        .from("public_certificates")
+        .select("*")
+        .order("issued_at", { ascending: false })
+        .limit(12);
       if (error) throw error;
       return (data as PublicCert[]) ?? [];
     },
@@ -271,11 +275,15 @@ export default function CertificadosVitrine() {
         return;
       }
       setSearch({ kind: "loading", code });
-      const { data, error } = await supabase.rpc("verify_certificate", { _code: code });
+      const { data, error } = await supabase
+        .from("public_certificates")
+        .select("*")
+        .eq("certificate_code", code)
+        .maybeSingle();
       if (error) {
         setSearch({ kind: "error", code });
       } else {
-        const cert = (data as any)?.[0] ?? null;
+        const cert = (data as any) ?? null;
         setSearch(cert ? { kind: "found", code, cert } : { kind: "not_found", code });
       }
       persistState(code);
