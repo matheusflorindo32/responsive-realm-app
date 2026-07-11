@@ -19,13 +19,11 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { isJarvisSupabaseConfigured, jarvisSupabase } from "@/integrations/supabase/jarvis-client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-
-type AdminMetrics = Record<string, number>;
 
 type ModuleCard = {
   title: string;
@@ -56,29 +54,32 @@ export default function CommandCenter() {
   const overview = useQuery({
     queryKey: ["jarvis-command-center"],
     queryFn: async () => {
-      const [metricsResult, syncResult, conflictsResult] = await Promise.all([
-        supabase.rpc("admin_metrics"),
-        supabase.from("sync_runs").select("status, finished_at, rows_pulled, rows_pushed, conflicts").order("started_at", { ascending: false }).limit(1).maybeSingle(),
-        supabase.from("sync_conflicts").select("*", { count: "exact", head: true }).eq("resolved", false),
+      if (!isJarvisSupabaseConfigured || !jarvisSupabase) throw new Error("JARVIS Supabase não configurado");
+      const client = jarvisSupabase;
+      const [projects, tasks, skills, agents, blockedTasks] = await Promise.all([
+        client.from("jarvis_projects").select("id", { count: "exact", head: true }),
+        client.from("jarvis_tasks").select("id", { count: "exact", head: true }).neq("status", "done"),
+        client.from("jarvis_skills").select("id", { count: "exact", head: true }),
+        client.from("jarvis_agents").select("id", { count: "exact", head: true }),
+        client.from("jarvis_tasks").select("id", { count: "exact", head: true }).eq("status", "blocked"),
       ]);
-
-      if (metricsResult.error) throw metricsResult.error;
+      const firstError = [projects, tasks, skills, agents, blockedTasks].find((result) => result.error)?.error;
+      if (firstError) throw firstError;
       return {
-        metrics: (metricsResult.data ?? {}) as AdminMetrics,
-        lastSync: syncResult.data,
-        syncUnavailable: Boolean(syncResult.error),
-        openConflicts: conflictsResult.count ?? 0,
-        conflictsUnavailable: Boolean(conflictsResult.error),
+        projects: projects.count ?? 0,
+        openTasks: tasks.count ?? 0,
+        skills: skills.count ?? 0,
+        agents: agents.count ?? 0,
+        blockedTasks: blockedTasks.count ?? 0,
       };
     },
   });
 
-  const metrics = overview.data?.metrics ?? {};
   const metricCards = [
-    { label: "Alunos", value: metrics.students_total ?? 0, icon: Users },
-    { label: "Matrículas ativas", value: metrics.enrollments_active ?? 0, icon: GraduationCap },
-    { label: "Cursos publicados", value: metrics.courses_published ?? 0, icon: BookOpen },
-    { label: "Conflitos de sync", value: overview.data?.openConflicts ?? 0, icon: RefreshCw },
+    { label: "Projetos", value: overview.data?.projects ?? 0, icon: FolderKanban },
+    { label: "Tarefas abertas", value: overview.data?.openTasks ?? 0, icon: Clock3 },
+    { label: "Skills", value: overview.data?.skills ?? 0, icon: BookOpen },
+    { label: "Agentes", value: overview.data?.agents ?? 0, icon: Bot },
   ];
 
   return (
@@ -147,8 +148,8 @@ export default function CommandCenter() {
           <Card className="border-border/70"><CardHeader className="pb-3"><CardTitle className="text-base">Sinais e proteção</CardTitle></CardHeader><CardContent className="space-y-3 text-sm">
             <StatusLine label="Vault JARVIS" state="protegido" ok detail="Repositório privado confirmado; exportação controlada ainda é a próxima etapa." />
             <StatusLine label="Build do painel" state="verificado" ok detail="PR com validação de build em Node 22." />
-            <StatusLine label="Supabase" state="não auditado" ok={false} detail="O banco do Lovable está ativo, mas o conector Supabase não possui acesso administrativo nesta sessão." />
-            <StatusLine label="Sincronização" state={overview.data?.syncUnavailable ? "indisponível" : overview.data?.lastSync?.status === "ok" ? "confirmada" : "aguardando"} ok={overview.data?.lastSync?.status === "ok" && !overview.data?.syncUnavailable} detail={overview.data?.lastSync?.finished_at ? new Date(overview.data.lastSync.finished_at).toLocaleString("pt-BR") : "sem rodada confirmada"} />
+            <StatusLine label="Supabase JARVIS" state={overview.isError ? "indisponível" : overview.isLoading ? "verificando" : "verificado"} ok={overview.isSuccess} detail="Backend pessoal isolado, com RLS e políticas administrativas endurecidas." />
+            <StatusLine label="Tarefas bloqueadas" state={overview.isError ? "indisponível" : `${overview.data?.blockedTasks ?? 0} registrada(s)`} ok={overview.isSuccess && (overview.data?.blockedTasks ?? 0) === 0} detail="Indicador operacional do novo banco JARVIS." />
           </CardContent></Card>
           <Card className="border-amber-200 bg-amber-50/70"><CardContent className="p-5 text-sm text-amber-950"><p className="flex items-center gap-2 font-medium"><AlertTriangle className="h-4 w-4" />Antes de integrar dados reais</p><p className="mt-2 leading-relaxed text-amber-950/80">Validar RLS, permissões por perfil e o contrato de exportação do vault. O iniciador não envia e-mails, altera agenda ou publica conteúdo.</p></CardContent></Card>
         </div>
