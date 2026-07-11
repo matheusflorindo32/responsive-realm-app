@@ -52,6 +52,10 @@ import MfaSetup from "./pages/auth/MfaSetup";
 import MfaVerify from "./pages/auth/MfaVerify";
 import AuthCallback from "./pages/auth/AuthCallback";
 import VerifyEmail from "./pages/auth/VerifyEmail";
+import JarvisAuth from "./pages/admin/auth/JarvisAuth";
+import JarvisAccessPending from "./pages/admin/auth/JarvisAccessPending";
+import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
+import JarvisMfaVerify from "./pages/admin/auth/JarvisMfaVerify";
 
 
 const queryClient = new QueryClient();
@@ -91,7 +95,13 @@ const App = () => (
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
 
-            {/* Admin — /admin passa direto pelo guard (redireciona ao login se preciso) */}
+            {/* Autenticação administrativa isolada no Supabase pessoal do JARVIS */}
+            <Route path="/admin/auth" element={<JarvisAuth />} />
+            <Route path="/admin/access-pending" element={<JarvisAccessPending />} />
+            <Route path="/admin/mfa/setup" element={<JarvisMfaSetup />} />
+            <Route path="/admin/mfa/verify" element={<JarvisMfaVerify />} />
+
+            {/* Admin — protegido por função, RLS, papel administrativo e MFA */}
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<Navigate to="/admin/hoje" replace />} />
               <Route path="/admin/hoje" element={<CommandCenter />} />
