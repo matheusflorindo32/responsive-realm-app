@@ -24,6 +24,9 @@ import NotFound from "./pages/NotFound";
 // AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
 import AdminSync from "./pages/admin/AdminSync";
 import AdminLayout from "@/components/admin/AdminLayout";
+import CommandCenter from "./pages/admin/CommandCenter";
+import AdminStart from "./pages/admin/AdminStart";
+import ModulePlaceholder from "./pages/admin/ModulePlaceholder";
 import EnsinoHub from "./pages/admin/ensino/Hub";
 import Trilhas from "./pages/admin/ensino/Trilhas";
 import Cursos from "./pages/admin/ensino/Cursos";
@@ -49,6 +52,13 @@ import MfaSetup from "./pages/auth/MfaSetup";
 import MfaVerify from "./pages/auth/MfaVerify";
 import AuthCallback from "./pages/auth/AuthCallback";
 import VerifyEmail from "./pages/auth/VerifyEmail";
+import JarvisAuth from "./pages/admin/auth/JarvisAuth";
+import JarvisAccessPending from "./pages/admin/auth/JarvisAccessPending";
+import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
+import JarvisMfaVerify from "./pages/admin/auth/JarvisMfaVerify";
+import OperationsRegistry from "./pages/admin/OperationsRegistry";
+import ProjectsWorkspace from "./pages/admin/ProjectsWorkspace";
+import JarvisPreview from "./pages/JarvisPreview";
 
 
 const queryClient = new QueryClient();
@@ -87,10 +97,31 @@ const App = () => (
             <Route path="/projetos" element={<Navigate to="/matheus/projetos" replace />} />
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
+            <Route path="/jarvis-preview" element={<JarvisPreview />} />
 
-            {/* Admin — /admin passa direto pelo guard (redireciona ao login se preciso) */}
+            {/* Autenticação administrativa isolada no Supabase pessoal do JARVIS */}
+            <Route path="/admin/auth" element={<JarvisAuth />} />
+            <Route path="/admin/access-pending" element={<JarvisAccessPending />} />
+            <Route path="/admin/mfa/setup" element={<JarvisMfaSetup />} />
+            <Route path="/admin/mfa/verify" element={<JarvisMfaVerify />} />
+
+            {/* Admin — protegido por função, RLS, papel administrativo e MFA */}
             <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<Navigate to="/admin/ensino" replace />} />
+              <Route path="/admin" element={<Navigate to="/admin/hoje" replace />} />
+              <Route path="/admin/hoje" element={<CommandCenter />} />
+              <Route path="/admin/iniciar" element={<AdminStart />} />
+              <Route path="/admin/projetos" element={<ProjectsWorkspace />} />
+              <Route path="/admin/relacionamentos" element={<ModulePlaceholder module="relacionamentos" />} />
+              <Route path="/admin/conteudo" element={<ModulePlaceholder module="conteudo" />} />
+              <Route path="/admin/pesquisa" element={<ModulePlaceholder module="pesquisa" />} />
+              <Route path="/admin/agentes" element={<OperationsRegistry kind="agents" />} />
+              <Route path="/admin/skills" element={<OperationsRegistry kind="skills" />} />
+              <Route path="/admin/sistemas" element={<OperationsRegistry kind="systems" />} />
+              <Route path="/admin/agenda" element={<ModulePlaceholder module="agenda" />} />
+              <Route path="/admin/inbox" element={<ModulePlaceholder module="inbox" />} />
+              <Route path="/admin/vault" element={<ModulePlaceholder module="vault" />} />
+              <Route path="/admin/metricas" element={<ModulePlaceholder module="metricas" />} />
+              <Route path="/admin/riscos" element={<ModulePlaceholder module="riscos" />} />
 
               <Route path="/admin/sync" element={<AdminSync />} />
               <Route path="/admin/ensino" element={<EnsinoHub />} />
