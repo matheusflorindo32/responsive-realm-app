@@ -58,6 +58,7 @@ const navGroups: NavGroup[] = [
     label: "Tecnologia",
     items: [
       { to: "/admin/agentes", label: "Agentes", icon: Bot },
+      { to: "/admin/skills", label: "Skills", icon: BookOpen },
       { to: "/admin/sistemas", label: "Sites & sistemas", icon: MonitorCog },
       { to: "/admin/sync", label: "Integrações & sync", icon: DatabaseZap },
     ],
