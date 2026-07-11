@@ -2,8 +2,15 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const configuredUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
+const configuredKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim();
+
+// The education backend is independent from the personal JARVIS backend.
+// A missing legacy configuration must not prevent public pages or JARVIS auth
+// from rendering in a new deployment.
+export const isLegacySupabaseConfigured = Boolean(configuredUrl && configuredKey);
+const SUPABASE_URL = configuredUrl || "https://legacy-backend-not-configured.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = configuredKey || "legacy-backend-not-configured";
 
 
 function isNewSupabaseApiKey(value: string): boolean {
