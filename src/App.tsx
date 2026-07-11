@@ -58,6 +58,7 @@ import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
 import JarvisMfaVerify from "./pages/admin/auth/JarvisMfaVerify";
 import OperationsRegistry from "./pages/admin/OperationsRegistry";
 import ProjectsWorkspace from "./pages/admin/ProjectsWorkspace";
+import JarvisPreview from "./pages/JarvisPreview";
 
 
 const queryClient = new QueryClient();
@@ -96,6 +97,7 @@ const App = () => (
             <Route path="/projetos" element={<Navigate to="/matheus/projetos" replace />} />
             <Route path="/experiencia" element={<Navigate to="/matheus/experiencia" replace />} />
             <Route path="/contato" element={<Navigate to="/matheus/contato" replace />} />
+            <Route path="/jarvis-preview" element={<JarvisPreview />} />
 
             {/* Autenticação administrativa isolada no Supabase pessoal do JARVIS */}
             <Route path="/admin/auth" element={<JarvisAuth />} />
