@@ -57,6 +57,7 @@ import JarvisAccessPending from "./pages/admin/auth/JarvisAccessPending";
 import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
 import JarvisMfaVerify from "./pages/admin/auth/JarvisMfaVerify";
 import OperationsRegistry from "./pages/admin/OperationsRegistry";
+import ProjectsWorkspace from "./pages/admin/ProjectsWorkspace";
 
 
 const queryClient = new QueryClient();
@@ -107,7 +108,7 @@ const App = () => (
               <Route path="/admin" element={<Navigate to="/admin/hoje" replace />} />
               <Route path="/admin/hoje" element={<CommandCenter />} />
               <Route path="/admin/iniciar" element={<AdminStart />} />
-              <Route path="/admin/projetos" element={<ModulePlaceholder module="projetos" />} />
+              <Route path="/admin/projetos" element={<ProjectsWorkspace />} />
               <Route path="/admin/relacionamentos" element={<ModulePlaceholder module="relacionamentos" />} />
               <Route path="/admin/conteudo" element={<ModulePlaceholder module="conteudo" />} />
               <Route path="/admin/pesquisa" element={<ModulePlaceholder module="pesquisa" />} />
