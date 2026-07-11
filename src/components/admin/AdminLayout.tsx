@@ -23,7 +23,7 @@ import {
 import { useAdminGuard } from "@/hooks/useAdminGuard";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { supabase } from "@/integrations/supabase/client";
+import { jarvisSupabase } from "@/integrations/supabase/jarvis-client";
 
 type NavItem = { to: string; label: string; icon: LucideIcon; end?: boolean };
 type NavGroup = { label: string; items: NavItem[] };
@@ -129,8 +129,8 @@ export default function AdminLayout() {
   }
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/login");
+    await jarvisSupabase?.auth.signOut();
+    navigate("/admin/auth");
   };
 
   return (
