@@ -56,6 +56,7 @@ import JarvisAuth from "./pages/admin/auth/JarvisAuth";
 import JarvisAccessPending from "./pages/admin/auth/JarvisAccessPending";
 import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
 import JarvisMfaVerify from "./pages/admin/auth/JarvisMfaVerify";
+import OperationsRegistry from "./pages/admin/OperationsRegistry";
 
 
 const queryClient = new QueryClient();
@@ -110,8 +111,9 @@ const App = () => (
               <Route path="/admin/relacionamentos" element={<ModulePlaceholder module="relacionamentos" />} />
               <Route path="/admin/conteudo" element={<ModulePlaceholder module="conteudo" />} />
               <Route path="/admin/pesquisa" element={<ModulePlaceholder module="pesquisa" />} />
-              <Route path="/admin/agentes" element={<ModulePlaceholder module="agentes" />} />
-              <Route path="/admin/sistemas" element={<ModulePlaceholder module="sistemas" />} />
+              <Route path="/admin/agentes" element={<OperationsRegistry kind="agents" />} />
+              <Route path="/admin/skills" element={<OperationsRegistry kind="skills" />} />
+              <Route path="/admin/sistemas" element={<OperationsRegistry kind="systems" />} />
               <Route path="/admin/agenda" element={<ModulePlaceholder module="agenda" />} />
               <Route path="/admin/inbox" element={<ModulePlaceholder module="inbox" />} />
               <Route path="/admin/vault" element={<ModulePlaceholder module="vault" />} />
