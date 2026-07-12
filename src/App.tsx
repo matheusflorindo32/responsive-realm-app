@@ -23,6 +23,7 @@ import TropaProjetos from "./pages/tropa/Projetos";
 import NotFound from "./pages/NotFound";
 // AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
 import AdminSync from "./pages/admin/AdminSync";
+import VaultWorkspace from "./pages/admin/VaultWorkspace";
 import AdminLayout from "@/components/admin/AdminLayout";
 import CommandCenter from "./pages/admin/CommandCenter";
 import AdminStart from "./pages/admin/AdminStart";
@@ -119,7 +120,7 @@ const App = () => (
               <Route path="/admin/sistemas" element={<OperationsRegistry kind="systems" />} />
               <Route path="/admin/agenda" element={<ModulePlaceholder module="agenda" />} />
               <Route path="/admin/inbox" element={<ModulePlaceholder module="inbox" />} />
-              <Route path="/admin/vault" element={<ModulePlaceholder module="vault" />} />
+              <Route path="/admin/vault" element={<VaultWorkspace />} />
               <Route path="/admin/metricas" element={<ModulePlaceholder module="metricas" />} />
               <Route path="/admin/riscos" element={<ModulePlaceholder module="riscos" />} />
 
