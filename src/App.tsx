@@ -149,6 +149,7 @@ const App = () => (
             <Route path="/mfa/verify" element={<MfaVerify />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
             <Route path="/entrar" element={<Navigate to="/login" replace />} />
 
             {/* Aluno */}
