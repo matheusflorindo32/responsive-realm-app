@@ -53,6 +53,7 @@ import MfaSetup from "./pages/auth/MfaSetup";
 import MfaVerify from "./pages/auth/MfaVerify";
 import AuthCallback from "./pages/auth/AuthCallback";
 import VerifyEmail from "./pages/auth/VerifyEmail";
+import OAuthConsent from "./pages/auth/OAuthConsent";
 import JarvisAuth from "./pages/admin/auth/JarvisAuth";
 import JarvisAccessPending from "./pages/admin/auth/JarvisAccessPending";
 import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
@@ -148,6 +149,7 @@ const App = () => (
             <Route path="/mfa/verify" element={<MfaVerify />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
             <Route path="/entrar" element={<Navigate to="/login" replace />} />
 
             {/* Aluno */}
