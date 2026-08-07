@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://dptdoprxjusyeirmygbb.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "tropa-cientifica",
+      "version": "0.1.0",
+      "title": "Tropa Científica"
+    },
+    "tools": [
+      {
+        "name": "list_courses",
+        "title": "Listar cursos",
+        "description": "Lista os cursos publicados da Tropa Científica, com trilha, nível, duração e se são gratuitos. Aceita busca por texto.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "search": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Texto opcional para filtrar por título."
+            },
+            "limit": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Máximo de cursos retornados (padrão 25)."
+            }
+          },
+          "required": [
+            "search",
+            "limit"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_course",
+        "title": "Detalhar curso",
+        "description": "Retorna um curso publicado pelo slug, com módulos e aulas (título, tipo, duração e se é prévia gratuita).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Slug do curso, ex.: 'metodologia-cientifica'."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "my_progress",
+        "title": "Meu progresso",
+        "description": "Lista as matrículas do usuário autenticado e o progresso em cada curso (percentual e aulas concluídas).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "my_certificates",
+        "title": "Meus certificados",
+        "description": "Lista os certificados emitidos para o usuário autenticado, com código de validação, curso, carga horária e situação.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "verify_certificate",
+        "title": "Validar certificado",
+        "description": "Valida um certificado da Tropa Científica pelo código público e retorna aluno, curso, carga horária e situação.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "certificate_code": {
+              "type": "string",
+              "minLength": 3,
+              "description": "Código impresso no certificado."
+            }
+          },
+          "required": [
+            "certificate_code"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
