@@ -546,9 +546,9 @@ export function CinematicJourney() {
                   aplicada, publicações e sistemas em produção.
                 </p>
                 <div className="cj-rev mt-8 flex flex-wrap justify-center gap-x-8 gap-y-2 mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                  <span>Mestrado · Business Intelligence</span>
-                  <span>MBA · Inteligência Artificial</span>
-                  <span>ADS · IFES</span>
+                  <span>Mestrado em Business Intelligence · Em andamento</span>
+                  <span>MBA em Inteligência Artificial · Em andamento</span>
+                  <span>ADS no IFES · Em andamento</span>
                 </div>
                 <div className="cj-rev mt-9 flex flex-wrap justify-center gap-3">
                   <Link
