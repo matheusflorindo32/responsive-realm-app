@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -36,20 +36,9 @@ const focusRing =
 
 export function CinematicJourney() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [cinematic, setCinematic] = useState(false);
-
-  useLayoutEffect(() => {
-    const wide = window.matchMedia("(min-width: 1024px)");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setCinematic(wide.matches && !reduce.matches);
-    update();
-    wide.addEventListener("change", update);
-    reduce.addEventListener("change", update);
-    return () => {
-      wide.removeEventListener("change", update);
-      reduce.removeEventListener("change", update);
-    };
-  }, []);
+  // Keep every scene in the document flow on every device. Pinned, viewport-height
+  // timelines can trap touch scrolling in Safari and create oversized wheel zones.
+  const cinematic = false;
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -256,7 +245,7 @@ export function CinematicJourney() {
     }, root);
 
     return () => ctx.revert();
-  }, [cinematic]);
+  }, []);
 
   const darkBg = "bg-[hsl(222_47%_7%)]";
   const scene = (n: number, extra = "") =>

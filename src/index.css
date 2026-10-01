@@ -99,11 +99,26 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y pinch-zoom;
   }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
     font-feature-settings: "ss01", "cv01", "cv11";
+    min-height: 100%;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y pinch-zoom;
+  }
+  #root {
+    min-height: 100%;
+    min-height: 100dvh;
+    overflow-x: clip;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
@@ -338,6 +353,13 @@
   .theme-tropa *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@supports not (overflow: clip) {
+  #root,
+  .theme-tropa {
+    overflow-x: hidden;
   }
 }
 
