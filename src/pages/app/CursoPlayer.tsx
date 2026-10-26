@@ -38,14 +38,16 @@ export default function CursoPlayer() {
     queryKey: ["player-enrollment", course.data?.id],
     queryFn: async () => {
       const { data: u } = await supabase.auth.getUser();
-      if (!u.user || !course.data) return null;
-      const { data } = await supabase
+      if (!u.user || !course.data) return [];
+      // A user can hold an active course-scoped AND trail-scoped enrollment at
+      // the same time, so fetch all matching rows instead of maybeSingle().
+      const { data, error } = await supabase
         .from("enrollments").select("*")
         .eq("user_id", u.user.id)
         .eq("status", "active")
-        .or(`course_id.eq.${course.data.id},trail_id.eq.${course.data.trail_id ?? "00000000-0000-0000-0000-000000000000"}`)
-        .maybeSingle();
-      return data;
+        .or(`course_id.eq.${course.data.id},trail_id.eq.${course.data.trail_id ?? "00000000-0000-0000-0000-000000000000"}`);
+      if (error) throw error;
+      return data ?? [];
     },
     enabled: !!course.data?.id,
   });
@@ -102,7 +104,9 @@ export default function CursoPlayer() {
   const selected = allLessons.find((l: any) => l.id === selectedId);
   const currentIdx = allLessons.findIndex((l: any) => l.id === selectedId);
   const next = allLessons[currentIdx + 1];
-  const hasAccess = !!enrollment.data && (!enrollment.data.expires_at || new Date(enrollment.data.expires_at) > new Date());
+  const enrollments: any[] = Array.isArray(enrollment.data) ? enrollment.data : [];
+  const activeEnrollment = enrollments.find((e) => !e.expires_at || new Date(e.expires_at) > new Date());
+  const hasAccess = !!activeEnrollment;
   const canWatch = hasAccess || selected?.is_preview;
   const done = selected ? completedIds.has(selected.id) : false;
 
