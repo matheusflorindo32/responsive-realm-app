@@ -104,7 +104,9 @@ export default function CursoPlayer() {
   const selected = allLessons.find((l: any) => l.id === selectedId);
   const currentIdx = allLessons.findIndex((l: any) => l.id === selectedId);
   const next = allLessons[currentIdx + 1];
-  const hasAccess = !!enrollment.data && (!enrollment.data.expires_at || new Date(enrollment.data.expires_at) > new Date());
+  const enrollments: any[] = Array.isArray(enrollment.data) ? enrollment.data : [];
+  const activeEnrollment = enrollments.find((e) => !e.expires_at || new Date(e.expires_at) > new Date());
+  const hasAccess = !!activeEnrollment;
   const canWatch = hasAccess || selected?.is_preview;
   const done = selected ? completedIds.has(selected.id) : false;
 
