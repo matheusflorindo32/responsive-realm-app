@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthShell } from "@/components/auth/AuthShell";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { sanitizeNext } from "@/lib/auth/redirects";
 import { toast } from "sonner";
+import { needsExistingMfa, pendingTotpFactors } from "@/lib/auth/mfa-setup";
 
 export default function MfaSetup() {
   const nav = useNavigate();
@@ -20,19 +21,32 @@ export default function MfaSetup() {
   const [loading, setLoading] = useState(false);
   const [enrolling, setEnrolling] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [existingMfa, setExistingMfa] = useState(false);
+  const started = useRef(false);
 
   useEffect(() => {
+    if (started.current) return;
+    started.current = true;
     (async () => {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session.session) {
+      try {
+      const { data: user, error: userError } = await supabase.auth.getUser();
+      if (userError || !user.user) {
         nav("/login?next=" + encodeURIComponent(next), { replace: true });
         return;
       }
-      // Clear pre-existing unverified factors to avoid friendly_name conflicts
       const list = await supabase.auth.mfa.listFactors();
-      const unverified = list.data?.totp?.filter((f) => f.status !== "verified") || [];
+      if (list.error) throw list.error;
+      const { data: assurance, error: assuranceError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (assuranceError) throw assuranceError;
+      const factors = list.data?.all ?? [];
+      if (needsExistingMfa(factors, assurance?.currentLevel ?? null)) {
+        setExistingMfa(true);
+        return;
+      }
+      const unverified = pendingTotpFactors(factors);
       for (const f of unverified) {
-        await supabase.auth.mfa.unenroll({ factorId: f.id });
+        const removed = await supabase.auth.mfa.unenroll({ factorId: f.id });
+        if (removed.error) throw removed.error;
       }
       const { data, error } = await supabase.auth.mfa.enroll({
         factorType: "totp",
@@ -45,7 +59,11 @@ export default function MfaSetup() {
         setQr(data.totp.qr_code);
         setSecret(data.totp.secret);
       }
-      setEnrolling(false);
+      } catch {
+        setError("Não foi possível configurar o autenticador. Tente novamente mais tarde.");
+      } finally {
+        setEnrolling(false);
+      }
     })();
   }, [nav, next]);
 
@@ -82,6 +100,14 @@ export default function MfaSetup() {
     >
       {enrolling ? (
         <div className="grid place-items-center py-8"><Loader2 className="animate-spin text-primary" /></div>
+      ) : existingMfa ? (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">Sua conta já tem um autenticador cadastrado. Por segurança, confirme o código atual antes de cadastrar outro.</p>
+          <Button className="w-full auth-btn-primary" onClick={() => nav("/mfa/verify?next=" + encodeURIComponent("/mfa/setup?next=" + encodeURIComponent(next)))}>
+            <ShieldCheck size={18} /> Confirmar autenticador atual
+          </Button>
+          <p className="text-sm text-muted-foreground">Perdeu o acesso ao autenticador? É necessário recuperar o acesso com verificação de identidade; entrar pelo Google não remove essa proteção.</p>
+        </div>
       ) : (
         <div className="space-y-5">
           <ol className="text-sm text-muted-foreground space-y-1.5 list-decimal list-inside">
@@ -91,7 +117,7 @@ export default function MfaSetup() {
           </ol>
 
           {qr && (
-            <div className="flex flex-col items-center gap-3 p-4 rounded-lg bg-white">
+            <div className="flex flex-col items-center gap-3 p-4 rounded-lg bg-background">
               <img src={qr} alt="QR Code MFA" className="h-40 w-40" />
             </div>
           )}
@@ -110,6 +136,7 @@ export default function MfaSetup() {
                 inputMode="numeric"
                 pattern="\d{6}"
                 maxLength={6}
+                autoComplete="one-time-code"
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
                 className="auth-input text-center tracking-[0.4em] text-lg font-mono"
@@ -121,7 +148,7 @@ export default function MfaSetup() {
                 {error}
               </div>
             )}
-            <Button type="submit" disabled={loading || code.length !== 6} className="w-full auth-btn-primary h-11">
+            <Button type="submit" disabled={loading || !factorId || code.length !== 6} className="w-full auth-btn-primary h-11">
               {loading ? <Loader2 className="animate-spin" size={18} /> : "Ativar MFA"}
             </Button>
           </form>

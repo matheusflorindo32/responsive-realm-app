@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { Input } from "@/components/ui/input";
@@ -19,12 +19,16 @@ export default function MfaVerify() {
 
   useEffect(() => {
     (async () => {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session.session) {
+      const { data: user, error: userError } = await supabase.auth.getUser();
+      if (userError || !user.user) {
         nav("/login?next=" + encodeURIComponent(next), { replace: true });
         return;
       }
       const list = await supabase.auth.mfa.listFactors();
+      if (list.error) {
+        setError("Não foi possível consultar seu autenticador. Recarregue a página para tentar novamente.");
+        return;
+      }
       const verified = list.data?.totp?.find((f) => f.status === "verified");
       if (!verified) {
         nav("/mfa/setup?next=" + encodeURIComponent(next), { replace: true });
@@ -73,6 +77,7 @@ export default function MfaVerify() {
             pattern="\d{6}"
             maxLength={6}
             autoFocus
+            autoComplete="one-time-code"
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
             className="auth-input text-center tracking-[0.4em] text-lg font-mono"
@@ -84,12 +89,15 @@ export default function MfaVerify() {
             {error}
           </div>
         )}
-        <Button type="submit" disabled={loading || code.length !== 6} className="w-full auth-btn-primary h-11">
+        <Button type="submit" disabled={loading || !factorId || code.length !== 6} className="w-full auth-btn-primary h-11">
           {loading ? <Loader2 className="animate-spin" size={18} /> : "Verificar"}
         </Button>
         <p className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
           <ShieldCheck size={12} className="text-primary" /> Acesso administrativo protegido por MFA
         </p>
+        <Button asChild variant="outline" className="w-full">
+          <Link to={"/mfa/setup?next=" + encodeURIComponent(next)}>Cadastrar autenticador</Link>
+        </Button>
       </form>
     </AuthShell>
   );
