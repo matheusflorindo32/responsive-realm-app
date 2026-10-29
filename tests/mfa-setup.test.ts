@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { needsExistingMfa, pendingTotpFactors } from "./mfa-setup";
+import { needsExistingMfa, pendingTotpFactors } from "../src/lib/auth/mfa-setup";
 
 describe("safe authenticator enrollment", () => {
   const verified = { id: "existing", factor_type: "totp", status: "verified" };
