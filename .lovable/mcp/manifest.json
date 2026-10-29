@@ -12,10 +12,60 @@
   "mcp": {
     "server": {
       "name": "tropa-cientifica",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "title": "Tropa Científica"
     },
     "tools": [
+      {
+        "name": "get_portfolio",
+        "title": "Consultar portfólio",
+        "description": "Retorna dados públicos do portfólio de Matheus Florindo (perfil, bio, publicações, anais, formação, cursos, certificações, experiência, projetos, habilidades e links), com busca opcional.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "section": {
+              "type": "string",
+              "enum": [
+                "tudo",
+                "perfil",
+                "bio",
+                "publicacoes",
+                "anais",
+                "formacao",
+                "cursos",
+                "certificacoes",
+                "experiencia",
+                "projetos",
+                "habilidades",
+                "links"
+              ],
+              "description": "Seção desejada, ou 'tudo' para o portfólio completo."
+            },
+            "search": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Texto opcional para filtrar itens."
+            }
+          },
+          "required": [
+            "section",
+            "search"
+          ]
+        },
+        "outputSchema": null
+      },
       {
         "name": "list_courses",
         "title": "Listar cursos",
