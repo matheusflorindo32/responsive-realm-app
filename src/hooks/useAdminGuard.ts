@@ -11,48 +11,40 @@ export function useAdminGuard() {
 
   useEffect(() => {
     (async () => {
-      if (!isJarvisSupabaseConfigured || !jarvisSupabase) {
-        nav("/admin/auth?configuration=missing", { replace: true });
-        return;
-      }
-      const client = jarvisSupabase;
+      const useJarvis = isJarvisSupabaseConfigured && !!jarvisSupabase;
+      // Fall back to the main Tropa Científica backend when JARVIS isn't configured.
+      const client = (useJarvis ? jarvisSupabase! : supabase) as typeof supabase;
+      const loginPath = useJarvis ? "/admin/auth" : "/login";
+      const mfaBase = useJarvis ? "/admin/mfa" : "/mfa";
+      const nextParam = encodeURIComponent(loc.pathname + loc.search);
       const { data, error: userError } = await client.auth.getUser();
-      if (userError) {
-        nav("/admin/auth?session=invalid", { replace: true });
-        return;
-      }
-      if (!data.user) {
-        nav("/admin/auth?next=" + encodeURIComponent(loc.pathname + loc.search), { replace: true });
+      if (userError || !data.user) {
+        nav(loginPath + "?next=" + nextParam, { replace: true });
         return;
       }
       if (!data.user.email_confirmed_at) {
-        nav("/admin/auth?verify=1", { replace: true });
+        nav(useJarvis ? "/admin/auth?verify=1" : "/verify-email?next=" + nextParam, { replace: true });
         return;
       }
-      const { data: roles, error: roleError } = await client
-        .from("jarvis_user_roles")
+      const { data: roles, error: roleError } = await (client as any)
+        .from(useJarvis ? "jarvis_user_roles" : "user_roles")
         .select("role")
         .eq("user_id", data.user.id);
-      if (roleError) {
-        nav("/admin/access-pending?reason=role-check", { replace: true });
-        return;
-      }
-      const admin = !!roles?.some((r) => r.role === "admin");
+      const admin = !roleError && !!roles?.some((r: { role: string }) => r.role === "admin");
       if (!admin) {
-        nav("/admin/access-pending", { replace: true });
+        nav(useJarvis ? "/admin/access-pending" : "/app", { replace: true });
         return;
       }
       // MFA enforcement for admins
       const factors = await client.auth.mfa.listFactors();
       const verified = factors.data?.totp?.find((f) => f.status === "verified");
       const { data: aal } = await client.auth.mfa.getAuthenticatorAssuranceLevel();
-      const nextParam = encodeURIComponent(loc.pathname + loc.search);
       if (!verified) {
-        nav("/admin/mfa/setup?next=" + nextParam, { replace: true });
+        nav(mfaBase + "/setup?next=" + nextParam, { replace: true });
         return;
       }
       if (aal?.currentLevel !== "aal2") {
-        nav("/admin/mfa/verify?next=" + nextParam, { replace: true });
+        nav(mfaBase + "/verify?next=" + nextParam, { replace: true });
         return;
       }
       setIsAdmin(true);

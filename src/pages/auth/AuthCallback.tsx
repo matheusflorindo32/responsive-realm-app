@@ -9,12 +9,27 @@ export default function AuthCallback() {
 
   useEffect(() => {
     let cancelled = false;
+    let decided = false;
+    const waitForSession = async () => {
+      // Poll up to ~6s for the session to be hydrated after OAuth redirect.
+      for (let i = 0; i < 30; i++) {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) return data.session;
+        await new Promise((r) => setTimeout(r, 200));
+        if (cancelled) return null;
+      }
+      return null;
+    };
     const decide = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        nav("/login", { replace: true });
+      if (decided) return;
+      decided = true;
+      const session = await waitForSession();
+      if (cancelled) return;
+      if (!session) {
+        nav("/login?erro=sessao", { replace: true });
         return;
       }
+      const data = { session };
       if (!data.session.user.email_confirmed_at) {
         nav("/verify-email", { replace: true });
         return;
@@ -41,11 +56,9 @@ export default function AuthCallback() {
       }
       if (!cancelled) nav(destinationForRole(role, next), { replace: true });
     };
-    // Give supabase-js a tick to hydrate the session from URL hash
-    const t = setTimeout(decide, 200);
+    void decide();
     return () => {
       cancelled = true;
-      clearTimeout(t);
     };
   }, [nav]);
 
