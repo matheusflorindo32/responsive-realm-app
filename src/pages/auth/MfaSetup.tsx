@@ -117,8 +117,8 @@ export default function MfaSetup() {
           </ol>
 
           {qr && (
-            <div className="flex flex-col items-center gap-3 p-4 rounded-lg bg-background">
-              <img src={qr} alt="QR Code MFA" className="h-40 w-40" />
+            <div className="flex flex-col items-center gap-3 p-4 rounded-lg bg-white">
+              <img src={qr} alt="QR Code MFA" className="h-40 w-40 bg-white" />
             </div>
           )}
           {secret && (
