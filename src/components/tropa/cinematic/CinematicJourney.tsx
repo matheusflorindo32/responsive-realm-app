@@ -97,7 +97,9 @@ export function CinematicJourney() {
             </div>
 
             <div className="rv lg:col-span-5">
-              <HeroVisual active={active} onHover={setActive} onSelect={scrollToChapter} />
+              <div className="rv-depart will-change-transform">
+                <HeroVisual active={active} onHover={setActive} onSelect={scrollToChapter} />
+              </div>
             </div>
           </div>
 
@@ -168,28 +170,28 @@ export function CinematicJourney() {
       <Chapter id="pesquisa" tone="dark" className="overflow-hidden">
         <div
           aria-hidden
-          className="absolute -top-40 right-[-10%] w-[60vw] max-w-[820px] aspect-square rounded-full pointer-events-none"
+          className="rv-drift absolute -top-40 right-[-10%] w-[60vw] max-w-[820px] aspect-square rounded-full pointer-events-none"
           style={{ background: "radial-gradient(circle, hsl(221 83% 53% / 0.16), transparent 62%)" }}
         />
         <div className="container-wide relative">
           <ChapterMark n="02" label="Pesquisa" tone="dark" />
-          <div className="mt-8 space-y-1.5">
+          <div className="mt-10 lg:mt-14 space-y-3 lg:space-y-6">
             {STATEMENT.map((l, i) => (
               <p
                 key={l}
-                className={`rv text-[2rem] leading-[1.08] sm:text-5xl lg:text-[4.25rem] font-semibold tracking-[-0.03em] ${i === 1 ? CY : "text-slate-100"}`}
+                className={`rv-scrub text-[2rem] leading-[1.08] sm:text-5xl lg:text-[4.25rem] font-semibold tracking-[-0.03em] ${i === 1 ? CY : "text-slate-100"}`}
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {l}
               </p>
             ))}
           </div>
-          <p className="rv mt-8 max-w-2xl text-slate-400 text-base lg:text-lg leading-relaxed">
+          <p className="rv mt-10 lg:mt-14 max-w-2xl text-slate-400 text-base lg:text-lg leading-relaxed">
             A prática operacional evolui rápido. A produção científica também. O desafio — e o trabalho da Tropa — é conectar esses dois mundos
             com clareza, método e aplicação real.
           </p>
 
-          <div className="mt-16 lg:mt-24 grid lg:grid-cols-12 gap-8 lg:gap-10">
+          <div className="mt-20 lg:mt-36 grid lg:grid-cols-12 gap-8 lg:gap-10">
             <h2 className="rv lg:col-span-4 text-2xl lg:text-3xl font-semibold leading-tight text-slate-100">
               Como um tema vira conteúdo confiável.
             </h2>

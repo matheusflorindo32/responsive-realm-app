@@ -189,6 +189,26 @@ Correção em `EmbeddingScene.tsx`: o palco passa a usar `touch-action: pan-y`. 
 
 Verificação (Chromium emulando iPhone 13, eventos de toque via CDP): gesto vertical sobre o palco rolou de 288 px para 504 px (antes ficava em 288 px); na home, de 419 px para 596 px sobre a cena do hero. Roda do mouse no desktop rola normalmente sobre os dois canvases.
 
+### Ajuste de ritmo da rolagem na home (após retorno do dono: "rápido demais")
+
+Medição antes do ajuste (Chromium headless, rolagem em passos de 100 px):
+
+- A revelação disparava por capítulo. No desktop, de 63 blocos animados, a maioria (por exemplo 9 de 10 em Pesquisa) terminava a animação ainda abaixo da dobra; quem rolava encontrava o conteúdo já parado.
+- Só 4 elementos reagiam continuamente à rolagem (os numerais fantasma).
+- O salto por âncora percorria 5.176 px em 1,64 s (3.156 px/s).
+
+O que mudou (`narrative.tsx`, `CinematicJourney.tsx`, `Home.tsx`):
+
+- `.rv` agora dispara por bloco, quando o próprio bloco chega a 88 % da altura da tela; duração de 1 s, intervalo de 0,1 s entre blocos do mesmo lote.
+- Movimento ligado à posição da rolagem, sem fixar cenas: frases do capítulo Pesquisa acendem ao atravessar a tela (`.rv-scrub`), fios se desenham (`.rv-rule`), o visual do hero recua ao sair (`.rv-depart`), luz de fundo com paralaxe (`.rv-drift`).
+- Trilho de capítulos fixo à direita a partir de 1400 px de largura (`ChapterRail`), com o capítulo atual destacado.
+- Salto entre capítulos com duração proporcional à distância (0,9 s a 2,6 s), cancelado por roda, toque ou tecla.
+- Mais respiro vertical entre capítulos.
+
+Medição depois: 63 de 63 blocos entram em cena com o bloco visível na tela, em 1440 px e 390 px; há movimento em 68 de 70 passos de rolagem no desktop e 99 de 108 no mobile (antes 66 de 106); o mesmo salto leva 2,49 s. Com movimento reduzido, nenhum bloco fica oculto. Altura da home: 7.879 px no desktop.
+
+Continua valendo a regra do `AGENTS.md`: nenhuma cena fixada, a rolagem nativa nunca é interceptada.
+
 ### Riscos remanescentes
 
 1. **CI vermelho por lockfile.** `package-lock.json` não acompanha `package.json` desde antes deste trabalho. Não foi corrigido aqui porque regenerar o lockfile pode mudar versões instaladas em produção e isso está fora do escopo autorizado. Correção sugerida, em commit próprio: `npm install --package-lock-only`, depois `npm ci && npm run build`.

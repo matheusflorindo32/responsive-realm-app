@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { CinematicJourney } from "@/components/tropa/cinematic/CinematicJourney";
 import { EditorialHome } from "@/components/tropa/cinematic/EditorialHome";
-import { ScrollProgress } from "@/components/tropa/cinematic/narrative";
+import { ChapterRail, ScrollProgress } from "@/components/tropa/cinematic/narrative";
 
 export default function TropaHome() {
   return (
@@ -31,6 +31,7 @@ export default function TropaHome() {
       </Helmet>
 
       <ScrollProgress />
+      <ChapterRail />
       <CinematicJourney />
       <EditorialHome />
     </>
