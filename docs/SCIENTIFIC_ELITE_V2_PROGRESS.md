@@ -130,7 +130,7 @@ Validação (Chromium headless): fluxo completo em 1440, 820 e 390 px sem erro d
 
 Não verificado: links das referências não foram abertos a partir deste ambiente (rede restrita); os DOIs foram escritos de memória e devem ser clicados uma vez antes de publicar. Leitor de tela real e aparelhos físicos não testados.
 
-### CP04 — expansão opcional — em andamento (um experimento por commit)
+### CP04 — expansão opcional — concluído (um experimento por commit)
 
 Peças compartilhadas criadas nesta fase: `src/components/lab/ui.tsx` (painel, controle deslizante, seletor, estatística, selo de simulação, bloco de explicação/limites/referências).
 
@@ -146,6 +146,59 @@ Peças compartilhadas criadas nesta fase: `src/components/lab/ui.tsx` (painel, c
 - `src/components/lab/experiments/backoff/BackoffSimulator.tsx`: gráfico SVG de chamadas atendidas e recusadas no tempo, com a queda sombreada e a linha de capacidade; sete controles; tabela comparando as quatro estratégias na mesma falha.
 - Validação headless em 1440 e 390 px, sem erro de console. Com os valores padrão (100 clientes, queda de 8 s, 100 chamadas/s, 8 tentativas): sem espera e espera fixa atendem 0 de 100 com 800 chamadas; exponencial atende 100 com pico 13; com variação atende 99 com pico 5.
 
+#### 4.3 Wilson Confidence Interval Explorer — concluído
+
+- `src/lib/lab/wilson.ts`: intervalo de Wilson, intervalo de Wald (comparação), distribuição binomial em logaritmo e cobertura exata. `tests/lab-wilson.test.ts`: 11 testes, incluindo valores tabelados e coberturas calculadas à mão para n = 10.
+- `src/components/lab/experiments/wilson/WilsonExplorer.tsx`: régua com os dois intervalos, estatísticas, quatro exemplos, tabela de quanto o intervalo estreita com mais checagens e gráfico da cobertura real de cada método. Nada é simulado: tudo é cálculo exato a partir de n, k e do nível.
+- Validação headless em 1440 e 390 px, sem erro de console: 33 de 36 a 95 % → 78,2 % a 97,1 %; 10 de 10 → limite inferior 72,2 % e aviso de que o intervalo de Wald colapsou; 0 de 5 → limite superior 43,4 %; reduzir n abaixo de k ajusta k.
+
+### CP05 — auditoria final — concluído
+
+| Verificação | Resultado |
+|---|---|
+| `npm run build` | passou |
+| `bun test` | 57 aprovados, 0 falhas, 5 arquivos |
+| ESLint em `src` | 0 erros |
+| Rotas abertas em navegador headless | 25, todas sem erro de página (públicas, autenticação, aluno e admin redirecionando para login, certificados, laboratório, rota inexistente) |
+| Rolagem horizontal | nenhuma em 1440, 820 e 390 px nas páginas testadas |
+| Movimento reduzido | home renderiza completa, sem animação; cena 3D estática |
+| Sem WebGL | hero mostra o emblema; explorador de embeddings mostra gráfico 2D |
+| Erros de console nas páginas novas | nenhum |
+| CI `Security - Secret Scan` | passou em todos os pushes |
+| CI `Build verification` | **falhou** em todos os pushes, no passo `npm ci`, pelo lockfile fora de sincronia que já existia na `main` |
+
+Antes e depois:
+
+| Medida | `main` (ec229e4) | `agent/science-lab` |
+|---|---|---|
+| JS baixado na home antes de qualquer interação | 1.450,55 kB (422,21 kB gzip) | 812,30 kB (249,63 kB gzip); o 3D vem depois, sob demanda |
+| Altura da home, 1440 px | 9.222 px | 7.395 px |
+| Altura da home, 390 px | 13.480 px | 11.405 px |
+| Blocos repetidos na home | 3 (autoridade, chamada final, frentes) | 0 |
+| Imagens de terceiros carregadas na home | 8 | 0 |
+| Testes automatizados | 4 | 57 |
+| Experimentos interativos | 0 | 4 |
+
+Commits da branch, do mais antigo ao mais novo: CP00 `ecb76d3`, CP01 `3ca1b69`, CP02 `5224e0e`, CP03 `38e6614`, CP04.1 `e5143e6`, CP04.2 `a77808f`, e o commit de CP04.3 + CP05 que contém esta versão do documento (ver `git log`).
+
+### Riscos remanescentes
+
+1. **CI vermelho por lockfile.** `package-lock.json` não acompanha `package.json` desde antes deste trabalho. Não foi corrigido aqui porque regenerar o lockfile pode mudar versões instaladas em produção e isso está fora do escopo autorizado. Correção sugerida, em commit próprio: `npm install --package-lock-only`, depois `npm ci && npm run build`.
+2. **3D testado só com renderização por software.** Falta medir taxa de quadros em celular intermediário e em Safari/iOS.
+3. **Chunk do Three.js grande** (cerca de 800 kB, 220 kB gzip), carregado só quando o hero ou o explorador de embeddings pedem. Importar `Html`, `Billboard` e `OrbitControls` por caminho direto do Drei pode reduzir.
+4. **Conteúdo removido da home** (fotos de terceiros, medidores com números inventados, bloco de telemetria). Se o dono quiser de volta, os componentes continuam em `Atmosphere.tsx` e no histórico do git.
+5. **Referências não abertas.** Os DOIs e URLs das referências foram escritos de memória; a rede deste ambiente não permitiu abri-los.
+6. **Sem varredura DAST.** O ambiente não tinha `HAWK_API_KEY`, então o HawkScan não rodou. As páginas novas não têm formulário que envie dados, autenticação nem chamada de rede.
+7. **Acessibilidade verificada por inspeção e teclado em navegador headless**, não por leitor de tela nem por medidor de contraste.
+
+### Integração com o Lovable
+
+- O Lovable sincroniza com a `main` do GitHub. Enquanto o trabalho estiver só em `agent/science-lab`, o editor do Lovable e o site publicado não mudam.
+- Caminho recomendado: abrir um pull request de `agent/science-lab` para `main`, revisar o preview e só então fazer o merge. Depois do merge o Lovable recebe o código; publicar continua sendo um clique separado no Lovable.
+- Não foi criada nenhuma tabela, função de borda ou variável de ambiente. O laboratório não usa o backend.
+- O build regrava `supabase/functions/mcp/index.ts` por causa do plugin MCP do Lovable; esse arquivo foi restaurado antes de cada commit e não está alterado na branch.
+- Sugestão para o campo "Knowledge" do projeto no Lovable (hoje vazio): colar as três regras do `AGENTS.md` e a regra "todo experimento do laboratório mostra que os dados são simulados, tem testes da matemática e termina com limites e referências".
+
 ## Como rodar
 
 ```bash
@@ -157,4 +210,15 @@ bun test
 
 ## Próxima ação
 
-Ver a seção do último checkpoint concluído abaixo; o próximo passo é o CP04 (um experimento por vez: Token Sampling, Retry & Backoff, Wilson).
+Todos os checkpoints previstos (CP00 a CP05) estão concluídos nesta branch. O que resta depende do dono do projeto:
+
+1. Revisar a branch `agent/science-lab` e decidir sobre o merge. Nada foi publicado.
+2. Antes de publicar: abrir uma vez cada link da seção "Referências" dos quatro experimentos (ver "Não verificado").
+3. Corrigir o lockfile para o CI voltar a passar (ver "Riscos remanescentes", item 1).
+
+## Como outro agente continua daqui
+
+- Novo experimento: seguir o cabeçalho de `src/data/lab-experiments.ts` (matemática pura + testes, componente com `export default`, entrada no registro). Usar as peças de `src/components/lab/ui.tsx` e sempre fechar com `<Notes>` (explicação, limites, referências).
+- Todo dado simulado precisa do selo `SimBadge` na tela e de um item em "Limites".
+- Antes de cada commit: `npm run build`, `bun test`, `git checkout -- supabase/functions/mcp/index.ts`.
+- Não reativar cenas fixadas na home; `AGENTS.md` proíbe.

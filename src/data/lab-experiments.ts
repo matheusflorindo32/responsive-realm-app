@@ -68,9 +68,10 @@ export const LAB_EXPERIMENTS: LabExperiment[] = [
     slug: "intervalo-de-wilson",
     title: "Wilson Confidence Interval Explorer",
     area: "estatistica",
-    status: "planejado",
-    summary: "Quanta certeza cabe em poucas observações: o intervalo de confiança de uma proporção.",
+    status: "disponivel",
+    summary: "Quanta certeza cabe em poucas observações: calcule o intervalo de confiança de uma proporção e veja por que a conta ingênua falha.",
     lesson: "T4 · Laboratório de falhas",
+    load: () => import("@/components/lab/experiments/wilson/WilsonExplorer"),
   },
 ];
 
