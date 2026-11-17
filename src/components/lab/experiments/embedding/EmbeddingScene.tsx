@@ -131,11 +131,22 @@ function Dot({ p, role, hovered, animate, onPick, onHover }: DotProps) {
 function Rig({ distance, autoRotate, wheelZoom, animate }: Pick<EmbeddingSceneProps, "distance" | "autoRotate" | "wheelZoom" | "animate">) {
   const camera = useThree((s) => s.camera);
   const invalidate = useThree((s) => s.invalidate);
+  const gl = useThree((s) => s.gl);
   // Os botões de zoom mudam só a distância; a direção escolhida pela pessoa é mantida.
   useEffect(() => {
     camera.position.setLength(distance);
     invalidate();
   }, [camera, distance, invalidate]);
+  // OrbitControls marca o elemento com touch-action: none, o que impede rolar a página
+  // quando o dedo começa sobre o palco. Por padrão devolvemos a rolagem vertical ao
+  // navegador (arrasto horizontal continua girando a nuvem); só quem liga o zoom por
+  // pinça entrega todos os gestos à cena. Este efeito roda depois do efeito do filho.
+  const target = useThree((s) => (s.events.connected as HTMLElement | undefined) ?? s.gl.domElement);
+  useEffect(() => {
+    const touch = wheelZoom ? "none" : "pan-y";
+    target.style.touchAction = touch;
+    gl.domElement.style.touchAction = touch;
+  }, [target, gl, wheelZoom]);
   return (
     <OrbitControls
       makeDefault

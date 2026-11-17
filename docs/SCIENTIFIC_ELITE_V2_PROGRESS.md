@@ -181,6 +181,14 @@ Antes e depois:
 
 Commits da branch, do mais antigo ao mais novo: CP00 `ecb76d3`, CP01 `3ca1b69`, CP02 `5224e0e`, CP03 `38e6614`, CP04.1 `e5143e6`, CP04.2 `a77808f`, e o commit de CP04.3 + CP05 que contém esta versão do documento (ver `git log`).
 
+### Correção após a abertura do PR — rolagem por toque no explorador de embeddings
+
+Problema: `OrbitControls` marca o palco 3D com `touch-action: none`. Em celular, um gesto vertical iniciado sobre o palco (58 % da altura da tela) não rolava a página. A home não tinha o problema.
+
+Correção em `EmbeddingScene.tsx`: o palco passa a usar `touch-action: pan-y`. No toque, arrastar na vertical rola a página e arrastar na horizontal gira a nuvem. Quem liga a opção de zoom por roda/pinça entrega todos os gestos à cena.
+
+Verificação (Chromium emulando iPhone 13, eventos de toque via CDP): gesto vertical sobre o palco rolou de 288 px para 504 px (antes ficava em 288 px); na home, de 419 px para 596 px sobre a cena do hero. Roda do mouse no desktop rola normalmente sobre os dois canvases.
+
 ### Riscos remanescentes
 
 1. **CI vermelho por lockfile.** `package-lock.json` não acompanha `package.json` desde antes deste trabalho. Não foi corrigido aqui porque regenerar o lockfile pode mudar versões instaladas em produção e isso está fora do escopo autorizado. Correção sugerida, em commit próprio: `npm install --package-lock-only`, depois `npm ci && npm run build`.

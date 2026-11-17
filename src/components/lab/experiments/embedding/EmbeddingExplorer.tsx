@@ -246,7 +246,7 @@ export default function EmbeddingExplorer() {
             ))}
           </ul>
           <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
-            {use3d ? "Arraste para girar. Clique em um ponto para escolher A; clique em outro para comparar com B." : "Clique em um ponto para escolher A; clique em outro para comparar com B."} A lista de
+            {use3d ? "Arraste para girar (no toque, arraste na horizontal; na vertical a página rola). Clique em um ponto para escolher A; clique em outro para comparar com B." : "Clique em um ponto para escolher A; clique em outro para comparar com B."} A lista de
             termos abaixo faz o mesmo pelo teclado.
           </p>
         </div>
@@ -307,7 +307,7 @@ export default function EmbeddingExplorer() {
             {use3d && (
               <label className="mt-4 flex items-start gap-2 text-[12.5px] text-muted-foreground">
                 <input type="checkbox" checked={wheelZoom} onChange={(e) => setWheelZoom(e.target.checked)} className="mt-0.5 accent-[hsl(221,83%,53%)]" />
-                Zoom com a roda do mouse ou pinça (desligado por padrão para não interferir na rolagem da página)
+                Zoom com a roda do mouse ou pinça e giro livre no toque (desligado por padrão para não interferir na rolagem da página)
               </label>
             )}
             <p className="mt-4 mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
