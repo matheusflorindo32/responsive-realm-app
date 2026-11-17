@@ -130,6 +130,16 @@ Validação (Chromium headless): fluxo completo em 1440, 820 e 390 px sem erro d
 
 Não verificado: links das referências não foram abertos a partir deste ambiente (rede restrita); os DOIs foram escritos de memória e devem ser clicados uma vez antes de publicar. Leitor de tela real e aparelhos físicos não testados.
 
+### CP04 — expansão opcional — em andamento (um experimento por commit)
+
+Peças compartilhadas criadas nesta fase: `src/components/lab/ui.tsx` (painel, controle deslizante, seletor, estatística, selo de simulação, bloco de explicação/limites/referências).
+
+#### 4.1 Token Sampling Explorer — concluído
+
+- `src/lib/lab/sampling.ts`: softmax com temperatura, top-k, top-p, entropia, opções efetivas, sorteio. `tests/lab-sampling.test.ts`: 14 testes.
+- `src/components/lab/experiments/sampling/TokenSamplingExplorer.tsx`: três situações com pontuações escolhidas à mão (selo "Pontuações inventadas"), barras da distribuição final sobre a distribuição só com temperatura, sorteio de 1, 100 ou 5.000 palavras com a frequência observada marcada no gráfico.
+- Validação headless em 1440 e 390 px, sem erro de console: temperatura 0,10 leva a palavra mais provável de 37,7 % para 99,3 %; top-k 3 corta 7 palavras e nenhuma cortada é sorteada em 5.000 tentativas.
+
 ## Como rodar
 
 ```bash

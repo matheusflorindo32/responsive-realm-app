@@ -50,9 +50,10 @@ export const LAB_EXPERIMENTS: LabExperiment[] = [
     slug: "amostragem-de-tokens",
     title: "Token Sampling Explorer",
     area: "ia",
-    status: "planejado",
-    summary: "Como temperatura e top-p mudam a distribuição de probabilidade da próxima palavra.",
+    status: "disponivel",
+    summary: "Mexa na temperatura, no top-k e no top-p e veja a distribuição de probabilidade da próxima palavra mudar; depois sorteie.",
     lesson: "T0 · Aula 1 — Como um LLM gera texto",
+    load: () => import("@/components/lab/experiments/sampling/TokenSamplingExplorer"),
   },
   {
     slug: "retentativas-e-recuo",
