@@ -1,8 +1,10 @@
 import { Helmet } from "react-helmet-async";
 import { CinematicJourney } from "@/components/tropa/cinematic/CinematicJourney";
 import { EditorialHome } from "@/components/tropa/cinematic/EditorialHome";
+import { useDesktopSmoothScroll } from "@/hooks/useDesktopSmoothScroll";
 
 export default function TropaHome() {
+  useDesktopSmoothScroll();
   return (
     <>
       <Helmet>
