@@ -140,6 +140,12 @@ Peças compartilhadas criadas nesta fase: `src/components/lab/ui.tsx` (painel, c
 - `src/components/lab/experiments/sampling/TokenSamplingExplorer.tsx`: três situações com pontuações escolhidas à mão (selo "Pontuações inventadas"), barras da distribuição final sobre a distribuição só com temperatura, sorteio de 1, 100 ou 5.000 palavras com a frequência observada marcada no gráfico.
 - Validação headless em 1440 e 390 px, sem erro de console: temperatura 0,10 leva a palavra mais provável de 37,7 % para 99,3 %; top-k 3 corta 7 palavras e nenhuma cortada é sorteada em 5.000 tentativas.
 
+#### 4.2 Retry & Backoff Simulator — concluído
+
+- `src/lib/lab/backoff.ts`: espera por estratégia (sem espera, fixa, exponencial, exponencial com variação total) e simulação de eventos discretos com fila de prioridade, determinística por semente. `tests/lab-backoff.test.ts`: 12 testes (valores conhecidos, conservação das contas, capacidade nunca excedida, casos-limite).
+- `src/components/lab/experiments/backoff/BackoffSimulator.tsx`: gráfico SVG de chamadas atendidas e recusadas no tempo, com a queda sombreada e a linha de capacidade; sete controles; tabela comparando as quatro estratégias na mesma falha.
+- Validação headless em 1440 e 390 px, sem erro de console. Com os valores padrão (100 clientes, queda de 8 s, 100 chamadas/s, 8 tentativas): sem espera e espera fixa atendem 0 de 100 com 800 chamadas; exponencial atende 100 com pico 13; com variação atende 99 com pico 5.
+
 ## Como rodar
 
 ```bash

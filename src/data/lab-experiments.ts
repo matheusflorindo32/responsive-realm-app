@@ -59,9 +59,10 @@ export const LAB_EXPERIMENTS: LabExperiment[] = [
     slug: "retentativas-e-recuo",
     title: "Retry & Backoff Simulator",
     area: "operacional",
-    status: "planejado",
-    summary: "Por que recuo exponencial com variação aleatória protege um sistema em falha.",
+    status: "disponivel",
+    summary: "Simule uma queda e veja como cada estratégia de retentativa carrega o destino — e por que a variação aleatória desfaz as rajadas.",
     lesson: "T4 · Aula 4 — Quando dá erro: retentativas, tempo-limite e fila de mortos",
+    load: () => import("@/components/lab/experiments/backoff/BackoffSimulator"),
   },
   {
     slug: "intervalo-de-wilson",
