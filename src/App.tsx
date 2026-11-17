@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { DesktopSmoothScroll } from "@/components/DesktopSmoothScroll";
 
 import { Layout as AposLayout } from "@/components/apos/Layout";
 import AposHome from "./pages/matheus/Home";
@@ -72,6 +73,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <DesktopSmoothScroll />
           <Routes>
             {/* Tropa Científica — raiz */}
             <Route element={<TropaLayout />}>

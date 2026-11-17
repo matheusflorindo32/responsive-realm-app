@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { shouldSmoothDesktopScroll, shouldSmoothWheel } from "@/lib/smooth-scroll";
 
-export function useDesktopSmoothScroll() {
+export function useDesktopSmoothScroll(routeKey: string) {
   useEffect(() => {
     const pointer = window.matchMedia("(pointer: fine)");
     const hover = window.matchMedia("(hover: hover)");
@@ -33,5 +33,5 @@ export function useDesktopSmoothScroll() {
       queries.forEach((query) => query.removeEventListener("change", update));
       lenis?.destroy();
     };
-  }, []);
+  }, [routeKey]);
 }
