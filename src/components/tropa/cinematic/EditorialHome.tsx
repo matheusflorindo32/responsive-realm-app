@@ -151,9 +151,37 @@ export function EditorialHome() {
       {/* ================= 06 · INOVAÇÃO ================= */}
       <Chapter id="inovacao">
         <Ghost n="06" />
-        <div className="container-wide relative grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <div className="container-wide relative">
+          <ChapterMark n="06" label="Inovação" />
+          <Link
+            to="/laboratorio"
+            className="rv group mt-8 block relative overflow-hidden rounded-[12px] bg-[hsl(222_47%_7%)] text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          >
+            <div
+              aria-hidden
+              className="absolute -right-24 -top-24 w-[520px] max-w-[80%] aspect-square rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, hsl(199 89% 48% / 0.22), transparent 62%)" }}
+            />
+            <div className="relative grid lg:grid-cols-12 gap-8 p-7 sm:p-10 lg:p-14 items-end">
+              <div className="lg:col-span-8">
+                <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(199,89%,62%)]">Interactive Science Lab</p>
+                <h2 className="mt-4 text-3xl lg:text-5xl font-semibold leading-[1.04] tracking-[-0.03em]">Entenda mexendo: o laboratório interativo da Tropa.</h2>
+                <p className="mt-5 max-w-xl text-slate-400 leading-relaxed">
+                  Comece pelo 3D Embedding Space Explorer: veja palavras como vetores, meça a similaridade de cosseno e descubra o quanto uma figura 3D distorce a vizinhança real. Dados simulados,
+                  conta à vista.
+                </p>
+              </div>
+              <p className="lg:col-span-4 lg:text-right">
+                <span className="inline-flex items-center gap-2 rounded-[8px] bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition-transform group-hover:-translate-y-0.5">
+                  Abrir o laboratório
+                  <ArrowRight size={16} aria-hidden />
+                </span>
+              </p>
+            </div>
+          </Link>
+        </div>
+        <div className="container-wide relative mt-16 lg:mt-24 grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="lg:col-span-7">
-            <ChapterMark n="06" label="Inovação" />
             <h2 className="rv mt-5 text-3xl lg:text-[2.5rem] lg:leading-[1.08] font-semibold text-foreground">
               Vivência, ciência, código e responsabilidade educativa.
             </h2>

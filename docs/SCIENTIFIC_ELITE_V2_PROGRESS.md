@@ -104,6 +104,32 @@ Observação: o chunk 3D é grande porque `@react-three/drei` é importado pelo 
 
 **Atenção ao commitar:** `npm run build` regrava `supabase/functions/mcp/index.ts` (plugin MCP do Lovable). Rode `git checkout -- supabase/functions/mcp/index.ts` antes de cada commit; esse arquivo não faz parte deste trabalho.
 
+### CP03 — Interactive Science Lab — concluído
+
+Rotas novas (dentro do layout público, sem autenticação): `/laboratorio` e `/laboratorio/:slug`.
+
+Arquivos:
+
+- `src/lib/lab/embedding.ts` (novo): matemática pura — gerador com semente, cosseno, ângulo, PCA por iteração de potência, base ortonormal aleatória, vizinhos, preservação de vizinhança.
+- `tests/lab-embedding.test.ts` (novo): 16 testes.
+- `src/data/lab-experiments.ts` (novo): registro de experimentos e áreas. **É o ponto de extensão do laboratório**; o cabeçalho do arquivo explica como adicionar um experimento.
+- `src/pages/lab/LabHub.tsx`, `src/pages/lab/LabExperiment.tsx` (novos).
+- `src/components/lab/experiments/embedding/` (novo): `EmbeddingExplorer.tsx` (estado e painéis), `EmbeddingScene.tsx` (cena 3D, sob demanda), `EmbeddingNotes.tsx` (explicação, limites, referências).
+- `src/App.tsx` (2 rotas), `src/components/tropa/Navbar.tsx` e `Footer.tsx` (link "Laboratório"), `EditorialHome.tsx` (faixa do laboratório no capítulo 06).
+
+3D Embedding Space Explorer — o que faz:
+
+- 51 termos em 6 grupos mais 3 termos-ponte, vetores de 16 dimensões **simulados** (centro do grupo + ruído gaussiano, semente fixa). A tela mostra o selo "Dados simulados" e uma seção de limites.
+- Nuvem 3D com rotação por arraste, botões de zoom, rotação automática pausável; zoom por roda/pinça é opcional e vem desligado para não interferir na rolagem.
+- Seleção de A e B por clique no ponto ou pela lista de termos (teclado). Leitura: cosseno, ângulo, vizinhos verdadeiros e a posição de cada um na figura.
+- Três projeções (PCA, aleatória, eixos 1–3) com tabela de variância retida e vizinhança preservada, recalculada a cada mudança.
+- Controles de k (3–8), ruído (0,10–1,20), nova amostra e restaurar; roteiro guiado de quatro passos.
+- Sem WebGL ou em caso de erro: gráfico 2D em SVG com a mesma seleção e os mesmos painéis.
+
+Validação (Chromium headless): fluxo completo em 1440, 820 e 390 px sem erro de console e sem rolagem horizontal; passo 1 do roteiro lista 5 vizinhos; projeção aleatória reduz os vizinhos visíveis de 5/5 para 3/5 na semente padrão; k=8 pelo teclado lista 8 linhas; seleção pelo teclado funciona; sem WebGL aparece o SVG. `bun test`: 20 aprovados. `npm run build`: passou; chunks `EmbeddingExplorer` 30 kB e `EmbeddingScene` 19 kB (o Three.js é compartilhado com o chunk do hero).
+
+Não verificado: links das referências não foram abertos a partir deste ambiente (rede restrita); os DOIs foram escritos de memória e devem ser clicados uma vez antes de publicar. Leitor de tela real e aparelhos físicos não testados.
+
 ## Como rodar
 
 ```bash
@@ -115,4 +141,4 @@ bun test
 
 ## Próxima ação
 
-Ver a seção do último checkpoint concluído abaixo; o próximo passo é o CP03 (rota `/laboratorio` e 3D Embedding Space Explorer).
+Ver a seção do último checkpoint concluído abaixo; o próximo passo é o CP04 (um experimento por vez: Token Sampling, Retry & Backoff, Wilson).

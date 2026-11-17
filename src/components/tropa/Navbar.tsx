@@ -10,6 +10,7 @@ const nav = [
   { to: "/", label: "Início" },
   { to: "/conteudos", label: "Conteúdos" },
   { to: "/projetos-tropa", label: "Projetos" },
+  { to: "/laboratorio", label: "Laboratório" },
   { to: "/sobre-a-tropa", label: "Manifesto" },
 ];
 

@@ -21,6 +21,8 @@ const TropaSobre = lazy(() => import("./pages/tropa/Sobre"));
 const TropaConteudos = lazy(() => import("./pages/tropa/Conteudos"));
 const TropaProjetos = lazy(() => import("./pages/tropa/Projetos"));
 
+const LabHub = lazy(() => import("./pages/lab/LabHub"));
+const LabExperiment = lazy(() => import("./pages/lab/LabExperiment"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 // AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
 const AdminSync = lazy(() => import("./pages/admin/AdminSync"));
@@ -91,6 +93,8 @@ const App = () => (
               <Route path="/sobre-a-tropa" element={<TropaSobre />} />
               <Route path="/conteudos" element={<TropaConteudos />} />
               <Route path="/projetos-tropa" element={<TropaProjetos />} />
+              <Route path="/laboratorio" element={<LabHub />} />
+              <Route path="/laboratorio/:slug" element={<LabExperiment />} />
             </Route>
 
             {/* Matheus Florindo / APOS — site institucional */}

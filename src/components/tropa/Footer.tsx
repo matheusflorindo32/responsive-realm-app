@@ -49,6 +49,7 @@ export function TropaFooter() {
             <li><Link to="/sobre-a-tropa" className="hover:text-primary">Manifesto</Link></li>
             <li><Link to="/conteudos" className="hover:text-primary">Conteúdos</Link></li>
             <li><Link to="/projetos-tropa" className="hover:text-primary">Projetos</Link></li>
+            <li><Link to="/laboratorio" className="hover:text-primary">Laboratório</Link></li>
           </ul>
         </div>
 
