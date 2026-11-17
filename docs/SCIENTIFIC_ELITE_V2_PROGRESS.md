@@ -74,6 +74,36 @@ Validação:
 
 Não verificado: contraste medido por ferramenta, leitor de tela real, Safari/iOS real.
 
+### CP02 — experiência 3D científica — concluído
+
+Arquivos:
+
+- `src/components/tropa/cinematic/ScienceConstellation.tsx` (novo): cena React Three Fiber.
+- `src/components/tropa/cinematic/HeroVisual.tsx`: carrega a cena sob demanda e mantém o emblema estático como alternativa.
+
+O que é: um octaedro cujos seis vértices são os seis capítulos da home, com o emblema da marca no centro. As arestas do percurso de leitura são mais fortes, um pulso percorre 01→06, o ponteiro gera paralaxe leve. Passar o cursor (ou focar) um item do índice do hero destaca o nó correspondente e vice-versa; clicar em um nó leva ao capítulo.
+
+Condições atendidas:
+
+| Condição | Como |
+|---|---|
+| Carregamento sob demanda | `React.lazy`; chunk `ScienceConstellation` separado (812,92 kB, 220,55 kB gzip), pedido só após `requestIdleCallback` |
+| Sem WebGL | teste de contexto antes de importar; fica o emblema estático |
+| Movimento reduzido | sem rotação nem pulso; `frameloop="demand"`, redesenha só quando o destaque muda |
+| Custo de renderização | ~20 malhas básicas, sem luzes, sombras ou pós-processamento; DPR máximo 1,5; `frameloop="never"` fora da tela ou com a aba oculta |
+| Mobile | menos pontos, câmera mais afastada, `touch-action: pan-y` no canvas (a rolagem vertical nunca é capturada) |
+| Erros | `SceneBoundary` troca a cena pelo emblema estático |
+| Não bloquear conteúdo | o texto do hero e o emblema aparecem antes; a cena entra com fade |
+| Acessibilidade | canvas com `aria-hidden`; a mesma navegação existe como lista de links no índice de capítulos |
+
+Validação (Chromium headless com SwiftShader): cena monta em 1440 px e 390 px sem erro de console; sem WebGL não há canvas e o emblema permanece; com movimento reduzido a cena é estática; clique no nó "01 Ciência" rolou a página até `#ciencia`. `npm run build` e `bun test` (4/4) passaram.
+
+Não verificado: taxa de quadros em aparelho real e GPU real (o teste usa renderização por software).
+
+Observação: o chunk 3D é grande porque `@react-three/drei` é importado pelo índice do pacote. Importar `Html` e `Billboard` por caminho direto pode reduzi-lo; não foi feito para não arriscar a compatibilidade nesta entrega.
+
+**Atenção ao commitar:** `npm run build` regrava `supabase/functions/mcp/index.ts` (plugin MCP do Lovable). Rode `git checkout -- supabase/functions/mcp/index.ts` antes de cada commit; esse arquivo não faz parte deste trabalho.
+
 ## Como rodar
 
 ```bash
@@ -85,4 +115,4 @@ bun test
 
 ## Próxima ação
 
-Ver a seção do último checkpoint concluído abaixo; se não houver seção posterior a esta, o próximo passo é o CP02 (cena 3D do hero).
+Ver a seção do último checkpoint concluído abaixo; o próximo passo é o CP03 (rota `/laboratorio` e 3D Embedding Space Explorer).
