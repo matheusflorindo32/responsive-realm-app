@@ -51,7 +51,7 @@ export function TropaNavbar() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav aria-label="Principal" className="hidden lg:flex items-center gap-1">
           {nav.map((n) => (
             <NavLink
               key={n.to}
@@ -59,7 +59,7 @@ export function TropaNavbar() {
               end={n.to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "px-3.5 py-2 text-[13px] font-medium rounded-md transition-colors",
+                  "px-3.5 py-2 text-[13px] font-medium rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                   isActive
                     ? "text-primary"
                     : "text-muted-foreground hover:text-foreground",
@@ -92,13 +92,15 @@ export function TropaNavbar() {
         <button
           className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-border text-foreground"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Abrir menu"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+          aria-controls="tropa-mobile-nav"
         >
           {open ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
       {open && (
-        <div className="lg:hidden border-t border-border bg-white/95 backdrop-blur-xl">
+        <div id="tropa-mobile-nav" className="lg:hidden border-t border-border bg-white/95 backdrop-blur-xl">
           <div className="container-wide py-3 flex flex-col">
             {nav.map((n) => (
               <NavLink
