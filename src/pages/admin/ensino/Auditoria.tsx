@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-const actionColor = (a: string) => {
+const actionColor = (a: string): "destructive" | "default" | "secondary" | "outline" => {
   if (a.includes("deleted") || a.includes("revoked")) return "destructive";
   if (a.includes("created") || a.includes("granted")) return "default";
   if (a.includes("expiration")) return "secondary";
@@ -31,7 +31,7 @@ export default function Auditoria() {
     },
   });
 
-  const filtered = (logs.data ?? []).filter((l: any) => {
+  const filtered = (logs.data ?? []).filter((l) => {
     if (!q) return true;
     const s = q.toLowerCase();
     return (l.action?.toLowerCase().includes(s) ?? false) ||
@@ -76,10 +76,10 @@ export default function Auditoria() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((l: any) => (
+              {filtered.map((l) => (
                 <TableRow key={l.id}>
                   <TableCell className="text-xs whitespace-nowrap">{new Date(l.created_at).toLocaleString("pt-BR")}</TableCell>
-                  <TableCell><Badge variant={actionColor(l.action) as any}>{l.action}</Badge></TableCell>
+                  <TableCell><Badge variant={actionColor(l.action)}>{l.action}</Badge></TableCell>
                   <TableCell className="text-xs">{l.entity_type}</TableCell>
                   <TableCell className="text-xs font-mono truncate max-w-[100px]">{l.actor_id?.slice(0, 8) ?? "—"}</TableCell>
                   <TableCell>
