@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { TablesInsert } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,7 +51,7 @@ export default function Matriculas() {
   const grant = useMutation({
     mutationFn: async () => {
       if (!profileId || !targetId) throw new Error("Selecione aluno e destino");
-      const payload: any = {
+      const payload: TablesInsert<"enrollments"> = {
         user_id: profileId,
         scope,
         course_id: scope === "course" ? targetId : null,
@@ -81,7 +82,7 @@ export default function Matriculas() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["enrollments-admin"] }),
   });
 
-  const filtered = (enrollments.data ?? []).filter((e: any) => {
+  const filtered = (enrollments.data ?? []).filter((e) => {
     if (filterUser && !e.user_id.toLowerCase().includes(filterUser.toLowerCase())) return false;
     if (filterStatus !== "all" && e.status !== filterStatus) return false;
     if (filterType !== "all" && e.access_type !== filterType) return false;
@@ -111,7 +112,7 @@ export default function Matriculas() {
             </div>
             <div className="space-y-1.5">
               <Label>Tipo</Label>
-              <Select value={scope} onValueChange={(v) => { setScope(v as any); setTargetId(""); }}>
+              <Select value={scope} onValueChange={(v) => { if (v === "course" || v === "trail") setScope(v); setTargetId(""); }}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="course">Curso</SelectItem>
@@ -181,7 +182,7 @@ export default function Matriculas() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map((e: any) => (
+            {filtered.map((e) => (
               <TableRow key={e.id}>
                 <TableCell className="font-mono text-xs">
                   <a href={`/admin/ensino/alunos/${e.user_id}`} className="hover:underline">{e.user_id.slice(0, 8)}</a>
