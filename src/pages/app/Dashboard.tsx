@@ -63,11 +63,11 @@ export default function Dashboard() {
 
   const courseEnrolls = enrollments.data?.filter((e) => e.courses) ?? [];
   const trailEnrolls = enrollments.data?.filter((e) => e.trails && !e.courses) ?? [];
-  const totalLessonsCompleted = progress.data?.reduce((a: number, p: any) => a + (p.lessons_completed ?? 0), 0) ?? 0;
+  const totalLessonsCompleted = progress.data?.reduce((a: number, p) => a + (p.lessons_completed ?? 0), 0) ?? 0;
   const totalCerts = certs.data?.length ?? 0;
   const totalHours = Math.round(((courseEnrolls.length * 60) + totalLessonsCompleted * 15) / 60);
 
-  const continueItem = lessonProgress.data?.[0] as any;
+  const continueItem = lessonProgress.data?.[0];
 
   if (enrollments.isLoading || me.isLoading) return <DashboardSkeleton />;
 
