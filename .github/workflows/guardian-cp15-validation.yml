@@ -1,0 +1,37 @@
+name: Guardian CP15 isolated validation
+
+on:
+  pull_request:
+    paths:
+      - "package-lock.json"
+      - "package.json"
+      - "src/**"
+      - "tests/**"
+      - ".github/workflows/guardian-cp15-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-node22:
+    name: Linux Node 22 - install build lint audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Verify clean dependency installation
+        run: npm ci --ignore-scripts --no-fund
+      - name: Verify production build
+        run: npm run build
+      - name: Verify lint
+        run: npm run lint
+      - name: Audit high and critical vulnerabilities
+        if: always()
+        run: npm audit --audit-level=high --omit=dev
