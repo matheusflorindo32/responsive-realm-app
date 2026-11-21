@@ -214,7 +214,7 @@ function readHistory(): string[] {
 function pushHistory(code: string): string[] {
   const prev = readHistory().filter((c) => c.toUpperCase() !== code.toUpperCase());
   const next = [code, ...prev].slice(0, HISTORY_MAX);
-  try { localStorage.setItem(LS_HISTORY, JSON.stringify(next)); } catch {}
+  try { localStorage.setItem(LS_HISTORY, JSON.stringify(next)); } catch { /* Storage may be unavailable; preserve in-memory state. */ }
   return next;
 }
 
@@ -266,7 +266,7 @@ export default function CertificadosVitrine() {
           np.set("codigo", c);
           return np;
         }, { replace: true });
-        try { localStorage.setItem(LS_KEY, c); } catch {}
+        try { localStorage.setItem(LS_KEY, c); } catch { /* Storage may be unavailable; preserve in-memory state. */ }
       };
       if (!/^[A-Za-z0-9-]{6,64}$/.test(code)) {
         setSearch({ kind: "invalid", code });
@@ -297,7 +297,7 @@ export default function CertificadosVitrine() {
     const fromUrl = params.get("codigo")?.trim() ?? "";
     let initial = fromUrl;
     if (!initial) {
-      try { initial = localStorage.getItem(LS_KEY)?.trim() ?? ""; } catch {}
+      try { initial = localStorage.getItem(LS_KEY)?.trim() ?? ""; } catch { /* Storage may be unavailable; preserve in-memory state. */ }
     }
     if (initial && lastRunRef.current !== initial) {
       lastRunRef.current = initial;
@@ -408,12 +408,12 @@ export default function CertificadosVitrine() {
 
   function removeFromHistory(code: string) {
     const next = readHistory().filter((c) => c.toUpperCase() !== code.toUpperCase());
-    try { localStorage.setItem(LS_HISTORY, JSON.stringify(next)); } catch {}
+    try { localStorage.setItem(LS_HISTORY, JSON.stringify(next)); } catch { /* Storage may be unavailable; preserve in-memory state. */ }
     setHistory(next);
   }
 
   function clearHistory() {
-    try { localStorage.removeItem(LS_HISTORY); } catch {}
+    try { localStorage.removeItem(LS_HISTORY); } catch { /* Storage may be unavailable; preserve in-memory state. */ }
     setHistory([]);
   }
 
@@ -426,7 +426,7 @@ export default function CertificadosVitrine() {
       np.delete("codigo");
       return np;
     }, { replace: true });
-    try { localStorage.removeItem(LS_KEY); } catch {}
+    try { localStorage.removeItem(LS_KEY); } catch { /* Storage may be unavailable; preserve in-memory state. */ }
   }
 
 
