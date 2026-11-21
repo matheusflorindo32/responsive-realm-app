@@ -59,10 +59,10 @@ export default function Dashboard() {
     },
   });
 
-  const pctOf = (courseId: string) => progress.data?.find((p: any) => p.course_id === courseId)?.pct_complete ?? 0;
+  const pctOf = (courseId: string) => progress.data?.find((p) => p.course_id === courseId)?.pct_complete ?? 0;
 
-  const courseEnrolls = enrollments.data?.filter((e: any) => e.courses) ?? [];
-  const trailEnrolls = enrollments.data?.filter((e: any) => e.trails && !e.courses) ?? [];
+  const courseEnrolls = enrollments.data?.filter((e) => e.courses) ?? [];
+  const trailEnrolls = enrollments.data?.filter((e) => e.trails && !e.courses) ?? [];
   const totalLessonsCompleted = progress.data?.reduce((a: number, p: any) => a + (p.lessons_completed ?? 0), 0) ?? 0;
   const totalCerts = certs.data?.length ?? 0;
   const totalHours = Math.round(((courseEnrolls.length * 60) + totalLessonsCompleted * 15) / 60);
@@ -116,7 +116,7 @@ export default function Dashboard() {
             <span className="text-xs text-muted-foreground">{courseEnrolls.length} {courseEnrolls.length === 1 ? "curso" : "cursos"}</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {courseEnrolls.map((e: any) => (
+            {courseEnrolls.map((e) => (
               <CourseCard
                 key={e.id}
                 slug={e.courses.slug}
@@ -138,7 +138,7 @@ export default function Dashboard() {
         <section className="space-y-4">
           <h2 className="text-lg font-semibold">Minhas trilhas</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {trailEnrolls.map((e: any) => (
+            {trailEnrolls.map((e) => (
               <TrailCard key={e.id} name={e.trails.name} description={e.trails.description} expiresAt={e.expires_at} status={e.status} />
             ))}
           </div>
