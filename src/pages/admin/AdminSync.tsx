@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { LucideIcon } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -209,7 +210,7 @@ export default function AdminSync() {
 }
 
 function StatCard({ icon: Icon, label, value, sub, tone }: {
-  icon: any; label: string; value: string | number; sub?: string; tone?: "warn" | "danger";
+  icon: LucideIcon; label: string; value: string | number; sub?: string; tone?: "warn" | "danger";
 }) {
   const color = tone === "danger" ? "text-destructive" : tone === "warn" ? "text-amber-600" : "text-foreground";
   return (
