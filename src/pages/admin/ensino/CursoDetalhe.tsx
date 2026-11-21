@@ -122,7 +122,7 @@ export default function CursoDetalhe() {
 
 function LessonDialog({ moduleId, orderIndex, onSaved }: { moduleId: string; orderIndex: number; onSaved: () => void }) {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState<any>({ content_type: "video", is_preview: false });
+  const [form, setForm] = useState<{ title?: string; slug?: string; content_type: string; video_url?: string; content_md?: string; duration_sec?: string; is_preview: boolean }>({ content_type: "video", is_preview: false });
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
