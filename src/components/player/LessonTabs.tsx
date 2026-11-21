@@ -4,15 +4,27 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { Download, FileText, Clock, User } from "lucide-react";
 
+interface LessonAttachment {
+  url: string;
+  label?: string | null;
+}
+
+interface LessonData {
+  id: string;
+  attachments?: LessonAttachment[] | null;
+  duration_sec?: number | null;
+  content_md?: string | null;
+}
+
 interface Props {
-  lesson: any;
+  lesson: LessonData;
   courseInstructor?: string;
 }
 
 export function LessonTabs({ lesson, courseInstructor }: Props) {
   const [notes, setNotes] = useState("");
   const [savedAt, setSavedAt] = useState<string | null>(null);
-  const timer = useRef<any>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
@@ -66,7 +78,7 @@ export function LessonTabs({ lesson, courseInstructor }: Props) {
           <p className="text-sm text-muted-foreground">Nenhum material complementar disponível.</p>
         ) : (
           <ul className="space-y-2">
-            {attachments.map((a: any, i: number) => (
+            {attachments.map((a: LessonAttachment, i: number) => (
               <li key={i}>
                 <a href={a.url} target="_blank" rel="noopener noreferrer"
                    className="flex items-center gap-3 rounded-lg border border-border/60 p-3 hover:border-primary/40 hover:bg-muted/30 transition-colors">
