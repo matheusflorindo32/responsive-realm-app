@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import type { TablesInsert } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 
 export default function Perfil() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<TablesInsert<"profiles">>({ user_id: "" });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
