@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
@@ -16,7 +17,7 @@ type SyncRun = {
 
 type Conflict = {
   id: string; sheet_row_id: string;
-  app_version: Record<string, unknown>; sheet_version: Record<string, unknown>;
+  app_version: Tables<"sync_conflicts">["app_version"]; sheet_version: Tables<"sync_conflicts">["sheet_version"];
   app_updated_at: string | null; sheet_updated_at: string | null;
   resolved: boolean;
 };
@@ -80,7 +81,7 @@ export default function AdminSync() {
   const resolveConflict = async (id: string, keep: "app" | "sheet") => {
     const c = conflicts.find((x) => x.id === id);
     if (!c) return;
-    const newData = (keep === "app" ? c.app_version : c.sheet_version) as any;
+    const newData = keep === "app" ? c.app_version : c.sheet_version;
     const newStatus = keep === "app" ? "pending_push" : "synced";
     const { error: e1 } = await supabase.from("sheet_rows")
       .update({ data: newData, sync_status: newStatus, conflict_status: null, conflict_payload: null, source: keep === "app" ? "app" : "sheets" })
