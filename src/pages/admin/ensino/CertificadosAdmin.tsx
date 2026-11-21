@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +19,7 @@ export default function CertificadosAdmin() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [reason, setReason] = useState("");
-  const [target, setTarget] = useState<any>(null);
+  const [target, setTarget] = useState<Tables<"certificates"> | null>(null);
 
   const list = useQuery({
     queryKey: ["admin-certs"],
@@ -41,7 +42,7 @@ export default function CertificadosAdmin() {
     onError: (e) => toastError(e),
   });
 
-  const filtered = (list.data ?? []).filter((c: any) => {
+  const filtered = (list.data ?? []).filter((c) => {
     if (statusFilter !== "all" && c.status !== statusFilter) return false;
     if (search) {
       const s = search.toLowerCase();
@@ -87,7 +88,7 @@ export default function CertificadosAdmin() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map((c: any) => (
+            {filtered.map((c) => (
               <TableRow key={c.id}>
                 <TableCell>{c.student_name ?? c.profiles?.display_name ?? "—"}</TableCell>
                 <TableCell className="text-sm">{c.course_title ?? "—"}</TableCell>
