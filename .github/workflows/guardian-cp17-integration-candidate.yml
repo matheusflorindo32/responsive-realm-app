@@ -1,0 +1,58 @@
+name: Guardian CP17 Scientific Elite isolated composition
+
+on:
+  push:
+    branches: [fix/guardian-v3-cp17-scientific-integration-20261121]
+
+permissions:
+  contents: write
+
+jobs:
+  compose-and-verify:
+    if: github.ref == 'refs/heads/fix/guardian-v3-cp17-scientific-integration-20261121'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.5"
+      - name: Recover binary lockfile from pinned main without merging
+        run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          test "$(git rev-parse FETCH_HEAD)" = "6d815b5a55a9b15856276b89a0c3ecd45c2ba5ad"
+          git show FETCH_HEAD:bun.lockb > bun.lockb
+      - name: Regenerate npm lockfile without lifecycle scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Verify frozen npm install
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build integrated web application
+        run: npm run build
+      - name: Run Scientific Lab, auth and scrolling regression contracts
+        run: >
+          bun test
+          tests/lab-backoff.test.ts
+          tests/lab-embedding.test.ts
+          tests/lab-sampling.test.ts
+          tests/lab-wilson.test.ts
+          tests/smooth-scroll.test.ts
+          tests/auth-zod4-contract.test.ts
+          tests/mfa-setup.test.ts
+      - name: Commit reconciled lockfiles to isolated branch only
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json bun.lockb; then
+            echo "Lockfiles already reconciled"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- package-lock.json bun.lockb
+          git commit -m "fix(lockfile): reconcile Scientific Elite and main scroll dependencies"
+          git push origin HEAD:refs/heads/fix/guardian-v3-cp17-scientific-integration-20261121
