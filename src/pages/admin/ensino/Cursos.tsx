@@ -60,7 +60,7 @@ export default function Cursos() {
         const { error } = await supabase.from("courses").update(payload).eq("id", c.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("courses").insert(payload as any);
+        const { error } = await supabase.from("courses").insert(payload as Course);
         if (error) throw error;
       }
     },
