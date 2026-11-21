@@ -36,7 +36,7 @@ export default function Certificados() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {list.data?.map((c: any) => (
+        {list.data?.map((c) => (
           <Card key={c.id} className="overflow-hidden border-amber-500/20 bg-gradient-to-br from-amber-500/5 via-card to-card">
             <CardHeader className="flex-row items-start gap-3 space-y-0">
               <div className="w-11 h-11 rounded-lg bg-amber-500/20 grid place-items-center shrink-0">
