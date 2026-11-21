@@ -7,9 +7,16 @@ const MESSAGES: Record<string, string> = {
   "PGRST301": "Sessão expirada. Faça login novamente.",
 };
 
-export function handleSupabaseError(err: any, fallback = "Ocorreu um erro. Tente novamente."): string {
-  const code = err?.code ?? err?.error?.code;
-  const msg = err?.message ?? err?.error?.message ?? "";
+type ErrorDetails = { code?: string; message?: string; error?: { code?: string; message?: string } };
+
+function asErrorDetails(err: unknown): ErrorDetails {
+  return err !== null && typeof err === "object" ? (err as ErrorDetails) : {};
+}
+
+export function handleSupabaseError(err: unknown, fallback = "Ocorreu um erro. Tente novamente."): string {
+  const details = asErrorDetails(err);
+  const code = details.code ?? details.error?.code;
+  const msg = details.message ?? details.error?.message ?? "";
   if (code && MESSAGES[code]) return MESSAGES[code];
   if (msg.includes("Sem matrícula")) return "Você não tem matrícula ativa neste curso.";
   if (msg.includes("row-level security")) return "Sem permissão para esta ação.";
@@ -17,6 +24,6 @@ export function handleSupabaseError(err: any, fallback = "Ocorreu um erro. Tente
   return msg || fallback;
 }
 
-export function toastError(err: any, fallback?: string) {
+export function toastError(err: unknown, fallback?: string) {
   toast.error(handleSupabaseError(err, fallback));
 }
