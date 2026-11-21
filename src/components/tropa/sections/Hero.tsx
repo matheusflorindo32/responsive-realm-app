@@ -49,33 +49,28 @@ const FLOATING = [
   { label: "Pesquisa Aplicada", Icon: Microscope },
 ] as const;
 
+function FloatingCard({ p, index, label, Icon }: { p: MotionValue<number>; index: number; label: string; Icon: (typeof FLOATING)[number]["Icon"] }) {
+  const start = 0.30 + index * 0.05;
+  const end = start + 0.15;
+  const opacity = useTransform(p, [start - 0.02, end, 0.92, 1], [0, 1, 1, 0.85]);
+  const x = useTransform(p, [start, end], [-40, 0]);
+  const scale = useTransform(p, [start, end], [0.9, 1]);
+  return (
+    <motion.div style={{ x, opacity, scale }} className="will-change-transform lg:w-[210px] xl:w-[240px]">
+      <div className="t-glass w-full rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 shadow-[var(--shadow-glass)]">
+        <span className="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary shrink-0"><Icon size={14} /></span>
+        <span className="text-[12px] font-semibold text-foreground">{label}</span>
+      </div>
+    </motion.div>
+  );
+}
+
 function FloatingCards({ p }: { p: MotionValue<number> }) {
   return (
     <div className="absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 z-20 pointer-events-none">
-      {FLOATING.map((c, i) => {
-        const start = 0.30 + i * 0.05;
-        const end = start + 0.15;
-        const opacity = useTransform(p, [start - 0.02, end, 0.92, 1], [0, 1, 1, 0.85]);
-        const x = useTransform(p, [start, end], [-40, 0]);
-        const scale = useTransform(p, [start, end], [0.9, 1]);
-        const Icon = c.Icon;
-        return (
-          <motion.div
-            key={c.label}
-            style={{ x, opacity, scale }}
-            className="will-change-transform lg:w-[210px] xl:w-[240px]"
-          >
-            <div className="t-glass w-full rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 shadow-[var(--shadow-glass)]">
-              <span className="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary shrink-0">
-                <Icon size={14} />
-              </span>
-              <span className="text-[12px] font-semibold text-foreground">
-                {c.label}
-              </span>
-            </div>
-          </motion.div>
-        );
-      })}
+      {FLOATING.map((card, i) => (
+        <FloatingCard key={card.label} p={p} index={i} label={card.label} Icon={card.Icon} />
+      ))}
     </div>
   );
 }
@@ -230,6 +225,7 @@ export function Hero() {
   const subOp = useTransform(p, [0.55, 0.85], [0, 1]);
   const ctaOp = useTransform(p, [0.78, 1], [0, 1]);
   const ctaY = useTransform(p, [0.78, 1], ["20px", "0px"]);
+  const scrollCueOpacity = useTransform(p, [0, 0.15], [1, 0]);
 
   return (
     <section
@@ -434,7 +430,7 @@ export function Hero() {
         {/* Scroll cue */}
         {pinned && (
           <motion.div
-            style={{ opacity: useTransform(p, [0, 0.15], [1, 0]) }}
+            style={{ opacity: scrollCueOpacity }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground"
           >
             <span className="text-[10px] mono uppercase tracking-[0.25em]">scroll</span>
