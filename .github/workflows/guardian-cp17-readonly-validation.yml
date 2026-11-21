@@ -1,0 +1,57 @@
+name: Guardian CP17 integrated branch verification
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: Frozen npm 22, build and 66+ regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.5"
+      - name: Reproducible installation without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Production build
+        run: npm run build
+      - name: Scientific Lab, Zod 4 auth and smooth scroll contracts
+        run: >
+          bun test
+          tests/lab-backoff.test.ts
+          tests/lab-embedding.test.ts
+          tests/lab-sampling.test.ts
+          tests/lab-wilson.test.ts
+          tests/smooth-scroll.test.ts
+          tests/auth-zod4-contract.test.ts
+          tests/mfa-setup.test.ts
+
+  lint:
+    name: Full baseline ESLint (blocking)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run lint
+
+  audit:
+    name: Production dependency audit high/critical (blocking)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm audit --omit=dev --audit-level=high
