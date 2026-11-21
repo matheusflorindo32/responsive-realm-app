@@ -49,7 +49,7 @@ export default function AlunoDetalhe() {
         <Card>
           <CardHeader><CardTitle className="text-base">Matrículas</CardTitle></CardHeader>
           <CardContent className="space-y-2">
-            {enrolls.data?.map((e: any) => (
+            {enrolls.data?.map((e) => (
               <div key={e.id} className="flex items-center justify-between py-2 border-b border-border/40 last:border-0">
                 <div>
                   <div className="text-sm">{e.courses?.title ?? e.trails?.name}</div>
@@ -65,7 +65,7 @@ export default function AlunoDetalhe() {
         <Card>
           <CardHeader><CardTitle className="text-base">Progresso por curso</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            {progress.data?.map((p: any) => (
+            {progress.data?.map((p) => (
               <div key={p.course_id}>
                 <div className="flex justify-between text-sm mb-1">
                   <span>{p.courses?.title ?? p.course_id.slice(0,8)}</span>
@@ -81,7 +81,7 @@ export default function AlunoDetalhe() {
         <Card>
           <CardHeader><CardTitle className="text-base">Certificados</CardTitle></CardHeader>
           <CardContent className="space-y-2">
-            {certs.data?.map((c: any) => (
+            {certs.data?.map((c) => (
               <a key={c.id} href={`/certificado/${c.certificate_code}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 py-2 border-b border-border/40 last:border-0 hover:bg-muted/30 -mx-2 px-2 rounded">
                 <Award className="w-4 h-4 text-amber-400" />
                 <div className="flex-1 min-w-0">
@@ -98,7 +98,7 @@ export default function AlunoDetalhe() {
         <Card>
           <CardHeader><CardTitle className="text-base">Histórico de auditoria</CardTitle></CardHeader>
           <CardContent className="space-y-2 max-h-96 overflow-auto">
-            {audit.data?.map((l: any) => (
+            {audit.data?.map((l) => (
               <div key={l.id} className="text-xs py-1.5 border-b border-border/40 last:border-0">
                 <div className="flex justify-between gap-2">
                   <Badge variant="outline" className="text-[10px]">{l.action}</Badge>
