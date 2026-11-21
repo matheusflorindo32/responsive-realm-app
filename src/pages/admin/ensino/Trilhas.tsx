@@ -47,7 +47,7 @@ export default function Trilhas() {
         const { error } = await supabase.from("trails").update(payload).eq("id", t.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("trails").insert(payload as any);
+        const { error } = await supabase.from("trails").insert(payload as Trail);
         if (error) throw error;
       }
     },
