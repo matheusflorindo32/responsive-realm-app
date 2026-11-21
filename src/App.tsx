@@ -4,67 +4,80 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { lazy, Suspense } from "react";
 import { DesktopSmoothScroll } from "@/components/DesktopSmoothScroll";
 
 import { Layout as AposLayout } from "@/components/apos/Layout";
-import AposHome from "./pages/matheus/Home";
-import About from "./pages/matheus/About";
-import Publications from "./pages/matheus/Publications";
-import EducationPage from "./pages/matheus/EducationPage";
-import Projects from "./pages/matheus/Projects";
-import ExperiencePage from "./pages/matheus/ExperiencePage";
-import Contact from "./pages/matheus/Contact";
+const AposHome = lazy(() => import("./pages/matheus/Home"));
+const About = lazy(() => import("./pages/matheus/About"));
+const Publications = lazy(() => import("./pages/matheus/Publications"));
+const EducationPage = lazy(() => import("./pages/matheus/EducationPage"));
+const Projects = lazy(() => import("./pages/matheus/Projects"));
+const ExperiencePage = lazy(() => import("./pages/matheus/ExperiencePage"));
+const Contact = lazy(() => import("./pages/matheus/Contact"));
 
 import { TropaLayout } from "@/components/tropa/Layout";
 import TropaHome from "./pages/tropa/Home";
-import TropaSobre from "./pages/tropa/Sobre";
-import TropaConteudos from "./pages/tropa/Conteudos";
-import TropaProjetos from "./pages/tropa/Projetos";
+const TropaSobre = lazy(() => import("./pages/tropa/Sobre"));
+const TropaConteudos = lazy(() => import("./pages/tropa/Conteudos"));
+const TropaProjetos = lazy(() => import("./pages/tropa/Projetos"));
 
-import NotFound from "./pages/NotFound";
+const LabHub = lazy(() => import("./pages/lab/LabHub"));
+const LabExperiment = lazy(() => import("./pages/lab/LabExperiment"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 // AdminAuth removed; /admin now uses AdminLayout guard which redirects to /login
-import AdminSync from "./pages/admin/AdminSync";
-import VaultWorkspace from "./pages/admin/VaultWorkspace";
-import AdminLayout from "@/components/admin/AdminLayout";
-import CommandCenter from "./pages/admin/CommandCenter";
-import AdminStart from "./pages/admin/AdminStart";
-import ModulePlaceholder from "./pages/admin/ModulePlaceholder";
-import EnsinoHub from "./pages/admin/ensino/Hub";
-import Trilhas from "./pages/admin/ensino/Trilhas";
-import Cursos from "./pages/admin/ensino/Cursos";
-import CursoDetalhe from "./pages/admin/ensino/CursoDetalhe";
-import Matriculas from "./pages/admin/ensino/Matriculas";
-import Auditoria from "./pages/admin/ensino/Auditoria";
-import AlunoDetalhe from "./pages/admin/ensino/AlunoDetalhe";
-import CertificadosAdmin from "./pages/admin/ensino/CertificadosAdmin";
-import CertificadoPublico from "./pages/CertificadoPublico";
-import CertificadosVitrine from "./pages/CertificadosVitrine";
+const AdminSync = lazy(() => import("./pages/admin/AdminSync"));
+const VaultWorkspace = lazy(() => import("./pages/admin/VaultWorkspace"));
+const AdminLayout = lazy(() => import("@/components/admin/AdminLayout"));
+const CommandCenter = lazy(() => import("./pages/admin/CommandCenter"));
+const AdminStart = lazy(() => import("./pages/admin/AdminStart"));
+const ModulePlaceholder = lazy(() => import("./pages/admin/ModulePlaceholder"));
+const EnsinoHub = lazy(() => import("./pages/admin/ensino/Hub"));
+const Trilhas = lazy(() => import("./pages/admin/ensino/Trilhas"));
+const Cursos = lazy(() => import("./pages/admin/ensino/Cursos"));
+const CursoDetalhe = lazy(() => import("./pages/admin/ensino/CursoDetalhe"));
+const Matriculas = lazy(() => import("./pages/admin/ensino/Matriculas"));
+const Auditoria = lazy(() => import("./pages/admin/ensino/Auditoria"));
+const AlunoDetalhe = lazy(() => import("./pages/admin/ensino/AlunoDetalhe"));
+const CertificadosAdmin = lazy(() => import("./pages/admin/ensino/CertificadosAdmin"));
+const CertificadoPublico = lazy(() => import("./pages/CertificadoPublico"));
+const CertificadosVitrine = lazy(() => import("./pages/CertificadosVitrine"));
 // legacy /entrar now redirects to /login
-import AppLayout from "./pages/app/AppLayout";
-import Dashboard from "./pages/app/Dashboard";
-import CursoPlayer from "./pages/app/CursoPlayer";
-import Perfil from "./pages/app/Perfil";
-import Certificados from "./pages/app/Certificados";
+const AppLayout = lazy(() => import("./pages/app/AppLayout"));
+const Dashboard = lazy(() => import("./pages/app/Dashboard"));
+const CursoPlayer = lazy(() => import("./pages/app/CursoPlayer"));
+const Perfil = lazy(() => import("./pages/app/Perfil"));
+const Certificados = lazy(() => import("./pages/app/Certificados"));
 
-import Login from "./pages/auth/Login";
-import Cadastro from "./pages/auth/Cadastro";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
-import MfaSetup from "./pages/auth/MfaSetup";
-import MfaVerify from "./pages/auth/MfaVerify";
-import AuthCallback from "./pages/auth/AuthCallback";
-import VerifyEmail from "./pages/auth/VerifyEmail";
-import OAuthConsent from "./pages/auth/OAuthConsent";
-import JarvisAuth from "./pages/admin/auth/JarvisAuth";
-import JarvisAccessPending from "./pages/admin/auth/JarvisAccessPending";
-import JarvisMfaSetup from "./pages/admin/auth/JarvisMfaSetup";
-import JarvisMfaVerify from "./pages/admin/auth/JarvisMfaVerify";
-import OperationsRegistry from "./pages/admin/OperationsRegistry";
-import ProjectsWorkspace from "./pages/admin/ProjectsWorkspace";
-import JarvisPreview from "./pages/JarvisPreview";
+const Login = lazy(() => import("./pages/auth/Login"));
+const Cadastro = lazy(() => import("./pages/auth/Cadastro"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
+const MfaSetup = lazy(() => import("./pages/auth/MfaSetup"));
+const MfaVerify = lazy(() => import("./pages/auth/MfaVerify"));
+const AuthCallback = lazy(() => import("./pages/auth/AuthCallback"));
+const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
+const OAuthConsent = lazy(() => import("./pages/auth/OAuthConsent"));
+const JarvisAuth = lazy(() => import("./pages/admin/auth/JarvisAuth"));
+const JarvisAccessPending = lazy(() => import("./pages/admin/auth/JarvisAccessPending"));
+const JarvisMfaSetup = lazy(() => import("./pages/admin/auth/JarvisMfaSetup"));
+const JarvisMfaVerify = lazy(() => import("./pages/admin/auth/JarvisMfaVerify"));
+const OperationsRegistry = lazy(() => import("./pages/admin/OperationsRegistry"));
+const ProjectsWorkspace = lazy(() => import("./pages/admin/ProjectsWorkspace"));
+const JarvisPreview = lazy(() => import("./pages/JarvisPreview"));
 
 
 const queryClient = new QueryClient();
+
+// Cada página fora da home é carregada sob demanda: o visitante da página inicial
+// não baixa o painel administrativo, a área do aluno nem o laboratório.
+function RouteFallback() {
+  return (
+    <div role="status" aria-live="polite" className="min-h-[60vh] grid place-items-center text-sm text-muted-foreground">
+      Carregando…
+    </div>
+  );
+}
 
 const App = () => (
   <HelmetProvider>
@@ -74,6 +87,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <DesktopSmoothScroll />
+          <Suspense fallback={<RouteFallback />}>
           <Routes>
             {/* Tropa Científica — raiz */}
             <Route element={<TropaLayout />}>
@@ -81,6 +95,8 @@ const App = () => (
               <Route path="/sobre-a-tropa" element={<TropaSobre />} />
               <Route path="/conteudos" element={<TropaConteudos />} />
               <Route path="/projetos-tropa" element={<TropaProjetos />} />
+              <Route path="/laboratorio" element={<LabHub />} />
+              <Route path="/laboratorio/:slug" element={<LabExperiment />} />
             </Route>
 
             {/* Matheus Florindo / APOS — site institucional */}
@@ -165,6 +181,7 @@ const App = () => (
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

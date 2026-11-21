@@ -1,19 +1,7 @@
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const focusRing =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-[8px]";
-
-const PRINCIPLES = [
-  { t: "Método antes de hype", d: "IA e tecnologia entram quando resolvem problemas reais, com contexto e limites claros." },
-  { t: "Linguagem de ponte", d: "Texto acessível para quem está chegando, sem diluir a profundidade técnica." },
-  { t: "Aplicação verificável", d: "Projetos, estudos e materiais precisam apontar para uso, evidência ou aprendizagem concreta." },
-] as const;
+import { Chapter, ChapterMark, Ghost, focusRing, useReveal } from "./narrative";
 
 const FORMATS = [
   { n: "01", t: "Vídeos educativos", d: "Explicações visuais para conceitos técnicos e temas em alta." },
@@ -28,114 +16,44 @@ const PROJECTS = [
   { n: "03", t: "Educação e simuladores", d: "Experiências didáticas para treinamento, revisão e divulgação científica." },
 ] as const;
 
-const METHOD = [
-  { t: "Investigar", d: "Entender o problema, o público e a evidência disponível." },
-  { t: "Traduzir", d: "Transformar conceito técnico em narrativa clara e visual." },
-  { t: "Aplicar", d: "Conectar teoria a ferramenta, decisão, aula, projeto ou caso real." },
-  { t: "Revisar", d: "Apontar limites, riscos, fontes e próximos passos." },
+const CREDENTIALS = [
+  "Mestrado em Business Intelligence · Em andamento",
+  "MBA em Inteligência Artificial · Em andamento",
+  "ADS no IFES · Em andamento",
 ] as const;
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="ed-rev mono text-[11px] uppercase tracking-[0.26em] text-primary flex items-center gap-3">
-      <span aria-hidden className="inline-block w-8 h-px bg-primary/50" />
-      {children}
-    </p>
-  );
-}
+const GOLD = "text-[hsl(38,60%,38%)]";
 
-function Ghost({ n }: { n: string }) {
-  return (
-    <span aria-hidden className="ed-ghost absolute -top-4 right-2 lg:right-8 mono text-[110px] lg:text-[190px] font-medium leading-none text-foreground/[0.045] select-none pointer-events-none">
-      {n}
-    </span>
-  );
-}
-
+/**
+ * Fechamento da home: capítulos 04–06 (Aplicação → Educação → Inovação) e chamada final.
+ * Continua a numeração iniciada em CinematicJourney; fluxo vertical normal (AGENTS.md).
+ */
 export function EditorialHome() {
   const rootRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>("[data-ed]").forEach((sec) => {
-        const els = sec.querySelectorAll(".ed-rev");
-        if (els.length)
-          gsap.from(els, {
-            y: 26,
-            autoAlpha: 0,
-            duration: 0.7,
-            stagger: 0.07,
-            ease: "power2.out",
-            scrollTrigger: { trigger: sec, start: "top 80%", once: true },
-          });
-      });
-      const mm = gsap.matchMedia();
-      mm.add("(min-width: 1024px)", () => {
-        gsap.utils.toArray<HTMLElement>(".ed-ghost").forEach((g) => {
-          gsap.fromTo(
-            g,
-            { yPercent: 24 },
-            { yPercent: -24, ease: "none", scrollTrigger: { trigger: g.parentElement, start: "top bottom", end: "bottom top", scrub: true } },
-          );
-        });
-      });
-    }, root);
-
-    return () => ctx.revert();
-  }, []);
+  useReveal(rootRef);
 
   return (
     <div ref={rootRef} className="relative overflow-x-clip">
-      {/* ============ O QUE É ============ */}
-      <section data-ed className="relative py-24 lg:py-32 border-t border-border/70">
-        <Ghost n="01" />
-        <div className="container-wide relative grid lg:grid-cols-12 gap-10 lg:gap-16">
-          <div className="lg:col-span-4">
-            <Eyebrow>O que é</Eyebrow>
-            <h2 className="ed-rev mt-5 text-3xl lg:text-4xl font-semibold leading-tight text-foreground">Um hub editorial de ciência aplicada.</h2>
-            <p className="ed-rev mt-5 text-muted-foreground leading-relaxed">
-              Não uma vitrine genérica de tecnologia: um projeto que explica como pensa, produz e transforma conhecimento técnico em material útil.
-            </p>
-          </div>
-          <div className="lg:col-span-8">
-            <p className="ed-rev text-xl lg:text-2xl leading-relaxed text-foreground/85 font-medium">
-              A Tropa Científica aproxima laboratório, código, campo operacional e educação —{" "}
-              <span className="text-primary">traduzindo pesquisa, IA, dados e tecnologia operacional em conhecimento aplicável.</span>
-            </p>
-            <div className="mt-10 border-t border-border">
-              {PRINCIPLES.map((p, i) => (
-                <div key={p.t} className="ed-rev grid sm:grid-cols-[56px_220px_1fr] gap-2 sm:gap-6 py-6 border-b border-border items-baseline">
-                  <span className="mono text-[11px] tracking-[0.2em] text-[hsl(38,60%,42%)]">0{i + 1}</span>
-                  <h3 className="font-semibold text-foreground">{p.t}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{p.d}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ FRENTES EDITORIAIS ============ */}
-      <section data-ed className="relative py-24 lg:py-32 border-t border-border/70 bg-white/50">
-        <Ghost n="02" />
+      {/* ================= 04 · APLICAÇÃO ================= */}
+      <Chapter id="aplicacao" className="!border-t-0">
+        <Ghost n="04" />
         <div className="container-wide relative">
           <div className="grid lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-7">
-              <Eyebrow>Frentes editoriais</Eyebrow>
-              <h2 className="ed-rev mt-5 text-3xl lg:text-4xl font-semibold leading-tight text-foreground">Onde a Tropa atua.</h2>
+              <ChapterMark n="04" label="Aplicação" />
+              <h2 className="rv mt-5 text-3xl lg:text-[2.5rem] lg:leading-[1.08] font-semibold text-foreground">
+                Da ideia ao protótipo, do protótipo ao aprendizado público.
+              </h2>
             </div>
-            <p className="ed-rev lg:col-span-5 text-sm text-muted-foreground leading-relaxed lg:text-right">
+            <p className="rv lg:col-span-4 lg:col-start-9 text-sm text-muted-foreground leading-relaxed">
               Áreas separadas por papel editorial — não uma lista de cards iguais.
             </p>
           </div>
+
           <div className="mt-12 grid lg:grid-cols-12 gap-5">
-            <article className="ed-rev lg:col-span-6 relative rounded-[8px] border border-border bg-white p-7 lg:p-9 overflow-hidden">
+            <article className="rv lg:col-span-6 relative rounded-[10px] border border-border bg-white p-7 lg:p-9 overflow-hidden">
               <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-primary via-accent to-transparent" />
-              <span className="mono text-[10.5px] uppercase tracking-[0.22em] text-primary">Inteligência aplicada</span>
+              <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-primary">Inteligência aplicada</p>
               <h3 className="mt-4 text-2xl lg:text-3xl font-semibold text-foreground leading-tight">IA, automação e dados para problemas reais.</h3>
               <p className="mt-4 text-muted-foreground leading-relaxed">
                 Modelos, LLMs, dashboards, automações e análises explicados com casos, limites e critério.
@@ -149,203 +67,190 @@ export function EditorialHome() {
                 ))}
               </ul>
             </article>
-            <article className="ed-rev lg:col-span-3 relative rounded-[8px] p-7 overflow-hidden text-slate-100" style={{ background: "linear-gradient(170deg, hsl(222 47% 9%), hsl(221 55% 13%))" }}>
-              <span className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(199,89%,60%)]">Campo e sociedade</span>
+            <article className="rv lg:col-span-3 relative rounded-[10px] p-7 overflow-hidden text-slate-100 bg-[hsl(222_47%_8%)]">
+              <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(199,89%,62%)]">Campo e sociedade</p>
               <h3 className="mt-4 text-xl font-semibold leading-tight">Segurança pública, drones e tecnologia operacional.</h3>
               <p className="mt-4 text-sm text-slate-400 leading-relaxed">
                 Discussão técnica com responsabilidade pública, foco em decisão e aplicação no território.
               </p>
             </article>
-            <article className="ed-rev lg:col-span-3 relative rounded-[8px] border border-border bg-white p-7 overflow-hidden">
+            <article className="rv lg:col-span-3 relative rounded-[10px] border border-border bg-white p-7 overflow-hidden">
               <span aria-hidden className="absolute inset-x-0 top-0 h-[2px] bg-[hsl(38,65%,48%)]" />
-              <span className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(38,60%,42%)]">Educação científica</span>
+              <p className={`mono text-[10.5px] uppercase tracking-[0.22em] ${GOLD}`}>Educação científica</p>
               <h3 className="mt-4 text-xl font-semibold text-foreground leading-tight">Conteúdo para formar repertório.</h3>
               <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
                 Guias, aulas, estudos aplicados e infográficos para acelerar entendimento sem simplismo.
               </p>
             </article>
           </div>
-        </div>
-      </section>
 
-      {/* ============ CONTEÚDOS E FORMATOS ============ */}
-      <section data-ed className="relative py-24 lg:py-32 border-t border-border/70">
-        <Ghost n="03" />
+          <div className="mt-14">
+            <span aria-hidden className="rv-rule block h-px bg-border" />
+            {PROJECTS.map((p) => (
+              <div key={p.n} className="rv grid md:grid-cols-[72px_minmax(0,340px)_1fr] gap-2 md:gap-8 items-baseline py-7 border-b border-border">
+                <span className={`mono text-[11px] tracking-[0.2em] tabular-nums ${GOLD}`}>{p.n}</span>
+                <h3 className="text-lg font-semibold text-foreground">{p.t}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{p.d}</p>
+              </div>
+            ))}
+          </div>
+          <Link to="/projetos-tropa" className={`rv mt-9 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4 ${focusRing}`}>
+            Ver todos os projetos
+            <ArrowRight size={15} aria-hidden />
+          </Link>
+        </div>
+      </Chapter>
+
+      {/* ================= 05 · EDUCAÇÃO ================= */}
+      <Chapter id="educacao" className="bg-white/60">
+        <Ghost n="05" />
         <div className="container-wide relative">
           <div className="grid lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-7">
-              <Eyebrow>Conteúdos</Eyebrow>
-              <h2 className="ed-rev mt-5 text-3xl lg:text-4xl font-semibold leading-tight text-foreground">
+              <ChapterMark n="05" label="Educação" />
+              <h2 className="rv mt-5 text-3xl lg:text-[2.5rem] lg:leading-[1.08] font-semibold text-foreground">
                 Formatos que ajudam a pensar, comparar e aplicar.
               </h2>
             </div>
-            <p className="ed-rev lg:col-span-5 text-sm text-muted-foreground leading-relaxed lg:text-right">
+            <p className="rv lg:col-span-4 lg:col-start-9 text-sm text-muted-foreground leading-relaxed">
               Uma revista técnica: leitura, curadoria e caminhos claros.
             </p>
           </div>
-          <div className="mt-12 grid lg:grid-cols-12 gap-5 items-start">
-            <article className="ed-rev lg:col-span-5 relative rounded-[8px] p-7 lg:p-9 overflow-hidden text-slate-100" style={{ background: "linear-gradient(165deg, hsl(222 47% 9%), hsl(221 60% 14%))" }}>
+          <div className="mt-12 grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            <article className="rv lg:col-span-5 relative rounded-[10px] p-7 lg:p-9 overflow-hidden text-slate-100 bg-[hsl(222_47%_8%)]">
               <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(199,89%,55%)]/70 to-transparent" />
-              <span className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(199,89%,60%)]">Publicação principal</span>
+              <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(199,89%,62%)]">Publicação principal</p>
               <h3 className="mt-4 text-2xl font-semibold leading-tight">Análises técnicas e guias aprofundados.</h3>
               <p className="mt-4 text-sm text-slate-400 leading-relaxed">
                 Materiais de referência para explicar ferramentas, papers, tendências e aplicações com olhar crítico.
               </p>
-              <Link to="/conteudos" className={`mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[hsl(199,89%,60%)] hover:text-white transition-colors ${focusRing}`}>
+              <Link
+                to="/conteudos"
+                className={`mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[hsl(199,89%,62%)] hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[hsl(199,89%,62%)] rounded-[6px]`}
+              >
                 Explorar conteúdos
-                <ArrowRight size={15} />
+                <ArrowRight size={15} aria-hidden />
               </Link>
             </article>
-            <div className="lg:col-span-7 border-t border-border">
+            <div className="lg:col-span-7">
+              <span aria-hidden className="rv-rule block h-px bg-border" />
               {FORMATS.map((f) => (
-                <div key={f.n} className="ed-rev group grid sm:grid-cols-[56px_1fr_auto] gap-2 sm:gap-6 items-baseline py-6 border-b border-border">
-                  <span className="mono text-[11px] tracking-[0.2em] text-muted-foreground">{f.n}</span>
+                <div key={f.n} className="rv grid grid-cols-[44px_1fr] sm:grid-cols-[56px_1fr] gap-x-4 items-baseline py-6 border-b border-border">
+                  <span className="mono text-[11px] tracking-[0.2em] text-muted-foreground tabular-nums">{f.n}</span>
                   <div>
                     <h3 className="font-semibold text-foreground">{f.t}</h3>
                     <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{f.d}</p>
                   </div>
-                  <ArrowUpRight size={16} className="hidden sm:block text-border group-hover:text-primary transition-colors" aria-hidden />
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </section>
+      </Chapter>
 
-      {/* ============ PROJETOS APLICADOS ============ */}
-      <section data-ed className="relative py-24 lg:py-32 border-t border-border/70 bg-white/50">
-        <Ghost n="04" />
+      {/* ================= 06 · INOVAÇÃO ================= */}
+      <Chapter id="inovacao">
+        <Ghost n="06" />
         <div className="container-wide relative">
-          <Eyebrow>Projetos aplicados</Eyebrow>
-          <h2 className="ed-rev mt-5 text-3xl lg:text-4xl font-semibold leading-tight text-foreground max-w-2xl">
-            Da ideia ao protótipo, do protótipo ao aprendizado público.
-          </h2>
-          <div className="mt-12 border-t border-border">
-            {PROJECTS.map((p) => (
-              <div key={p.n} className="ed-rev group grid md:grid-cols-[72px_minmax(0,340px)_1fr_auto] gap-2 md:gap-8 items-baseline py-7 border-b border-border">
-                <span className="mono text-[11px] tracking-[0.2em] text-[hsl(38,60%,42%)]">{p.n}</span>
-                <h3 className="text-lg font-semibold text-foreground">{p.t}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{p.d}</p>
-                <ArrowUpRight size={16} className="hidden md:block text-border group-hover:text-primary transition-colors" aria-hidden />
+          <ChapterMark n="06" label="Inovação" />
+          <Link
+            to="/laboratorio"
+            className="rv group mt-8 block relative overflow-hidden rounded-[12px] bg-[hsl(222_47%_7%)] text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          >
+            <div
+              aria-hidden
+              className="absolute -right-24 -top-24 w-[520px] max-w-[80%] aspect-square rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, hsl(199 89% 48% / 0.22), transparent 62%)" }}
+            />
+            <div className="relative grid lg:grid-cols-12 gap-8 p-7 sm:p-10 lg:p-14 items-end">
+              <div className="lg:col-span-8">
+                <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(199,89%,62%)]">Interactive Science Lab</p>
+                <h2 className="mt-4 text-3xl lg:text-5xl font-semibold leading-[1.04] tracking-[-0.03em]">Entenda mexendo: o laboratório interativo da Tropa.</h2>
+                <p className="mt-5 max-w-xl text-slate-400 leading-relaxed">
+                  Comece pelo 3D Embedding Space Explorer: veja palavras como vetores, meça a similaridade de cosseno e descubra o quanto uma figura 3D distorce a vizinhança real. Dados simulados,
+                  conta à vista.
+                </p>
               </div>
-            ))}
-          </div>
-          <Link to="/projetos-tropa" className={`ed-rev mt-9 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4 ${focusRing}`}>
-            Ver todos os projetos
-            <ArrowRight size={15} />
+              <p className="lg:col-span-4 lg:text-right">
+                <span className="inline-flex items-center gap-2 rounded-[8px] bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition-transform group-hover:-translate-y-0.5">
+                  Abrir o laboratório
+                  <ArrowRight size={16} aria-hidden />
+                </span>
+              </p>
+            </div>
           </Link>
         </div>
-      </section>
-
-      {/* ============ MÉTODO EDITORIAL ============ */}
-      <section data-ed className="relative py-24 lg:py-32 border-t border-border/70">
-        <Ghost n="05" />
-        <div className="container-wide relative">
-          <div className="relative rounded-[8px] overflow-hidden p-8 lg:p-14 text-slate-100" style={{ background: "linear-gradient(165deg, hsl(222 47% 8%), hsl(221 55% 12%))" }}>
-            <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(199,89%,55%)]/70 to-transparent" />
-            <div className="grid lg:grid-cols-12 gap-10">
-              <div className="lg:col-span-4">
-                <p className="ed-rev mono text-[11px] uppercase tracking-[0.26em] text-[hsl(199,89%,60%)] flex items-center gap-3">
-                  <span aria-hidden className="inline-block w-8 h-px bg-[hsl(199,89%,60%)]/60" />
-                  Método editorial
-                </p>
-                <h2 className="ed-rev mt-5 text-2xl lg:text-3xl font-semibold leading-tight" style={{ fontFamily: "var(--font-display)" }}>
-                  Como um tema vira conteúdo confiável.
-                </h2>
-              </div>
-              <ol className="lg:col-span-8 grid sm:grid-cols-2 gap-x-10 gap-y-8">
-                {METHOD.map((m, i) => (
-                  <li key={m.t} className="ed-rev relative pl-5 border-l border-white/15">
-                    <span className="mono text-[11px] tracking-[0.2em] text-[hsl(199,89%,60%)]">0{i + 1}</span>
-                    <h3 className="mt-2 font-semibold text-slate-100">{m.t}</h3>
-                    <p className="mt-1.5 text-sm text-slate-400 leading-relaxed">{m.d}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ AUTORIDADE ============ */}
-      <section data-ed className="relative py-24 lg:py-32 border-t border-border/70">
-        <Ghost n="06" />
-        <div className="container-wide relative grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <div className="container-wide relative mt-16 lg:mt-24 grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="lg:col-span-7">
-            <Eyebrow>Autoridade</Eyebrow>
-            <h2 className="ed-rev mt-5 text-3xl lg:text-4xl font-semibold leading-tight text-foreground">
+            <h2 className="rv mt-5 text-3xl lg:text-[2.5rem] lg:leading-[1.08] font-semibold text-foreground">
               Vivência, ciência, código e responsabilidade educativa.
             </h2>
-            <p className="ed-rev mt-6 text-muted-foreground leading-relaxed max-w-xl">
-              A Tropa Científica nasce da união entre experiência operacional, formação acadêmica, desenvolvimento tecnológico e compromisso
-              com educação pública de qualidade.
+            <p className="rv mt-6 text-muted-foreground leading-relaxed max-w-xl">
+              A Tropa Científica nasce da união entre experiência operacional, formação acadêmica, desenvolvimento tecnológico e compromisso com
+              educação pública de qualidade — pesquisa aplicada, publicações e sistemas em produção.
             </p>
-            <div className="ed-rev mt-7 flex flex-wrap gap-x-8 gap-y-2 mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              <span>Mestrado em Business Intelligence · Em andamento</span>
-              <span>MBA em Inteligência Artificial · Em andamento</span>
-              <span>ADS no IFES · Em andamento</span>
-            </div>
-            <div className="ed-rev mt-9 flex flex-wrap gap-3">
+            <ul className="rv mt-7 flex flex-wrap gap-x-8 gap-y-2 mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              {CREDENTIALS.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+            <div className="rv mt-9 flex flex-wrap gap-3">
               <Link
                 to="/matheus"
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-[8px] font-semibold text-sm border border-border bg-white hover:border-primary/40 hover:text-primary transition-colors ${focusRing}`}
               >
                 Conhecer o fundador
-                <ArrowUpRight size={15} />
+                <ArrowUpRight size={15} aria-hidden />
               </Link>
               <Link
                 to="/matheus/publicacoes"
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-[8px] font-semibold text-sm text-muted-foreground hover:text-primary transition-colors ${focusRing}`}
               >
                 Publicações acadêmicas
-                <ArrowRight size={15} />
+                <ArrowRight size={15} aria-hidden />
               </Link>
             </div>
           </div>
-          <aside aria-label="Posicionamento" className="ed-rev lg:col-span-5 relative rounded-[8px] border border-border bg-white p-7 lg:p-8">
-            <span aria-hidden className="absolute left-0 top-7 bottom-7 w-[2px] bg-[hsl(38,65%,48%)]" />
-            <strong className="mono text-[10.5px] uppercase tracking-[0.22em] text-[hsl(38,60%,42%)] font-medium">Posicionamento</strong>
-            <p className="mt-4 text-foreground/85 leading-relaxed">
+          <aside aria-label="Posicionamento" className="rv lg:col-span-5 relative pl-7 py-1">
+            <span aria-hidden className="absolute left-0 top-0 bottom-0 w-[2px] bg-[hsl(38,65%,48%)]" />
+            <p className={`mono text-[10.5px] uppercase tracking-[0.22em] ${GOLD}`}>Posicionamento</p>
+            <p className="mt-4 text-xl lg:text-2xl leading-snug text-foreground/85 font-medium" style={{ fontFamily: "var(--font-display)" }}>
               Ciência aplicada deve ser compreensível, verificável e útil. A estética precisa passar essa mesma mensagem: sóbria, precisa e
               memorável.
             </p>
           </aside>
         </div>
-      </section>
+      </Chapter>
 
-      {/* ============ CTA FINAL ============ */}
-      <section data-ed className="relative py-24 lg:py-36 border-t border-border/70">
-        <div className="container-wide relative">
-          <div className="relative rounded-[8px] border border-border bg-white overflow-hidden px-6 py-16 lg:py-24 text-center">
-            <div aria-hidden className="absolute inset-0 t-grid-bg pointer-events-none" />
-            <div className="relative">
-              <p className="ed-rev mono text-[11px] uppercase tracking-[0.3em] text-primary">Junte-se à Tropa</p>
-              <h2 className="ed-rev mt-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground leading-tight max-w-2xl mx-auto">
-                Ciência, tecnologia e inteligência para decisões do mundo real.
-              </h2>
-              <p className="ed-rev mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed">
-                Acompanhe conteúdos, projetos e estudos que conectam IA, dados, segurança pública, educação e inovação aplicada.
-              </p>
-              <div className="ed-rev mt-10 flex flex-wrap justify-center gap-3">
-                <Link to="/conteudos" className={`t-btn-hero inline-flex items-center gap-2 px-7 py-3.5 rounded-[8px] font-semibold text-sm ${focusRing}`}>
-                  Acompanhar conteúdos
-                  <ArrowRight size={16} />
-                </Link>
-                <Link
-                  to="/projetos-tropa"
-                  className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-[8px] font-semibold text-sm border border-border bg-white hover:border-primary/40 hover:text-primary transition-colors ${focusRing}`}
-                >
-                  Ver projetos
-                </Link>
-                <a
-                  href="mailto:contato@tropacientifica.com"
-                  className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-[8px] font-semibold text-sm text-muted-foreground hover:text-primary transition-colors ${focusRing}`}
-                >
-                  <Mail size={16} />
-                  Falar com a Tropa
-                </a>
-              </div>
-            </div>
+      {/* ================= CHAMADA FINAL ================= */}
+      <section data-chapter className="relative py-20 lg:py-28 border-t border-border/70 overflow-hidden">
+        <div aria-hidden className="absolute inset-0 t-grid-bg pointer-events-none" />
+        <div className="container-wide relative text-center">
+          <p className="rv mono text-[11px] uppercase tracking-[0.3em] text-primary">Junte-se à Tropa</p>
+          <h2 className="rv mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-foreground leading-[1.04] tracking-[-0.03em] max-w-3xl mx-auto">
+            Ciência não precisa ficar distante da prática.
+          </h2>
+          <p className="rv mt-6 text-muted-foreground text-base lg:text-lg max-w-xl mx-auto leading-relaxed">
+            Acompanhe conteúdos, projetos e estudos que conectam IA, dados, segurança pública, educação e inovação aplicada.
+          </p>
+          <div className="rv mt-10 flex flex-wrap justify-center gap-3">
+            <Link to="/conteudos" className={`t-btn-hero inline-flex items-center gap-2 px-7 py-3.5 rounded-[8px] font-semibold text-sm ${focusRing}`}>
+              Acompanhar conteúdos
+              <ArrowRight size={16} aria-hidden />
+            </Link>
+            <Link
+              to="/projetos-tropa"
+              className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-[8px] font-semibold text-sm border border-border bg-white hover:border-primary/40 hover:text-primary transition-colors ${focusRing}`}
+            >
+              Ver projetos
+            </Link>
+            <a
+              href="mailto:contato@tropacientifica.com"
+              className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-[8px] font-semibold text-sm text-muted-foreground hover:text-primary transition-colors ${focusRing}`}
+            >
+              <Mail size={16} aria-hidden />
+              Falar com a Tropa
+            </a>
           </div>
         </div>
       </section>
