@@ -44,8 +44,8 @@ export default function Publications() {
       .sort((a, b) => (b.year || 0) - (a.year || 0));
   }, [proceedings, year, search]);
 
-  const years = Array.from(new Set(publications.concat(proceedings as any).map((p: any) => p.year).filter(Boolean)))
-    .sort((a: any, b: any) => b - a);
+  const years = Array.from(new Set([...publications, ...proceedings].map((p) => p.year).filter((year): year is number => typeof year === "number" && year > 0)))
+    .sort((a, b) => b - a);
   const journals = Array.from(new Set(publications.map((p) => p.journalEvent))).sort();
 
   return (
@@ -90,7 +90,7 @@ export default function Publications() {
               label: "Ano",
               value: year,
               onChange: setYear,
-              options: years.map((y: any) => ({ value: String(y), label: String(y) })),
+              options: years.map((y) => ({ value: String(y), label: String(y) })),
             },
             ...(tab === "artigos"
               ? [{
