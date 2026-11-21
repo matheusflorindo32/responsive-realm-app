@@ -30,6 +30,11 @@ jobs:
         run: npm ci --ignore-scripts --no-fund
       - name: Verify production build
         run: npm run build
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.3"
+      - name: Verify existing Bun unit tests
+        run: bun test tests/
       - name: Verify lint
         run: npm run lint
       - name: Audit high and critical vulnerabilities
