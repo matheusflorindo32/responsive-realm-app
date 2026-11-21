@@ -53,13 +53,13 @@ export function getBio(): Bio {
 }
 
 export function getDashboard(): DashboardMetric[] {
-  return R["03_Dashboard"].map((d: any) => ({
+  return R["03_Dashboard"].map((d) => ({
     label: d.label, value: d.value, source: d.source,
   }));
 }
 
 export function getPublications(): Publication[] {
-  return publicFilter(R["04_Publicacoes"].map((r: any): Publication => ({
+  return publicFilter(R["04_Publicacoes"].map((r): Publication => ({
     id: r.id,
     type: r.type,
     title: r.title,
@@ -91,7 +91,7 @@ export function getPublications(): Publication[] {
 }
 
 export function getProceedings(): Proceeding[] {
-  return publicFilter(R["05_Anais_CONACIPS"].map((r: any): Proceeding => ({
+  return publicFilter(R["05_Anais_CONACIPS"].map((r): Proceeding => ({
     id: r.id,
     type: r.type,
     title: r.title,
@@ -117,7 +117,7 @@ export function getProceedings(): Proceeding[] {
 }
 
 export function getEducation(): Education[] {
-  return publicFilter(R["06_Formacao"].map((r: any): Education => ({
+  return publicFilter(R["06_Formacao"].map((r): Education => ({
     id: r.id,
     level: r.level,
     course: r.course,
@@ -138,7 +138,7 @@ export function getEducation(): Education[] {
 }
 
 export function getCourses(): Course[] {
-  return publicFilter(R["07_Cursos"].map((r: any): Course => ({
+  return publicFilter(R["07_Cursos"].map((r): Course => ({
     id: r.id,
     category: toStr(r.category),
     course: r.course,
@@ -157,7 +157,7 @@ export function getCourses(): Course[] {
 }
 
 export function getCertifications(): Certification[] {
-  return publicFilter(R["08_Certificacoes"].map((r: any): Certification => ({
+  return publicFilter(R["08_Certificacoes"].map((r): Certification => ({
     id: r.id,
     certification: r.certification,
     institution: toStr(r.institution),
@@ -175,7 +175,7 @@ export function getCertifications(): Certification[] {
 }
 
 export function getExperiences(): Experience[] {
-  return publicFilter(R["09_Experiencia"].map((r: any): Experience => ({
+  return publicFilter(R["09_Experiencia"].map((r): Experience => ({
     id: r.id,
     institution: r.institution,
     department: toStr(r.department),
@@ -194,7 +194,7 @@ export function getExperiences(): Experience[] {
 }
 
 export function getProjects(): Project[] {
-  return publicFilter(R["10_Projetos"].map((r: any): Project => ({
+  return publicFilter(R["10_Projetos"].map((r): Project => ({
     id: r.id,
     project: r.project,
     type: toStr(r.type),
@@ -214,7 +214,7 @@ export function getProjects(): Project[] {
 }
 
 export function getSkills(): Skill[] {
-  return publicFilter(R["11_Skills"].map((r: any): Skill => ({
+  return publicFilter(R["11_Skills"].map((r): Skill => ({
     id: r.id,
     skill: r.skill,
     category: toStr(r.category),
@@ -227,7 +227,7 @@ export function getSkills(): Skill[] {
 }
 
 export function getLinks(): LinkItem[] {
-  return publicFilter(R["13_Links"].map((r: any): LinkItem => ({
+  return publicFilter(R["13_Links"].map((r): LinkItem => ({
     id: r.id,
     platform: r.platform,
     url: r.url,
