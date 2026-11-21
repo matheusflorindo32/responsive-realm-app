@@ -194,7 +194,7 @@ type SearchState =
   | { kind: "invalid"; code: string }
   | { kind: "not_found"; code: string }
   | { kind: "error"; code: string }
-  | { kind: "found"; code: string; cert: any };
+  | { kind: "found"; code: string; cert: PublicCert };
 
 const LS_KEY = "tropa:last-cert-code";
 const LS_HISTORY = "tropa:cert-history";
@@ -283,7 +283,7 @@ export default function CertificadosVitrine() {
       if (error) {
         setSearch({ kind: "error", code });
       } else {
-        const cert = (data as any) ?? null;
+        const cert = data ?? null;
         setSearch(cert ? { kind: "found", code, cert } : { kind: "not_found", code });
       }
       persistState(code);
