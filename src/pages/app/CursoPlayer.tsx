@@ -86,13 +86,13 @@ export default function CursoPlayer() {
 
   const modules = useMemo(
     () => (course.data?.modules ?? [])
-      .map((m: any) => ({ ...m, lessons: (m.lessons ?? []).sort((a: any, b: any) => a.order_index - b.order_index) }))
-      .sort((a: any, b: any) => a.order_index - b.order_index),
+      .map((m) => ({ ...m, lessons: (m.lessons ?? []).sort((a, b) => a.order_index - b.order_index) }))
+      .sort((a, b) => a.order_index - b.order_index),
     [course.data]
   );
-  const allLessons = useMemo(() => modules.flatMap((m: any) => m.lessons), [modules]);
+  const allLessons = useMemo(() => modules.flatMap((m) => m.lessons), [modules]);
   const completedIds = useMemo(
-    () => new Set(myProgress.data?.filter((p: any) => p.status === "completed").map((p: any) => p.lesson_id)),
+    () => new Set(myProgress.data?.filter((p) => p.status === "completed").map((p) => p.lesson_id)),
     [myProgress.data]
   );
   const pct = allLessons.length ? Math.round((completedIds.size / allLessons.length) * 100) : 0;
@@ -101,10 +101,10 @@ export default function CursoPlayer() {
     if (!selectedId && allLessons.length) setSelectedId(allLessons[0].id);
   }, [allLessons, selectedId]);
 
-  const selected = allLessons.find((l: any) => l.id === selectedId);
-  const currentIdx = allLessons.findIndex((l: any) => l.id === selectedId);
+  const selected = allLessons.find((l) => l.id === selectedId);
+  const currentIdx = allLessons.findIndex((l) => l.id === selectedId);
   const next = allLessons[currentIdx + 1];
-  const enrollments: any[] = Array.isArray(enrollment.data) ? enrollment.data : [];
+  const enrollments = Array.isArray(enrollment.data) ? enrollment.data : [];
   const activeEnrollment = enrollments.find((e) => !e.expires_at || new Date(e.expires_at) > new Date());
   const hasAccess = !!activeEnrollment;
   const canWatch = hasAccess || selected?.is_preview;
