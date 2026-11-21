@@ -78,7 +78,7 @@ export default function CursoDetalhe() {
       </form>
 
       <div className="space-y-4">
-        {modules.data?.map((m: any) => (
+        {modules.data?.map((m) => (
           <Card key={m.id}>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">{m.title}</CardTitle>
@@ -90,7 +90,7 @@ export default function CursoDetalhe() {
             <CardContent>
               {m.lessons?.length ? (
                 <ul className="divide-y divide-border">
-                  {m.lessons.sort((a: any, b: any) => a.order_index - b.order_index).map((l: any) => (
+                  {m.lessons.sort((a, b) => a.order_index - b.order_index).map((l) => (
                     <li key={l.id} className="py-2 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <span className="text-xs text-muted-foreground font-mono">{l.order_index + 1}</span>
