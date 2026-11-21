@@ -147,7 +147,7 @@ export default function Dashboard() {
 
       {/* Certificados */}
       {certs.data && certs.data.length > 0 && (
-        <CertificateHighlight certs={certs.data as any} />
+        <CertificateHighlight certs={certs.data.map((c) => ({ ...c, course_title: c.course_title ?? undefined }))} />
       )}
     </div>
   );
