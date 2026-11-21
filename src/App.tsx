@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
+import { DesktopSmoothScroll } from "@/components/DesktopSmoothScroll";
 
 import { Layout as AposLayout } from "@/components/apos/Layout";
 const AposHome = lazy(() => import("./pages/matheus/Home"));
@@ -85,6 +86,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <DesktopSmoothScroll />
           <Suspense fallback={<RouteFallback />}>
           <Routes>
             {/* Tropa Científica — raiz */}
