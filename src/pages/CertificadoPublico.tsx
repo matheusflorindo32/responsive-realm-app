@@ -344,7 +344,7 @@ export default function CertificadoPublico() {
   }
 
 
-  const c = isDemo ? DEMO_CERT : (cert.data as any);
+  const c = isDemo ? DEMO_CERT : cert.data!;
   const valid = c.status === "valid";
   const issuer = c.issuer || "Tropa Científica";
 
