@@ -164,7 +164,7 @@ export async function pushSheet(
   if (headers.length === 0) return { pushed: 0, errors: ["empty header row"] };
 
   for (const row of pending) {
-    const values = headers.map((h) => (row.data as any)?.[h] ?? "");
+    const values = headers.map((h) => (row.data as Record<string, unknown> | null)?.[h] ?? "");
     try {
       if (row.sheet_row_number && row.sheet_row_number > 1) {
         const range = `${sheetName}!A${row.sheet_row_number}`;
